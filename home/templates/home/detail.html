@@ -1,0 +1,354 @@
+{% extends 'home/index.html' %}
+{% load static %}
+{% load ratings %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+{% block content %}
+    {% if product.discount != None %}
+        <div class="discount alert alert-warning text-center" role="alert">
+            <span>حراجی</span>
+        </div>
+    {% endif %}
+
+    <div class="Detail">
+        <h2 style="text-align:center" class="bold">{{ product.brand }}</h2>
+        <div class="slide p-2">
+            {% for image in images %}
+          <div class="mySlides">
+            <div class="numbertext">{{ image.title }} / 6</div>
+            <img src="{{ image.image.url }}" style="width:100%; height: 350px;">
+          </div>
+            {% endfor %}
+          <a class="prev" onclick="plusSlides(-1)">❮</a>
+          <a class="next" onclick="plusSlides(1)">❯</a>
+
+          <div class="caption-container">
+            <p id="caption">{{ image.title }}</p>
+          </div>
+
+
+              {% for image in images %}
+            <div class="column">
+              <img class="demo cursor" src="{{ image.image.url }}" style="width:100%; height: 64px;" onclick="currentSlide({{ image.title }})" alt="{{ image.product.name }}">
+            </div>
+              {% endfor %}
+
+        </div>
+
+
+        <div style="direction: rtl !important; text-align: right;" class="feature float-left">
+          <div class="row px-3 item-Details">
+            <div class="col-3">
+                <small class="text-muted">
+                    <p>برند:</p>
+                </small>
+            </div>
+            <div class="col-9">
+                <p>{{ product.name }} </p>
+            </div>
+            <div class="w-100 my-1"></div>
+            <div class="col-3">
+                <small class="text-muted">
+                    <p>بازدید:</p>
+                </small>
+            </div>
+            <div class="col-9">
+                <p>{{ product.hits.count }} </p>
+            </div>
+            <div class="w-100 my-1"></div>
+            <div class="col-3">
+              <small class="text-muted">
+                  <p>جنسیت:</p>
+              </small>
+            </div>
+            <div class="col-9">
+              <p>{{ product.get_gender_display }}</p>
+            </div>
+            <div class="w-100 my-1"></div>
+            <script>
+                $(document).on('change', '#post-form',function(e){
+                    e.preventDefault();
+                    $.ajax({
+                        type:'POST',
+                        url:'{% url "home:ajaxcolor" %}',
+                        data:{
+                            productid:$('#productid').val(),
+                            size:$('#size').val(),
+                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                            action: 'post'
+                        },
+                        data_type : 'html',
+                        success: function (data) {
+                            console.log("success");
+                            $('#appendHere').html(data.rendered_table);
+                        },
+                        error: function (data) {
+                            alert("Got an error dude " + data);
+                        }
+                    });
+                });
+            </script>
+          {% if product.variant == 'Size-Color' %}
+                <div class="col-3">
+                    <small class="text-muted">
+                        <p>سایز:</p>
+                    </small>
+                </div>
+                <div class="col-9">
+                    <form method="POST" id="post-form">
+                        <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                        {% csrf_token %}
+                        <select class="select" name="size" id="size">
+                            {% for rs in sizes %}
+                                <option class="option" {% if variant.size_id == rs.size_id %} selected {% endif %} value="{{ rs.size_id }}">{{ rs.size__name }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+                <div class="w-100 my-1"></div>
+                <div class="col-3">
+                    <small class="text-muted">
+                        <p>رنگ:</p>
+                    </small>
+                </div>
+                <div class="col-9">
+                    <form method="post" action="?q=selectvariant" id="post-color">
+                        {% csrf_token %}
+                        <div id="appendHere">
+                            <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                            <div class="color-option" >
+
+                                    <div class="radio-button-tabs">
+                                        {% for rs in colors %}
+                                            <input type="radio" {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="{{ rs.color.id }}" value="{{ rs.id }}" onchange="this.form.submit();">
+                                            <label style="background-color: {{ rs.color.code }}" for="{{ rs.color.id }}"></label>
+                                        {% endfor %}
+                                    </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            {% elif product.variant == 'Size' %}
+                <form method="post" action="?q=selectvariant" id="post-color">
+                    {% csrf_token %}
+                    <div id="appendHere">
+                        <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                        <ul>
+                            <li><span>سایز:</span></li>
+                            {% for sz in sizes %}
+                                <input type="radio" {% if variant.id == sz.id %} checked {% endif %} name="variantid" id="variantid" value="{{ sz.id }}" onchange="this.form.submit();">
+                                <li {% if variant.product_id == sz.product_id %} class="active" {% endif %}>
+                                    <a href="">
+                                        {{ sz.size }}<br> {{ sz.price }}تومان
+                                    </a>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </form>
+                <br><br>
+            {% elif product.variant == 'Color' %}
+                <form method="post" action="?q=selectvariant" id="post-color">
+                    {% csrf_token %}
+                    <div id="appendHere">
+                        <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                        <ul>
+                        <li><span>رنگ:</span></li>
+                            {% for col in colors %}
+                                <input type="radio" {% if variant.id == col.id %} checked {% endif %} name="variantid" id="variantid" value="{{ col.id }}" onchange="this.form.submit();">
+                                <li {% if variant.product_id == col.product_id %} class="active" {% endif %}>
+                                    <a href="">
+                                        {{ col.price }} تومان {{ col.color }}
+                                    </a>
+                                    <img src="{{ col.image }}" style="height: 50px" alt="">
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                </form>
+            {% endif %}
+
+            <div class="w-100 my-1"></div>
+            <div class="col-3">
+              <small class="text-muted">
+                  <p>قیمت:</p>
+              </small>
+            </div>
+            <div class="col-9">
+                {% if product.discount %}
+                                    <del class="badge badge-danger">{{ product.price }} تومان</del> <strong class="badge badge-success">{{ product.dis_price }}  تومان</strong>
+                                {% else %}
+                                    <strong class="badge badge-success">{{ product.price }}تومان</strong>
+                                {% endif %}
+            </div>
+            <div class="w-100 my-1"></div>
+            <div class="col-3">
+              <small class="text-muted">
+                  <p>توضیحات:</p>
+              </small>
+            </div>
+            <div class="col-12">
+                <p>{{ product.description }}</p>
+            </div>
+            <div class="w-100 my-1"></div>
+                <div class="col-3">
+                  <small class="text-muted">
+                      <p>امتیاز دهی:</p>
+                  </small>
+                </div>
+                <div class="col-9">
+                    <p>{% ratings product %}</p>
+                </div>
+            <div class="w-100 my-1"></div>
+
+
+            {% if product.variant != 'None' %}
+                <form action="{% url 'order:addtoshop' id=product.id %}" method="post" id="addchart-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                    <div id="SelectedProduct" class="select_pro">
+                        <p><strong>وضعیت:</strong>{% if variant.number > 0 %}  <span class="badge badge-success">موجود</span>  {% else %} <span class="badge badge-danger">ناموجود</span> {% endif %}</p>
+                        <p><strong> محصول مورد نظر:</strong></p>
+                        <ul>
+                            <li> رنگ: <span class="badge badge-dark" style="color: {{ variant.color.code }};">{{ variant.color }}</span></li>
+                            <li>سایز: {{ variant.size }}</li>
+                            <li>قیمت:
+                                {% if product.discount %}
+                                    <del class="badge badge-danger">{{ product.price }} تومان</del> <strong class="badge badge-success">{{ product.dis_price }}  تومان</strong>
+                                {% else %}
+                                    <strong class="badge badge-success">{{ product.price }}تومان</strong>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class=" py-2">
+                        <div class="col-12 innumber">
+                            <label for="numberid">تعداد:</label>
+                            <input type="number" class="" name="quantity" id="numberid" value="1" min="1" max="{{ variant.number }}">
+                            {% if user.id is not None %}
+                                {% if variant.number < 1 %}
+                                    <button style="font-family: sahel" type="submit" class="btn btn-sm btn-outline-danger disabled">
+                                        این رنگ ناموجود می باشد
+                                    </button>
+                                {% else %}
+                                    <button style="font-family: sahel" type="submit" class="btn btn-sm btn-outline-info">
+                                        اضافه شدن به سبد خرید
+                                    </button>
+                                {% endif %}
+                            {% else %}
+                                <a class="btn-sm btn-outline-success" href="{% url 'registration:login' %}">ثبت نام</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+
+
+            {% else %}
+                <form action="{% url 'order:addtoshop' id=product.id %}" method="post" id="addchart-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                    <div id="SelectedProduct">
+                        <p><strong>وضعیت:</strong>{% if product.amount > 0 %} موجود {% else %} ناموجود {% endif %}</p>
+                        <h3>{{ product.price }}تومان</h3>
+                    </div>
+
+                    <div class="float-right py-2">
+                      <div class='ctrl col-12'>
+                          <div class="col-3">
+                              <span style="font-family: sahel">تعداد:</span>
+                              <input type="number" name="quantity" value="1" min="1" max="{{ variant.number }}">
+                          </div>
+                          <div class="col-6 float-left">
+                          {% if user.id is not None %}
+                              {% if product.amount < 1 %}
+                                  <button style="font-family: sahel" type="submit" class="btn btn-lg btn-outline-danger disabled">
+                                      ناموجود
+                                  </button>
+                              {% else %}
+                                  <button style="font-family: sahel" type="submit" class="btn btn-lg btn-outline-info">
+                                      اضافه شدن به سبد خرید
+                                  </button>
+                              {% endif %}
+                          {% else %}
+                              <a class="btn btn-outline-success" href="{% url 'registration:login' %}">ثبت نام</a>
+                          {% endif %}
+                          </div>
+                      </div>
+                    </div>
+                </form>
+            {% endif %}
+
+          </div>
+        </div>
+    </div>
+    <hr class="clear">
+{% endblock %}
+
+
+    <div class="clear"></div>
+
+
+{% block comment %}
+    <div class="comment">
+        <div class="show p-2">
+            {% with comments.count as total_comments %}
+                <h2 class="font-weight-bold">
+                    {{ total_comments }} نظر
+                </h2>
+            {% endwith %}
+                <hr/>
+            {% for comment in comments %}
+                <div class="comments bg-light border mb-2 p-2">
+                    <p>
+                        نظر {{ forloop.counter }} توسط {{ comment.user }} در
+                        {{ comment.created }} امتیاز:{{ comment.rate }}
+                        <i class="fa fa-star{% if comment.rate < 1 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if comment.rate < 2 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if comment.rate < 3 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if comment.rate < 4 %}-o empty{% endif %}"></i>
+                        <i class="fa fa-star{% if comment.rate < 5 %}-o empty{% endif %}"></i>
+                    </p>
+                    {{ comment.comment|linebreaks }}
+                </div>
+            {% empty %}
+                <p>
+                    هنوز نظری درباره ی این داده نشده است.
+                </p>
+            {% endfor %}
+        </div>
+        <div class="create p-2">
+            <h2 class="bold">نظرات</h2>
+            <hr/>
+            <form method="post" action="{% url 'product:addcomment'  id=product.id %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">نظر:</label>
+                  <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div>
+                    <strong>امتیاز:</strong>
+                    <input type="radio" id="star5" name="rate" value="5"><label for="star5">&#9733;</label>
+                    <input type="radio" id="star4" name="rate" value="4"><label for="star4">&#9733;</label>
+                    <input type="radio" id="star3" name="rate" value="3"><label for="star3">&#9733;</label>
+                    <input type="radio" id="star2" name="rate" value="2"><label for="star2">&#9733;</label>
+                    <input type="radio" id="star1" name="rate" value="1"><label for="star1">&#9733;</label>
+
+                </div>
+                {% if user.id is not None %}
+                    <button type="submit" class="btn btn-outline-info">ثبت نظر</button>
+                {% else %}
+                    <p>برای ثبت نظر خود در سایت ثبت نام کنید.</p>
+                {% endif %}
+              </form>
+        </div>
+    </div>
+{% endblock %}
+

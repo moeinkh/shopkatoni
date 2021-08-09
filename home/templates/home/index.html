@@ -1,0 +1,339 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shop_Katoni{% endblock %}</title>
+    <!-- bootsrap css -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"/>
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap-rtl.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/icon.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/slider/cssfull.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/swiper.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'home/css/easyzoom.css' %}" />
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/slider/css1.css' %}" media="screen and (max-width: 1365px)">
+    <link rel="stylesheet" href="{% static 'home/css/slider/css2.css' %}" media="screen and (min-width: 1366px)">
+    <link rel="stylesheet" href="{% static 'home/css/slider/css3.css' %}" media="screen and (min-width: 1680px)">
+
+    <!-- bootsrap js -->
+    <script src="{% static 'home/js/popper.min.js' %}"></script>
+    <script src="{% static 'home/js/jquery.min.js' %}"></script>
+    <script src="{% static 'home/js/bootstrap.js' %}"></script>
+    <script src="{% static 'home/js/slider1.js' %}"></script>
+    <script src="{% static 'home/js/slider2.js' %}"></script>
+    <script src="{% static 'home/js/owl.carousel.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+    <script src="{% static 'home/js/custome.js' %}"></script>
+    
+</head>
+<body>
+
+
+    <!-- start header -->
+    <div class="container-fluid shodow-sm bg-white">
+        <div class="row p-3">
+            <div class="col-lg-2 col-md-3 col-sm-3 col-6 pr-2 box-logo">
+                <span class="logo"></span>
+            </div>
+            <div class="col-lg-6"></div>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-6 dropdown_custom text-right">
+                <div class="dropdown">
+                    {% if user.is_authenticated %}
+                        <a class="dropdown-toggle" id="dropdownMenuBottun" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        style="line-height: 40px !important;">
+                            {{ user.first_name }} {{ user.last_name }}
+                        </a>
+                    <div class="dropdown-menu shadow rounnded-0 border-0 dropdown-menu_custom text-center" aria-labelledby="dropdownMenuButton">
+                        <div class="text-left">
+                            <a href='{% url 'registration:profile' %}'
+                               class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">person</i>پروفایل</a>
+                            <a href='{% url 'registration:orders' %}'
+                            class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">assignment_turned_in</i>سفارشات من</a>
+                            {% if user.is_superuser %}
+                            <a href='{% url 'registration:adminpnl' %}'
+                            class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">dashboard</i>پنل مدیریت</a>
+                            {% endif %}
+                            <a href='{% url 'registration:logout' %}'
+                            class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">logout</i>خروج</a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <a class="dropdown-toggle" id="dropdownMenuBottun" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                        style="line-height: 40px !important;">
+                        ورود/ثبت نام
+                    </a>
+                    <div class="dropdown-menu shadow rounnded-0 border-0 dropdown-menu_custom text-center" aria-labelledby="dropdownMenuButton">
+                        <div class="btn login_box">
+                            <a href="{% url 'registration:login' %}" class="dropdown-item dropdown-item_custom btn btn-info">ورود به شاپ کتونی</a>
+                        </div>
+                        <ul class="list-inline register">
+                            <li class="list-inline-item">کاربر جدید هستید؟</li>
+                            <li class="list-inline-item"><a href="{% url 'registration:signup' %}">ثبت نام</a></li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-6">
+                <a href="{% url 'order:shopcart' %}" class="btn btn-sm btn-outline-info"><i class="material-icons shopping_cart">shopping_cart</i> سبد خرید
+                    <span class="badge badge-danger">
+                        {% load myapptags %}
+                        {% shopcart_count user.id as count %}
+                        {{ count }}
+                    </span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- start menu -->
+    <nav class="navbar navbar-expand-md navbar-light navbar_custom">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu1">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu1">
+            <div class="nav_line"></div>
+            <ul class="navbar-nav">
+                <li class="nav-item"> 
+                    <a href="{% url 'home:home' %}" class="nav-link text-white">خانه</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link text-white dropdown-toggle" data-toggle="dropdown">کتونی ها</a>
+                    <div class="dropdown-menu dropdown-menu_custom1 shadow-sm rounded-bottom border-0" 
+                    id="custom-main-dropdown-menu">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12 col-md-3">
+                                    <div class="top_link">
+                                        <ul>
+                                            <li><a href="{% url 'home:katoni' %}" class="nav-item text-dark"> همه </a></li>
+                                            <li><a href="{% url 'home:for_men' %}" class="nav-item text-dark"> مردانه </a></li>
+                                            <li><a href="{% url 'home:feminine' %}" class="nav-item text-dark"> زنانه </a></li>
+                                        </ul> 
+                                    </div>
+                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item"> 
+                    <a href="{% url 'home:discounts' %}" class="nav-link text-white">حراجی ها</a>
+                </li>
+                <li class="nav-item"> 
+                    <a href="{% url 'home:articles' %}" class="nav-link text-white">مقالات</a>
+                </li>
+                <li class="nav-item"> 
+                    <a href="{% url 'home:about' %}" class="nav-link text-white">درباره ی ما</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+        <div class="clear"></div>
+    {% block slider %}
+
+    {% endblock %}
+
+
+    <div class="clear"></div>
+
+    {% block items %}
+
+    {% endblock %}
+
+    <div class="clear"></div>
+
+    {% block discount %}
+
+    {% endblock %}
+
+
+    <div class="clear"></div>
+
+    {% block randome_item %}
+
+    {% endblock %}
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    <div class="clear"></div>
+
+    {% block item_slider %}
+
+    {% endblock %}
+
+    <div class="clear"></div>
+
+    {% block ads %}
+
+    {% endblock %}
+
+
+    <div class="clear"></div>
+
+    {% block brands %}
+
+    {% endblock %}
+
+    {% block comment %}
+
+    {% endblock %}
+
+
+
+
+
+
+
+    <!-- start jomp to top -->
+    <div class="container-fluid text-center box_jump_top">
+        <a href="#" id="back2Top" class="d-block jump_top pt-2 pb-2">
+            <i class="material-icons">expand_less</i>
+            <span>برگشت به بالا</span>
+        </a>
+    </div>
+
+    <!-- start footer -->
+    <div class="container-fluid pt-2 bg_footer">
+    <div class="container-fluid mt-3 pt-2">
+        <div class="row">
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv3.svg' %}" alt="">
+                <p>ضمانت اصل بودن کالا</p>
+            </div>
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv4.svg' %}" alt="">
+                <p>7 روز ضمانت بازگشت</p>
+            </div>
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv2.svg' %}" alt="">
+                <p>درگاه مطمئن</p>
+            </div>
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv5.svg' %}" alt="">
+                <p>پشتیبانی همه روزه</p>
+            </div>
+        </div>
+    </div>
+        <div class="container border-bottom"></div>
+        <div class="container border-bottom pb-3 pt-3">
+            <div class="row">
+                <div class="col">
+                    <div class="box_footer_links">
+                        <p><a href="">راهنمای خرید از شاپ کتونی</a></p>
+                        <ul>
+                            <li><a href="">نحوه ی ثبت سفارش</a></li>
+                            <li><a href="">رویه ی ارسال سفارش</a></li>
+                            <li><a href="">شیوه های پرداخت</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="box_footer_links">
+                        <p><a href="">خدمات مشتریان</a></p>
+                        <ul>
+                            <li><a href="">نحوه ی ثبت سفارش</a></li>
+                            <li><a href="">رویه ی ارسال سفارش</a></li>
+                            <li><a href="">شیوه های پرداخت</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col mt-3 mt-md-0">
+                    <div class="fooetr_form">
+
+                    </div>
+                    <p>شاپ کتونی را در شبکه های اجتماعی دنبال کنید:</p>
+                    <div class="social_instagram text-center">
+                        <a target="_blank" href="https://www.instagram.com/shop_katoni_1/"><img src="{% static 'home/img/instagrams.svg' %}" class="px-1" alt="اینستاگرام شاپ کتونی">اینستاگرام شاپ کتونی</a>
+                    </div>
+                    <div class="social_telegram text-center">
+                        <a href="#"><img src="{% static 'home/img/logo_telegram_airplane_air_plane_paper_airplane_icon_143169.svg' %}" class="px-1" alt="اینستاگرام شاپ کتونی"> تلگرام شاپ کتونی</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container pt-3">
+            <div class="row">
+                <div class="footer_box_right ml-auto">
+                    <p>هفت روز، 24 ساعت شبانه روز پاسخگوی شما هستیم</p>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">شماره ی تماس: <a href="#">09184301291</a></li>
+                        <li class="list-inline-item">آدرس ایمیل: <a href="#">shopkatoni@gmail.com</a></li>
+                    </ul>
+                </div>
+                <div class="footer_box_right mr-auto"></div>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid py-1"> 
+        <div class="row pr-5 pt-5">
+            <div class="col-lg-6 col-12 footer_katoni">
+                <p>فروشگاه اینترنتی شاپ کتونی، خرید مطمئن</p>
+                <span>شاپ کتونی به عنوان یکی از قدیمی‌ترین فروشگاه های اینترنتی با بیش از یک دهه تجربه، با پایبندی به سه اصل کلیدی، پرداخت در محل، 7 روز ضمانت بازگشت کالا و تضمین اصل‌بودن کالا، موفق شده تا همگام با فروشگاه‌های معتبر جهان، به بزرگ‌ترین فروشگاه اینترنتی ایران تبدیل شود. به محض ورود به دیجی‌کالا با یک سایت پر از کالا رو به رو می‌شوید! هر آنچه که نیاز دارید و به ذهن شما خطور می‌کند در اینجا پیدا خواهید کرد.</span>
+            </div>
+        </div>
+        <div class="border_bottom1"></div>
+        <div class="container text-center copyright pt-3">
+            <p>استفاده از مطالب فروشگاه اینترنتی شاپ کتونی فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است. کلیه حقوق این سایت متعلق به فروشگاه شاپ کتونی می‌باشد.</p>
+        </div>
+    </footer>
+
+    <!-- jomp to top -->
+    <script>
+        $(document).ready(function () {
+            $('#back2Top').click(function () {
+                $("html,body").animate({scrollTop: 0}, "slow");
+                return false;
+            });
+        })
+    </script>
+
+    <!-- sliders -->
+    <script>
+        $(document).ready()
+        {
+            var owl = $('.owl-carousel');
+            owl.owlCarousel({
+                items: 1,
+                rtl: true,
+                margin: 25,
+                nav: true,
+                loop: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 4
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{% static 'home/js/swiper.min.js' %}"></script>
+    <script src="{% static 'home/js/easyzoom.js' %}"></script>
+    <script src="{% static 'home/js/main.js' %}"></script>
+
+</body>
+</html>

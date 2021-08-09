@@ -1,0 +1,83 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+کتونی ها
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="search_form">
+        <form action="" method="get">
+            {{ product_filter.form | crispy }}
+            <br>
+            <button type="submit" class="btn btn-primary btn-sm">
+                جستجو
+            </button>
+        </form>
+    </div>
+
+
+
+    <div class="katoni">
+        <div class="uk-child-width-1-2@s uk-child-width-1-3@m uk-text-center" uk-grid>
+            {% for katoni in pages %}
+                <div>
+                    <div class="uk-card uk-card-small uk-card-hover"><div class="uk-card uk-card-default uk-card-body">
+                        <img style="height: 200px; width: 100%;" class="img-fluid img-thumbnail" src="{{ katoni.image.url }}" alt="">
+                        <div class="uk-position-center uk-panel"></div>
+                        <p>{{ katoni.name }}</p>
+                        <p>{{ katoni.price }}  تومان</p>
+                        <a class="btn btn-danger btn-block" href="{% url 'home:detail' id=katoni.id %}">
+                            <i class="fas fa-cart-plus"></i>
+                            جزئیات
+                        </a>
+                    </div></div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    <nav class="page text-center" aria-label="...">
+            <ul class="pagination">
+                {% if pages.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ pages.previous_page_number }}" tabindex="-1" aria-disabled="true">قبلی</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">قبلی</a>
+                    </li>
+                {% endif %}
+
+                    {% for p in pagination %}
+                    {% if p.count %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?page={{ p.number }}">{{ p.number }}<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ p.number }}">{{ p.number }}<span class="sr-only">(current)</span></a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                    {% if pages.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ pages.next_page_number }}" tabindex="-1" aria-disabled="true">بعدی</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">بعدی</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+
+
+{% endblock %}
+
+
+

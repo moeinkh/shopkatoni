@@ -1,0 +1,595 @@
+{% extends 'home/index.html' %}
+{% load static %}
+{% load ratings %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+
+<!--start breadcrumb-->
+<div class="container-fluid">
+    <div class="bg-transparent">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">فروشگاه اینترنتی شاپ کتونی</a></li>
+                <li class="breadcrumb-item active">کتونی ها</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!--end breadcrumb-->
+
+{% block content %}
+        <!--start product -->
+    <div class="container-fluid box_product">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+        <div class="row">
+
+            <div class="col-lg-4 bg-white">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product__carousel">
+
+                            <div class="gallery-parent">
+                              <!-- SwiperJs and EasyZoom plugins start -->
+                              <div class="swiper-container gallery-top">
+                                <div class="swiper-wrapper">
+                                    {% for image in images %}
+                                        {% if image.title == variant.color.name %}
+                                        <div class="swiper-slide easyzoom easyzoom--overlay">
+                                            <a href="{{ image.image.url }}">
+                                              <img src="{{ image.image.url }}" alt="" />
+                                            </a>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <!-- Add Arrows -->
+                                <div class="swiper-button-next swiper-button-white"></div>
+                                <div class="swiper-button-prev swiper-button-white"></div>
+                              </div>
+                              <div class="swiper-container gallery-thumbs">
+                                <div class="swiper-wrapper">
+                                  {% for image in images %}
+                                      {% if image.title == variant.color.name %}
+                                      <div class="swiper-slide">
+                                        <img src="{{ image.image.url }}" alt="" />
+                                      </div>
+                                      {% endif %}
+                                  {% endfor %}
+                                </div>
+                              </div>
+                              <!-- SwiperJs and EasyZoom plugins end -->
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 product-info">
+                <div class="row text-center text-md-left ">
+                    <div class="col-md-9 pt-3">
+                        <h1 class="product-title">
+                            {{ product.name }}
+                        </h1>
+                    </div>
+                </div>
+                <div class="border_bottom"></div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="product_directory pt-2 text-center text-md-left">
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <span>برند</span>
+                                    :
+                                    <span><a href="{% url 'home:brand' id=product.brand.id %}">{{ product.brand }}</a></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <script>
+                            $(document).on('change', '#post-form',function(e){
+                            e.preventDefault();
+                            $.ajax({
+                                type:'POST',
+                                url:'{% url "home:ajaxcolor" %}',
+                                data:{
+                                    productid:$('#productid').val(),
+                                    size:$('#size').val(),
+                                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                    action: 'post'
+                                },
+                                data_type : 'html',
+                                success: function (data) {
+                                    console.log("success");
+                                    $('#appendHere').html(data.rendered_table);
+                                },
+                                error: function (data) {
+                                    alert("Got an error dude " + data);
+                                }
+                                    });
+                                        });
+                        </script>
+                        {% if product.variant == 'Size-Color' %}
+                        <div class="box_size mt-1 text-center text-md-left">
+                            <form method="POST" id="post-form">
+                                    {% csrf_token %}
+                                <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item title">انتخاب سایز :</li>
+                                    <select class="custom-select custom-select-sm box_size1" name="size" id="size">
+                                        {% for size in sizes %}
+                                            <option class="" {% if variant.size_id == size.size_id %} selected {% endif %} value="{{ size.size_id }}">{{ size.size__name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </ul>
+                            </form>
+                        </div>
+                        <br><br>
+                        <div class="box_color mt-1 text-center text-md-left">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item title">انتخاب رنگ :</li>
+                                    <form id="appendHere" method="post" action="?q=selectvariant" id="post-color">
+                                        <input type="hidden" name="size" id="size" value="{{ size_id }}">
+                                        {% csrf_token %}
+                                        {% for color in colors %}
+                                            <li class="list-inline-item box_check1">
+                                                <input type="radio" style="background-color: {{ color.color.code }};" {% if variant.id == color.id %} checked {% endif %}
+                                                       name="variantid" id="{{ color.color.id }}" value="{{ color.id }}" onchange="this.form.submit();">
+                                                <label class="check1" style="background-color: {{ color.color.code }}" for="{{ color.color.id }}"><span>{{ color.color.name }}</span></label>
+                                            </li>
+                                        {% endfor %}
+                                    </form>
+                                </ul>
+                        </div>
+                        {% endif %}
+                        <br><br><br>
+                        <div class="border_bottom mt-3"></div>
+                        <div class="product_guarantee mt-2 text-center text-md-left">
+                            <ul class="list-inline">
+                                <li class="list-inline-item mr-0">
+                                    <img src="{% static 'home/img/1fb9a3a5.svg' %}" alt="">
+                                </li>
+                                <li class="list-inline-item mr-2">
+                                    <span>بسته بندی و ارسال توسط شاپ کتونی</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="product_guarantee mt-2 text-center text-md-left">
+                            <ul class="list-inline">
+                                <li class="list-inline-item mr-0">
+                                    <img src="{% static 'home/img/warehouse.JPG' %}" width="25" alt="">
+                                </li>
+                                <li class="list-inline-item mr-2">
+                                    <span class="text-info">آماده ارسال</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="product_guarantee mt-2 text-center text-md-left">
+                            <ul class="list-inline">
+                                <li class="list-inline-item mr-0">
+                                    <i class="material-icons">star</i>
+                                </li>
+                                <li class="list-inline-item mr-2">
+                                    <span class="text-cyan">امتیاز دهی:</span>
+                                </li>
+                                <li class="list-inline-item mr-2">
+                                    <span class="text-cyan">{% ratings product %}</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="border_bottom mt-3"></div>
+                        <div class="box_price mt-2 text-center text-md-left pb-1 order-last">
+                            <p class="price1">
+                                {% if product.discount %}
+                                    <del class="badge badge-danger">{{ product.price }} تومان</del> <strong class="badge badge-success">{{ product.dis_price }}  تومان</strong>
+                                {% else %}
+                                    <strong class="badge badge-success">{{ product.price }} تومان</strong>
+                                {% endif %}
+                            </p>
+                            {% if product.variant != 'None' %}
+                                <form action="{% url 'order:addtoshop' id=product.id %}" method="post" id="addchart-form">
+                                    <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                                    {% csrf_token %}
+                                    <div id="SelectedProduct" class="select_pro">
+                                        <p><strong>وضعیت:</strong>{% if variant.number > 0 %}  <span class="badge badge-success">موجود</span>  {% else %} <span class="badge badge-danger">ناموجود</span> {% endif %}</p>
+                                        <p><strong> محصول مورد نظر:</strong></p>
+                                        <ul>
+                                            <li> رنگ: <span style="color: {{ variant.color.code }};">{{ variant.color }}</span></li>
+                                            <li>سایز: {{ variant.size }}</li>
+                                            <li>قیمت:
+                                                {% if product.discount %}
+                                                    <del class="badge badge-danger">{{ product.price }}  تومان</del> <strong class="badge badge-success">{{ product.dis_price }}  تومان</strong>
+                                                {% else %}
+                                                    <strong class="badge badge-success">{{ product.price }} تومان  </strong>
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <br>
+                                {% if user.is_authenticated %}
+                                        <label for="number">تعداد:</label>
+                                        <input name="quantity" value="1" min="1" max="{{ variant.number }}" type="number" id="number" min="0">
+                                    {% if variant.number > 0 %}
+                                        <button type="submit" class="btn btn_custom2 shadow-sm"><i class="material-icons">add_shopping_cart</i>افزودن به سبد خرید</button>
+                                    {% else %}
+                                        <button type="submit" class="btn btn_custom2 bg-danger border-0 shadow-sm disabled"><i class="material-icons">add_shopping_cart</i>ناموجود</button>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'registration:login' %}" class="btn btn_custom2 shadow-sm"><i class="fa fa-sign-in"></i>ورود و ادامه ی خرید</a>
+                                {% endif %}
+
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-4 product_params bg-transparent mt-2 text-center text-md-left">
+                        <div class="box2 mt-4">
+                            <span>ویژگی های محصول</span>
+                            <ul>
+                                <li>ساخت : {{ product.get_making_display }}</li>
+                                <li>جنسیت : {{ product.get_gender_display }}</li>
+                            </ul>
+                            <span>توضیحات</span>
+                            <ul>
+                                <li>{{ product.description }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--end product -->
+
+
+    <!--start product_feature-->
+    <div class="container mt-3 product_feature">
+        <div class="row">
+            <div class="col box "><a href="#"><img src="{% static 'home/img/c99c8b3d.svg' %}" class="img-fluid" alt="">
+                <ul class="list-inline">
+                    <li>امکان</li>
+                    <li>تحویل اکسپرس</li>
+                </ul>
+
+            </a></div>
+            <div class="col box "><a href="#"><img src="{% static 'home/img/28cf2088.svg' %}" class="img-fluid pf_img" alt="">
+                <ul class="list-inline">
+                    <li>امکان</li>
+                    <li>تحویل اکسپرس</li>
+                </ul>
+
+            </a></div>
+            <div class="col box "><a href="#"><img src="{% static 'home/img/4c9cdf1f.svg' %}" class="img-fluid pf_img" alt="">
+                <ul class="list-inline">
+                    <li>امکان</li>
+                    <li>تحویل اکسپرس</li>
+                </ul>
+
+            </a></div>
+            <div class="col box "><a href="#"><img src="{% static 'home/img/d9c5e979.svg' %}" class="img-fluid pf_img" alt="">
+                <ul class="list-inline">
+                    <li>امکان</li>
+                    <li>تحویل اکسپرس</li>
+                </ul>
+
+            </a></div>
+            <div class="col box "><a href="#"><img src="{% static 'home/img/9aec2c1d.svg' %}" class="img-fluid pf_img" alt="">
+                <ul class="list-inline">
+                    <li>امکان</li>
+                    <li>تحویل اکسپرس</li>
+                </ul>
+
+            </a></div>
+        </div>
+    </div>
+    <!--end product_feature-->
+{% endblock %}
+
+
+
+<!--start suppliers-->
+<div class="container mt-4">
+    <div class="table_suppliers mt-4 shadow-sm">
+        <table class="table bg-white table-bordered table-responsive_custom">
+            <thead>
+            <tr class="text-white">
+                <th>نام محصول</th>
+                <th>رنگ</th>
+                <th>تعداد</th>
+                <th>قیمت</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="table_link"><a href="#">رهام</a><br><i class="material-icons">check</i>
+                    <span class="span1">رضایت خرید :</span><span class="span2">۵۹ % از (۱۳۹۶) رای</span>
+                </td>
+
+                <td>
+                    <img src="img/warehouse.JPG" width="25" alt="">
+                    <span class="span2">آماده ارسال</span>
+                    <br>
+                    <span class="span1">بسته بندی و ارسال توسط دیجی کالا</span>
+                </td>
+
+
+                <td>
+                    <i class="material-icons offline_pin">offline_pin</i>
+                    <span class="title_g">گارانتی اصالت و سلامت فیزیکی کالا</span>
+                </td>
+
+                <td>
+                        <span class="price pt-2">۶۵,۰۰۰ تومان
+</span>
+                </td>
+                <td><a href="#" class="btn btn_custom2 shadow-sm">افزودن به سبد خرید</a></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% block comment %}
+    <!--start comment-->
+    <div class="container-fluid box-tabs mt-4">
+    <ul class="nav nav-tabs nav-tabs-custom border sticky-top" id="myTab">
+
+        <li class="nav-item border-left">
+            <a href="#contact" class="nav-link active" id="contact-tab" data-toggle="tab">
+                <i class="material-icons">contact_support</i>
+                {% with comments.count as total_comments %}
+
+
+                 نظرات   ({{ total_comments }})
+                {% endwith %}
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content box-content" id="myTabContent">
+        <div class="tab-pane fade show active p-1 bg-white" id="contact">
+            <h4 class="font-weight-bold">نظرات</h4>
+            <span class="font-weight-bold">نظر خود را در مورد محصول مطرح نمایید</span>
+            <div class="box_questions container mt-4">
+                <form method="post" action="{% url 'product:addcomment'  id=product.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea name="comment" class="form-control w-100" rows="3"></textarea>
+                    </div>
+
+                <div class="container">
+                    <div class="row border_bottom">
+                        {% if user.id is not None %}
+                            <div class="col-md-2 col-12 text-left pb-1">
+                                <button type="submit" class="btn btn_custom3 btn-lg shadow-sm">ثبت نظر</button>
+                            </div>
+                        {% else %}
+                            <div class="col-md-2 col-12 text-left pb-1">
+                                <button type="submit" class="btn btn_custom3 btn-sm shadow-sm disabled">برای ثبت نظر خود در سایت ثبت نام کنید.</button>
+                            </div>
+                        {% endif %} 
+
+                        <div class="col-md-9 col-12 m-0 p-0 pt-3 pt-md-0 email_check">
+                                <div class="custom-control custom-checkbox">
+                                    <!-- stars -->
+                                </div>
+                        </div>
+                    </div>
+                    </form>
+
+                    <div class="container box_questions mt-4">
+                        {% for comment in comments %}
+                        <div class="row">
+                            <div class="col-md-2 bq1 text-left">
+                                <i class="material-icons">
+                                    comment
+                                </i>
+                                <br>
+                                <span class="span1">نظر</span>
+                                <br>
+                                <span class="span2">{{ comment.user.first_name }} {{ comment.user.last_name }}</span>
+                            </div>
+                            <div class="col-md-10 mt-2 w-100 bq2">
+                                <p>{{ comment.comment|linebreaks }}</p>
+
+                                <div class="row" style="position: relative;bottom: 10px">
+                                    <div class="col-md-12 col-12">
+                                        <span class="date"> {{ comment.jcreated }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                            <p>
+                                هنوز نظری درباره ی این داده نشده است.
+                            </p>
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+    <!--end box-tabs-->
+    <!--start slider-->
+    <div class="container-fluid mt-3 mb-5">
+        <div class="col-12">
+            <section class="slider box_shadow">
+                <div class="row">
+                    <div class="card panel-title-custom">
+                        <div class="card-header  card-header-custom">
+                            <p>محصولات مرتبط
+                            </p>
+                        </div>
+
+                        <div class="card-body py-1" style="padding: 50px">
+                            <div class="owl-carousel owl-theme">
+
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/2836814.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>مچ بند هوشمند شیائومی مدل Mi Band 3</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/2481611.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>مچ بند هوشمند مدل M2</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/1903438.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>ساعت هوشمند بی اس ان ال مدل A9</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/2795704.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>ساعت هوشمند وی سریز مدل A1</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/2836814.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>مچ بند هوشمند شیائومی مدل Mi Band 3</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/2481611.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>مچ بند هوشمند مدل M2</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/1903438.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>ساعت هوشمند بی اس ان ال مدل A9</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item">
+                                    <a href="">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img src="img/2795704.jpg" alt="">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>ساعت هوشمند وی سریز مدل A1</h4>
+                                                <p>12300 هزاز تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <!--end slider-->
+    <!--end suppliers-->
+
+
+
+
+
+
+
+
+    <script>
+        $(document).ready()
+        {
+            var owl = $('.owl-carousel');
+            owl.owlCarousel({
+                items: 4,
+                rtl: true,
+                margin: 25,
+                nav: true,
+                loop: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 4
+                    }
+                }
+            });
+        }
+    </script>
+
+
+</body>
+</html>

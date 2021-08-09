@@ -1,0 +1,1101 @@
+{% extends 'home/index.html' %}
+{% load static %}
+{% load ratings %}
+
+
+{% block content %}
+
+    <!-- start sidebar -->
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <!-- start sidebar -->
+<div class="col-md-3">
+                <form action="" method="get">
+                    <div class="bg-white sidebar">
+                        <div class="sidebar_header">جستجو در نتایج:</div>
+                        <div class="sidebar_katoni mt-2 mb-2">
+                            <div class="input-group col">
+                                <span class="material-icons ic-form-control-search">search</span>
+                                <input type="text" name="search_bar" class="form-control ronded-right bg-white input_search1" placeholder="نام یا ویژگی محصول مورد نظر خود را بنویسید..">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white sidebar mt-2">
+                        <div class="brand" id="according">
+                            <div class="card">
+                                <a href="#collapseOne" class="card-link" data-toggle="collapse">
+                                    <div class="card-header bg-white">
+                                        برند <i class="material-icons pull-left">expand_more</i>
+                                    </div>
+                                </a>
+                                <div id="collapseOne" class="collapse show" data-parent="#according">
+                                    <div class="card-body pt-0">
+                                        <div class="input-group pt-2">
+                                            <span class="material-icons ic-form-control-search">search</span>
+                                            <input type="text" name="brand" class="form-control rounded-right bg-white input_search2" placeholder="جستجوی نام برند..">
+                                        </div>
+                                        <hr>
+                                        <div class="form-group input-container">
+                                            <div class="col p-0 m-0">
+                                                {% for brand in brands %}
+                                                    <div class="checkbox p-1">
+                                                        <label class="checkbox-container" for="{{ brand.name }}">{{ brand.name }}
+                                                            <input type="checkbox" name="search_brand" id="{{ brand.name }}" value="{{ brand.name }}">
+                                                            <span class="checkmark-login"></span>
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white sidebar mt-2">
+                        <div class="sidebar_catalog">
+                            <div>
+                                <label class="position-relative">
+                                    <input type="checkbox" name="search_bar" class="ios-switch">
+                                    <div>
+                                        <div></div>
+                                    </div>
+                                    <div class="text-switch"><span>فقط کالاهای موجود</span></div>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-dark mr-3 mb-2 text-white">فیلتر</button>
+                    </div>
+
+                </form>
+            </div>
+            <!-- start content -->
+            <div class="col-md-9">
+                <div class="bg-transparent">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'home:home' %}">فروشگاه اینترنتی شاپ کتونی</a></li>
+                            <li class="breadcrumb-item active">مردانه</li>
+                        </ol>
+                    </nav>
+                </div>
+                <p class="listing_counter">{{ pro_count }} کالا</p>
+                <div class="box_navpils">
+{#                    <ul class="nav nav-pills bg-white py-1" id="oills-tab">#}
+{#                        <i class="material-icons pt-1 sort">sort</i>#}
+{#                        <span class="pt-1 text_sort px-1">مرتب سازی بر اساس:</span>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-1">#}
+{#                                پربازدیدترین#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link" id="pills-home-tab1" data-toggle="pill" href="#pills-2">#}
+{#                             محبوب ترین#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link" id="pills-home-tab2" data-toggle="pill" href="#pills-3">#}
+{#                                جدیدترین#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link " id="pills-home-tab3" data-toggle="pill" href="#pills-4">#}
+{#                                پرفروش ترین#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link " id="pills-home-tab4" data-toggle="pill" href="#pills-5">#}
+{#                              ارزان ترین#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link " id="pills-home-tab5" data-toggle="pill" href="#pills-6">#}
+{#                               گران ترین#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-1">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    {% for katoni in pages %}
+                                        <div class="col-md-4 full_product-box bg-white">
+                                            <div class="product-box bg-white border_bottom">
+                                                <a href="{% url 'home:details' id=katoni.id %}">
+                                                    <img style="height: 250px; width: 100%;" src="{{ katoni.image.url }}" class="img-fluid">
+
+                                                    <div class="text_product pt-2">
+                                                        <p class="title">{{ katoni.name }}</p>
+                                                        <p class="price">{{ katoni.price }} تومان</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="box_rate">
+                                                <span><i class="material-icons">stars</i></span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                        </div>
+{#                        <div class="tab-pane fade show active" id="pills-2">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="tab-pane fade show active" id="pills-3">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="tab-pane fade show active" id="pills-4">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="tab-pane fade show active" id="pills-5">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="tab-pane fade show active" id="pills-6">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="row">#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-4 full_product-box bg-white">#}
+{#                                        <div class="product-box bg-white border_bottom">#}
+{#                                            <a href="#">#}
+{#                                                <img src="img/913367.jpg" class="img-fluid">#}
+{#                                            </a>#}
+{#                                            <div class="text_product pt-2">#}
+{#                                                <p class="title">هندفری بلوتوث مدل sd-21</p>#}
+{#                                                <p class="price">۵۶,۰۰۰ تومان</p>#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="box_rate">#}
+{#                                            <span><i class="material-icons">stars</i>2.8</span>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--start pagination-->
+    <div class="container mt-3">
+        <div class="row justify-content-end">
+            <div>
+                <nav>
+                    <ul class="pagination">
+                        {% if pages.has_previous %}
+                        <li class="page-item">
+                            <a href="?page={{ pages.previous_page_number }}" class="page-link">
+                                <span>&laquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a href="#" class="page-link">
+                                    <span>&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for p in pagination %}
+                            {% if p.count %}
+                                <li class="page-item active_pagination">
+                                    <a class="page-link" href="?page={{ p.number }}">{{ p.number }}<span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ p.number }}">{{ p.number }}<span class="sr-only">(current)</span></a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if pages.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ pages.next_page_number }}" class="page-link">
+                                <span>&raquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a href="#" class="page-link">
+                                    <span>&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

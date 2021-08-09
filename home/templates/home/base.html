@@ -1,0 +1,283 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block extra_headers %}{% endblock %}
+
+
+    <link rel="stylesheet" href="{% static 'home/New folder/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'home/css/base.css' %}?{% now "U" %}">
+
+    
+    
+    
+    
+    <script src="{% static 'home/js/all.min.js' %}"></script>
+
+{#     slides package#}
+    <link rel="stylesheet" href="{% static 'home/css/uikit.min.css' %}">
+    <script src="{% static 'home/js/uikit.min.js' %}"></script>
+    <script src="{% static 'home/js/uikit-icons.min.js' %}"></script>
+
+    <title>{% block title %}Shop_Katoni{% endblock %}</title>
+
+
+
+    {% block extra_css %}{% endblock %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
+</head>
+<body>
+    
+    <header>
+
+        <div class="number">
+            <p>
+                شماره ی ارتباطی: 09184301291
+            </p>
+        </div>
+
+        
+        <div class="user float-left">
+        {% if user.is_authenticated %}
+                <div class="btn-group dropleft">
+                    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.first_name }}
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% if user.is_superuser %}
+                            <a class="dropdown-item" href="{% url 'registration:adminpnl' %}">
+                                پنل مدیریت
+                            </a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{% url 'registration:profile' %}">
+                            پروفایل
+                        </a>
+                        <a class="dropdown-item" href="{% url 'registration:orders' %}">
+                            سفارشات من
+                        </a>
+                        <a class="dropdown-item" href="{% url 'registration:logout' %}">
+                            خروج
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="btn-group dropleft">
+                    <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                        حساب کاربری
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url 'registration:login' %}">
+                            ورود به پنل کاربری
+                        </a>
+                        <a class="dropdown-item" href="{% url 'registration:signup' %}">
+                            ثبت نام
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'order:shopcart' %}" class="btn btn-outline-dark" type="button">
+                 <span class="badge badge-danger">
+                 {% load myapptags %}
+                 {% shopcart_count user.id as count %}
+                 {{ count }}
+                </span>
+                سبد خرید
+                <i class="fas fa-shopping-cart"></i>
+                </a>
+            {% else %}
+                <a href="{% url 'registration:login' %}" class="btn btn-outline-dark" type="button">
+                <i class="fas fa-user"></i>
+                ورود
+                </a>
+            {% endif %}
+
+
+        </div>
+
+        {% block search_bar %}{% endblock %}
+
+        <div class="navbar_1">
+            <nav class="navbar navbar-expand-lg navbar-light bg-gradient-white">
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'home:home' %}">
+                                <i class="fas fa-home"></i>
+                                خانه 
+                                <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'home:katoni' %}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                کتونی ها
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{% url 'home:for_men' %}">مردانه</a>
+                                <a class="dropdown-item" href="{% url 'home:feminine' %}">زنانه</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">حراجی ها</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home:about' %}">درباره ی ما</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'home:katoni' %}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                مقالات
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                {% for article in articles %}
+                                    <a class="dropdown-item" href="{% url 'home:articles' id=article.id %}">{{ article.title }}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    </ul>
+                    
+                </div>
+              </nav>
+        </div>
+    </header>
+
+    <div class="clear"></div>
+    {% block slider %}
+
+    {% endblock %}
+    
+
+    <div class="clear"></div>
+    
+    {% block items %}
+
+    {% endblock %}
+
+    <div class="clear"></div>
+
+    {% block takhfif %}
+
+    {% endblock %}
+    
+
+    <div class="clear"></div>
+    
+    {% block randome_item %}
+
+    {% endblock %}
+
+    {% block content %}
+
+    {% endblock %}    
+      
+    
+    <div class="clear"></div>
+    
+    {% block item_slider %}
+
+    {% endblock %}
+
+    <div class="clear"></div>
+
+    {% block ads %}
+
+    {% endblock %}
+
+    <div class="clear"></div>
+    
+    {% block brands %}
+
+    {% endblock %}
+
+    {% block comment %}
+
+    {% endblock %}
+
+    <div class="clear"></div>
+
+    
+    <footer>
+
+        <div class="row items">
+            <div class="col-md-4 col-6 serv text-center item">
+                <img src="/static/home/img/delivery-truck.png" alt="">
+                <p>
+                    ارسال سریع مرسولات
+                </p>
+                <p class="text">
+                    سفارش های پستی در تهران 24 ساعت پس از ارسال و شهرهای دیگه تا 72 ساعت به دست گیرنده میرسن
+                </p>
+            </div>
+
+            <div class="item">
+                <img src="/static/home/img/credit-card.png" alt="">
+                <p>
+                    پرداخت امن و آنلاین
+                </p>
+                <p class="text">
+                    درگاه های پرداخت سرویس دهنده های معتبر برای پرداختی آسوده و امن
+                </p>
+            </div>
+
+            <div class="col-md-4 col-6 serv text-center item">
+
+                <img src="/static/home/img/check.png" alt="">
+                <p>
+                    بسته بندی اصلی محصول
+                </p>
+                <p class="text">
+                    تمام کتونی ها با کارتن و محتویات اصلی ارسال می شوند
+                </p>
+            </div>
+
+        </div>
+
+        <hr class="danger">
+
+        <div class="clear"></div>
+
+      <div class="float-right">
+        <p>راهنمای مشتریان</p>
+        <ul>
+          <a href="{% url 'home:size' %}"><li>اندازه گیری سایز</li></a>
+          <a href="{% url 'home:safe' %}"><li>درگاه امن</li></a>
+        </ul>
+      </div>
+      
+      <div class="contact mx-auto">
+        <p> راه های ارتباطی با فروشگاه</p>
+        <ul>
+            <li><a target="_blank" href="https://www.instagram.com/shop_katoni_1/"><img src="/static/home/img/instagram%20(2).png" alt=""></a></li>
+            <li><a href=""><img src="/static/home/img/telegram.png" alt=""></a></li>
+        </ul>
+      </div>
+
+    </footer>
+
+
+    <script src="{% static 'home/js/base.js' %}"></script>
+
+    
+    <script src="{% static 'home/jS/jquery-3.5.1.slim.min.js' %}"></script>
+    <script src="{% static 'home/New folder/jS/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+</body>
+</html>

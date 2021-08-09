@@ -1,0 +1,151 @@
+{% extends 'home/index.html' %}
+
+{% block title %}
+    سفارش محصول
+{% endblock %}
+
+
+{% block content %}
+    <div class="warining alert-warning text-center">
+        <p class="text-danger">** توجه داشته باشید که حتما اطلاعات دقیق را وارد نمایید تا در ارسال محصول مشکلی نباشد. **</p>
+    </div>
+    <form action="" method="post">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% csrf_token %}
+    <div class="container-fluid">
+        <div class="col-lg-6 float-right">
+            <div>
+                <h4>فرم خرید:</h4>
+            </div>
+            <hr>
+            <p><label for="id_first_name">نام:</label></p>
+            <input type="text" name="first_name" value="{{ profile.first_name }}" class="form-control"
+                   maxlength="10" required id="id_first_name">
+            <br>
+            <p><label for="id_last_name">نام خانوادگی:</label></p>
+            <input type="text" name="last_name" value="{{ profile.last_name }}" class="form-control"
+                   maxlength="10" required id="id_last_name">
+            <br>
+            <p><label for="id_city">شهر:</label></p>
+            <input type="text" name="city" value="{{ profile.city }}" class="form-control"
+                   maxlength="50" required id="id_city">
+            <br>
+            <p><label for="id_address">آدرس:</label></p>
+            <input type="text" name="address" value="{{ profile.address }}" class="form-control"
+                   maxlength="250" required id="id_address">
+            <br>
+            <p><label for="id_postal_code">کد پستی:</label></p>
+            <input type="text" name="postal_code" value="{{ profile.postal_code }}" class="form-control"
+                   maxlength="20" required id="id_postal_code">
+            <br>
+            <p><label for="id_phone">تلفن:</label></p>
+            <input type="text" name="phone_number" value="{{ profile.phone_number }}" class="form-control"
+                   maxlength="11" required id="id_phone">
+            <br>
+
+        </div>
+        <div class="col-lg-6 float-left">
+            <div>
+                <h4>فرم پرداخت:</h4>
+            </div>
+            <hr>
+            <p><label for="id_first_name">مبلغ کل:</label></p>
+            <input type="text" name="total" value="{{ total_post }}" class="form-control"
+                   maxlength="10" required id="id_total" disabled>
+            <br>
+            <p><label for="id_card_number">شماره کارت:</label></p>
+            <input type="text" name="card_number" value="" class="form-control"
+                   maxlength="20" required id="id_card_number">
+            <br>
+            <p><label for="id_CVV">CVV:</label></p>
+            <input type="text" name="CVV" value="" class="form-control"
+                   maxlength="10" required id="id_CVV">
+            <br>
+            <p><label for="id_date_card">تاریخ کارت:</label></p>
+            <input type="text" name="date_card" value="" class="form-control"
+                   maxlength="10" required id="id_date_card" placeholder="ماه/سال">
+            <br>
+            <p><label for="id_security_card">رمز دوم:</label></p>
+            <input type="text" name="security_card" value="" class="form-control"
+                   maxlength="20" required id="id_security_card">
+            <br>
+            <div>
+            <button class="btn btn_custom2 mb-2 shadow-sm"><i class="material-icons">shopping_cart</i>تکمیل خرید</button>
+            </div>
+        </div>
+    </div>
+
+        <br>
+    </form>
+
+    <div class="container table_suppliers mt-4">
+            <table class="table bg-white table-bordered table-responsive_custom">
+                <thead>
+                <tr class="text-white">
+                    <th>نام محصول</th>
+                    <th>رنگ</th>
+                    <th>سایز</th>
+                    <th>قیمت واحد</th>
+                    <th>تعداد</th>
+                    <th>تخفیف</th>
+                    <th>قیمت کل</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for shop in shopcart %}
+                    <tr>
+                        <td class="table_link">
+{#                            {% if shop.variant.image_id > 0 %}#}
+{#                                <img style="width: 50px; height: 50px" src="{{ shop.variant.image }}" alt="{{ shop.product.name }}">#}
+{#                                <a href="{% url 'home:details' id=shop.product.id %}"> <span class="span2">{{ shop.product }}</span></a>#}
+{#                            {% else %}#}
+                                <img style="width: 50px; height: 50px" src="{{ shop.product.image.url }}" alt="{{ shop.product.name }}">
+                                <a href="{% url 'home:details' id=shop.product.id %}"><span class="span2">{{ shop.product }}</span></a>
+{#                            {% endif %}#}
+                        </td>
+
+                        <td>
+                            <strong class="span1">{{ shop.variant.color.name }}</strong>
+                        </td>
+
+                        <td>
+                            <strong class="span1">{{ shop.variant.size }}</strong>
+                        </td>
+
+                        <td>
+                        {% if shop.product.discount %}
+                            <strong class="badge badge-success">{{ shop.product.dis_price }}  تومان</strong>
+                        {% else %}
+                            <strong class="badge badge-success">{{ shop.product.price }}تومان</strong>
+                        {% endif %}
+                        </td>
+
+                        <td>
+                            <strong class="span1">{{ shop.quantity }}</strong>
+                        </td>
+
+                        <td>
+                            {% if shop.product.discount.title %}
+                                <strong class="badge badge-success">{{ shop.product.discount.title }}</strong>
+                            {% else %}
+                                <strong class="span1">ندارد</strong>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong class="span1">
+                                 {{ shop.amount }}    تومان
+                            </strong>
+                        </td>
+                        <td><a href="{% url 'order:deletefromshop' id=shop.product.id %}" onclick="return confirm('حذف شود؟')">&#10005;</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+    </div>
+{% endblock %}

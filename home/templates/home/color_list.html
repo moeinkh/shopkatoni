@@ -1,0 +1,12 @@
+
+<form id="appendHere" method="POST" action="?q=selectvariant" id="post-color">
+    <input type="hidden" name="size" id="size" value="{{ size_id }}">
+    {% csrf_token %}
+    {% for color in colors %}
+        <li class="list-inline-item box_check1">
+            <input type="radio" style="background-color: {{ color.color.code }};" {% if variant.id == color.id %} checked {% endif %}
+                   name="variantid" id="{{ color.color.id }}" value="{{ color.id }}" onchange="this.form.submit();">
+            <label class="check1" style="background-color: {{ color.color.code }}" for="{{ color.color.id }}"><span>{{ color.color.name }}</span></label>
+        </li>
+    {% endfor %}
+</form>

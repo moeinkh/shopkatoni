@@ -1,0 +1,15 @@
+@font-face {
+    font-family: sahel;
+    src: url(../font/Sahel) format('eot'),
+    url(../font/Sahel) format('woff'),
+    url(../font/Sahel.ttf) format('truetype')
+}
+
+body, form {
+    direction: rtl;
+    text-align: right;
+}
+
+p , a, h1, h2, h3, h4, h5, h6, span, small, div {
+    font-family: sahel;
+}

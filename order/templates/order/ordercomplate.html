@@ -1,0 +1,39 @@
+{% extends 'home/index.html' %}
+
+{% block title %}
+    تکمیل خرید
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="col-7 item-details pr-5">
+        <div class="row px-3">
+            <div class="col-9">
+                 <p>{{ user.first_name }} {{ user.last_name }} عزیز</p>
+            </div>
+            <div class="w-100 my-1"></div>
+            <div class="col-9">
+                 <p>خرید شما تکمیل شد</p>
+            </div>
+            <div class="w-100 my-1"></div>
+            <div class="col-3">
+                <small class="text-muted">
+                    <p>کد خرید شما:</p>
+                </small>
+            </div>
+            <div class="col-9">
+                <p>{{ ordercode }}</p>
+            </div>
+            <div class="w-100 my-1"></div>
+            <div class="col-9">
+                 <p>خیلی ممنون از خرید شما</p>
+            </div>
+    </div>
+</div>
+{% endblock %}

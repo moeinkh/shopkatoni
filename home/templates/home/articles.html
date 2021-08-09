@@ -1,0 +1,16 @@
+{% extends 'home/index.html' %}
+{% load static %}
+
+
+
+{% block content %}
+    <div class="container-fluid ads mt-4 mb-4">
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-3 col-6 serv text-center">
+                    <a href="{% url 'home:details_articles' id=article.id %}"><img src="{{ article.cover.url }}" style="height: 250px;" class="w-100 d-block rounded" alt=""></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

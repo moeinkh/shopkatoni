@@ -1,0 +1,272 @@
+{% extends 'home/index.html' %}
+{% load static %}
+
+{% block slider %}
+    <!-- start top banner -->
+    <a href="">
+        <div class="container-fluid mt-2">
+            <div class="top_banner box_shadow">
+                <div></div>
+            </div>
+        </div>
+    </a>
+
+    <!-- start first slider bootsrap -->
+    <div class="container-fluid mt-2">
+        <div class="row">
+            <div class="col-12">
+                <div id="mycarousel" class="carousel slide carousel-fade" data-ride="carousel1">
+                    <ol class="carousel-indicators">
+                        {% for slider in sliders %}
+                            <li data-target="#mycarousel" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner rounded box_shadow">
+                        {% for slider in sliders %}
+                            <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %}">
+                              <a href="{% url 'home:details' id=slider.id %}"><img src="{{ slider.image.url }}" class="d-block w-100" alt=""></a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev prev" href="#mycarousel" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next next" href="#mycarousel" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+<div class="clear"></div>
+
+{% block items %}
+    <!-- start service -->
+    <div class="container-fluid mt-3 pt-2">
+        <div class="row bg-white box_shadow">
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv3.svg' %}" alt="">
+                <p>ضمانت اصل بودن کالا</p>
+            </div>
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv4.svg' %}" alt="">
+                <p>7 روز ضمانت بازگشت</p>
+            </div>
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv2.svg' %}" alt="">
+                <p>درگاه مطمئن</p>
+            </div>
+            <div class="col-md-3 col-6 serv text-center">
+                <img src="{% static 'home/img/serv5.svg' %}" alt="">
+                <p>پشتیبانی همه روزه</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block discount %}
+
+<!-- start slider katoni -->
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-12">
+                <section class="slider box_shadow">
+                    <div class="card panel-title-custom">
+                        <div class="card-header card-header-custom">
+                            <p>حراجی ‌ها</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="owl-carousel owl-theme">
+                                {% for dis in discount %}
+                                    <div class="item">
+                                        <a href="{% url 'home:details' id=dis.id %}">
+                                            <div class="card panel-custom">
+                                                <div class="card-body panel-body-custom">
+                                                    <img src="{{ dis.image.url }}">
+                                                </div>
+                                                <div class="card-footer panel-footer-custom">
+                                                    <h4>{{ dis.name }}</h4>
+                                                    <p><del class="badge badge-danger">{{ dis.price }} تومان</del>
+                                                    {{ dis.dis_price }} تومان</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block randome_item %}
+<!-- start slider plugin -->
+    <div class="container-fluid mt-3 ">
+        <div class="row">
+            <div class="col-md-9">
+                <section class="slider box_shadow">
+                    <div class="card panel-title-custom">
+                        <div class="card-header card-header-custom">
+                            <p>کتونی ها</p>
+                            <a href="{% url 'home:katoni' %}" class="float-left">مشاهده ی همه</a>
+                        </div>
+                        <div class="card-body" style="margin-bottom: 80px">
+                            <div class="owl-carousel owl-theme">
+
+                                {% for pro in product %}
+                                    <div class="item">
+                                        <a href="{% url 'home:details' id=pro.id %}">
+                                            <div class="card panel-custom">
+                                                <div class="card-body panel-body-custom">
+                                                    <img style="height: 150px !important;" src="{{ pro.image.url }}">
+                                                </div>
+                                                <div class="card-footer panel-footer-custom">
+                                                    <h4>{{ pro.name }}</h4>
+                                                    {% if pro.discount %}
+                                                        <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
+                                                        {{ pro.dis_price }} تومان</p>
+                                                    {% else %}
+                                                        <p>{{ pro.price }}  تومان</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3 mt-2 mt-md-0">
+                <div id="carousel1" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+
+                        {% for new in news %}
+
+                            <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+                                <div class="card card-custom shadow-sm">
+                                    <div class="card-header card-header-custom text-center">پیشنهاد های لحظه ای</div>
+                                </div>
+                                <div class="item">
+                                    <a href="{% url 'home:details' id=new.id %}">
+                                        <div class="card panel-cutom2 shadow-sm">
+                                            <div class="card-body text-center panel-body-custom">
+                                                <img src="{{ new.image.url }}" style="width: 250px; height: 300px;" class="img-fluid" alt="">
+                                            </div>
+                                            <div class="card-footer text-center panel-footer-custom">
+                                                <h4 class="p-2">{{ new.name }}</h4>
+                                                <p>{{ new.price }} تومان</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block item_slider %}
+<!-- start slider katoni -->
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-12">
+                <section class="slider box_shadow">
+                    <div class="card panel-title-custom">
+                        <div class="card-header card-header-custom">
+                            <p>جدیدترین ‌ها</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="owl-carousel owl-theme">
+                                {% for new in news %}
+                                    <div class="item">
+                                        <a href="{% url 'home:details' id=new.id %}">
+                                            <div class="card panel-custom">
+                                                <div class="card-body panel-body-custom">
+                                                    <img src="{{ new.image.url }}">
+                                                </div>
+                                                <div class="card-footer panel-footer-custom">
+                                                    <h4>{{ new.name }}</h4>
+                                                    {% if new.discount %}
+                                                        <p><del class="badge badge-danger">{{ new.price }} تومان</del>
+                                                        {{ new.dis_price }} تومان</p>
+                                                    {% else %}
+                                                        <p>{{ new.price }}  تومان</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block ads %}
+        <!-- start ads -->
+    <div class="container-fluid ads mt-4">
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-3 col-6 serv text-center">
+                    <a href="{% url 'home:details_articles' id=article.id %}"><img src="{{ article.cover.url }}" style="height: 250px;" class="w-100 d-block rounded" alt=""></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block brands %}
+    <!-- start brands -->
+    <div class="container-fluid mt-3">
+        <div class="row mb-4">
+            <div class="col-12">
+                <section class="slider box_shadow">
+                    <div class="card panel-title-custom">
+                        <div class="card-header card-header-custom">
+                            <p>برند ها</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="owl-carousel owl-theme">
+
+                                {% for br in brand %}
+                                    <div class="item1">
+                                        <a href="{% url 'home:brand' id=br.id %}">
+                                            <div class="card panel-custom">
+                                                <div class="card-body panel-body-custom">
+                                                    <img src="{{ br.image.url }}">
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

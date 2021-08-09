@@ -1,0 +1,654 @@
+@font-face {
+    font-family: sahel;
+    src: url(../fonts/sahel) format('eot'),
+    url(../fonts/sahel) format('woff'),
+    url(../fonts/sahel.ttf) format('truetype')
+}
+
+
+body {
+    direction: rtl;
+    text-align: right;
+    width: auto;
+    overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+p, div, a, h1, h2, h3, h4, h5, h6 {
+    font-family: sahel;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
+}
+
+.row {
+    width: 100%;
+}
+
+/* ....................Header.................... */
+header {
+    background-color: rgb(5, 215, 223);
+    position: relative;
+    /* margin-bottom: 100px; */
+}
+
+header .number p {
+    padding-right: 20px;
+    padding-top: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+header .logo img {
+    height: 100px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+header .user {
+    padding: 20px;
+    z-index: 3;
+}
+
+header nav {
+    margin-bottom: 0;
+    z-index: 2;
+    clear: both;
+}
+/* ....................section slider.................... */
+.slider {
+    height: 300px;
+}
+
+.slider div {
+    height: 300px;
+}
+
+.slider div div div img {
+    height: 300px;
+}
+
+/* ...........................Items...................... */
+.items {
+    padding: 10px 50px;
+    height: 200px;
+    background-color: rgb(205, 221, 213);
+  }
+  
+  .item {
+    width: 33%;
+    text-align: center;
+    padding: 10px 5px;
+    float: left;
+    display: block;
+  }
+
+  .item img {
+      height: 50px;
+  }
+  
+  .item .text {
+    color: darkgray;
+  }
+
+/* ...........................randome item...................... */
+.randome_item {
+    margin: 0 10px;
+    direction: ltr;
+    text-align: center;
+}
+
+.randome_item h2 {
+    font-weight: bold;
+    direction: rtl;
+}
+
+.randome_item div ul li {
+    margin: 0 5px;
+}
+
+  
+  /* ...........................Item slider...................... */
+.item_slider {
+    padding: 20px;
+    background-color: crimson;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.item_slider div {
+    direction: ltr;
+    margin: auto;
+}
+
+.item_slider div ul li {
+    margin: 0 15px;
+    border: 1px solid rgb(212, 228, 228);
+    border-radius:5px;
+    color: black;
+}
+
+
+
+ /* ...........................Brands...................... */
+.brands {
+    padding: 0 20px;
+} 
+
+.brands h2{
+    font-weight: bold;
+}
+
+.column1 {
+    float: left;
+    width: 20%;
+    padding: 0 10px;
+    margin: 10px 0;
+}
+  
+.row1 {
+    margin: 0 20px;
+}
+  
+.row1:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+  
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+}
+
+
+/* ........................footer........................ */
+footer {
+    background-color: rgb(5, 215, 223);
+    padding: 20px;
+}
+
+footer ul li {
+    color: black;
+}
+
+footer ul li a:hover {
+    text-decoration: none;
+}
+
+footer .contact ul {
+    list-style-type: none;
+}
+
+footer .contact ul li {
+    display: inline;
+}
+
+footer .contact ul li img {
+    height: 32px;
+}
+
+/* .....................................................................................DETAIL PAGE */
+/* IMAGE */
+
+.Detail .slide {
+  float: right;
+  width: 50%;
+  position: relative;
+}
+
+.Detail .feature {
+  float: left;
+  width: 50%;
+}
+
+
+.Detail .slide{
+    direction: ltr;
+}
+
+img {
+    vertical-align: middle;
+  }
+  
+  /* Position the image container (needed to position the left and right arrows) */
+  .container {
+    position: relative;
+    width: 50%;
+    margin-right: 0;
+  }
+  
+  /* Hide the images by default */
+  .mySlides {
+    display: none;
+  }
+  
+  /* Add a pointer when hovering over the thumbnail images */
+  .cursor {
+    cursor: pointer;
+  }
+  
+  /* Next & previous buttons */
+  .prev,
+  .next {
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Position the "next button" to the right */
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a black background color with a little bit see-through */
+  .prev:hover,
+  .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Number text (1/3 etc) */
+  .numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+  }
+  
+  /* Container for image text */
+  .caption-container {
+    text-align: center;
+    background-color: #222;
+    padding: 2px 16px;
+    color: white;
+  }
+  
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Six columns side by side */
+  .column {
+    float: left;
+    width: 16.667%;
+  }
+  
+  /* Add a transparency effect for thumnbail images */
+  .demo {
+    opacity: 0.6;
+  }
+  
+  .active,
+  .demo:hover {
+    opacity: 1;
+  }
+/* RADIO COLOR */
+.custom-radios div {
+  display: inline-block;
+}
+.custom-radios input[type="radio"] {
+  display: none;
+}
+.custom-radios input[type="radio"] + label {
+  color: #333;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+.custom-radios input[type="radio"] + label span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33);
+  background-repeat: no-repeat;
+  background-position: center;
+  text-align: center;
+  line-height: 44px;
+}
+.custom-radios input[type="radio"] + label span img {
+  opacity: 0;
+  transition: all .3s ease;
+}
+.custom-radios input[type="radio"]#color-1 + label span {
+  background-color: #2ecc71;
+}
+.custom-radios input[type="radio"]#color-2 + label span {
+  background-color: #3498db;
+}
+.custom-radios input[type="radio"]#color-3 + label span {
+  background-color: #f1c40f;
+}
+.custom-radios input[type="radio"]#color-4 + label span {
+  background-color: #e74c3c;
+}
+.custom-radios input[type="radio"]:checked + label span img {
+  opacity: 1;
+}
+
+/* STAR */
+form input[type="submit"] {
+    text-align: center;
+    font-size: 20px;
+  }
+  
+  #wrapper form input[type="submit"] {
+    border: 1px solid #d9d9d9;
+    background-color: #efefef;
+  }
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  label {
+    color: grey;
+  }
+  
+  .clasificacion {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+  }
+  
+  label:hover,
+  label:hover ~ label {
+    color: orange;
+  }
+  
+  input[type="radio"]:checked ~ label {
+    color: orange;
+  }
+
+  /* INPUT NUMBER */
+  .ctrl {
+    direction: ltr;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #D5DCE6;
+    background-color: #fff;
+    border-radius: 5px;
+    font-size: 30px;
+    }
+    .ctrl-counter {
+    position: relative;
+    width: 200px;
+    height: 50px;
+    color: #333C48;
+    text-align: center;
+    overflow: hidden;
+    }
+    .ctrl-counter.is-input .ctrl-counter-num {
+    visability: hidden;
+    opacity: 0;
+    -webkit-transition: opacity 100ms ease-in;
+    transition: opacity 100ms ease-in;
+    }
+    .ctrl-counter.is-input .ctrl-counter-input {
+    visability: visible;
+    opacity: 1;
+    -webkit-transition: opacity 100ms ease-in;
+    transition: opacity 100ms ease-in;
+    }
+    .ctrl-counter-input {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+    box-shadow: none;
+    outline: none;
+    border: none;
+    color: #333C48;
+    font-size: 30px;
+    line-height: 50px;
+    text-align: center;
+    visability: hidden;
+    opacity: 0;
+    -webkit-transition: opacity 100ms ease-in;
+    transition: opacity 100ms ease-in;
+    }
+    .ctrl-counter-num {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    line-height: 50px;
+    visability: visible;
+    opacity: 1;
+    -webkit-transition: opacity 100ms ease-in;
+    transition: opacity 100ms ease-in;
+    }
+    .ctrl-counter-num.is-increment-hide {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    -webkit-animation: increment-prev 100ms ease-in;
+    animation: increment-prev 100ms ease-in;
+    }
+    .ctrl-counter-num.is-increment-visible {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-animation: increment-next 100ms ease-out;
+    animation: increment-next 100ms ease-out;
+    }
+    .ctrl-counter-num.is-decrement-hide {
+    opacity: 0;
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+    -webkit-animation: decrement-prev 100ms ease-in;
+    animation: decrement-prev 100ms ease-in;
+    }
+    .ctrl-counter-num.is-decrement-visible {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-animation: decrement-next 100ms ease-out;
+    animation: decrement-next 100ms ease-out;
+    }
+    .ctrl-button {
+    width: 100px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    background-color: #8498a7;
+    -webkit-transition: background-color 100ms ease-in;
+    transition: background-color 100ms ease-in;
+    }
+    .ctrl-button:hover {
+    background-color: #90a2b0;
+    -webkit-transition: background-color 100ms ease-in;
+    transition: background-color 100ms ease-in;
+    }
+    .ctrl-button:active {
+    background-color: #778996;
+    -webkit-transition: background-color 100ms ease-in;
+    transition: background-color 100ms ease-in;
+    }
+    .ctrl-button-decrement {
+    border-radius: 5px 0 0 5px;
+    }
+    .ctrl-button-increment {
+    border-radius: 0 5px 5px 0;
+    }
+    @-webkit-keyframes decrement-prev {
+    from {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    }
+    }@keyframes decrement-prev {
+    from {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    }
+    }@-webkit-keyframes decrement-next {
+    from {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    }
+    }@keyframes decrement-next {
+    from {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+    transform: translateY(-50px);
+    }
+    }@-webkit-keyframes increment-prev {
+    from {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    }
+    }@keyframes increment-prev {
+    from {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    }
+    }@-webkit-keyframes increment-next {
+    from {
+    opacity: 0;
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+    }
+    }@keyframes increment-next {
+    from {
+    opacity: 0;
+    -webkit-transform: translateY(50px);
+    transform: translateY(50px);
+    }
+    }
+
+    .comment {
+      float: right;
+      width: 50%;
+    }
+
+
+/* .....................................................................................KATONI PAGE */
+.katoni {
+  float: left;
+  width: 75%;
+  padding: 20px;
+}    
+
+/* ........................mobile........................ */
+  @media only screen and (max-width: 700px) {
+    header .number p {
+        color: white;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    header .logo img {
+        width: 100%;
+    }
+    
+    header .user {
+        padding-right: 20px;
+        z-index: 999999;
+        width: 100%;
+    }
+
+    .items {
+        height: 650px;
+    }
+
+    .item {
+        width: 100%;
+        text-align: center;
+        padding: 10px 5px;
+        float: left;
+        display: inline;
+      }
+
+    .column1 {
+        width: 25%;
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    /* DETAIL */
+    .Detail .feature , .Detail .slide {
+      width: 100%;
+    }
+
+    
+    /* input number */
+    
+
+    .ctrl {
+      font-size: 15px;
+      }
+
+    .ctrl-counter {
+      width: 50px;
+      height: 20px;
+      }
+
+      .ctrl-button {
+        width: 50px;
+        line-height: 25px;
+        }
+        .ctrl-counter-input {
+          font-size: 15px;
+          line-height: 25px;
+          }
+          .ctrl-counter-num {
+          line-height: 25px;
+          }
+    /* Comment */
+    .comment {
+      width: 100%;
+    }
+
+    /* ................KATONI PAGE */
+  .katoni {
+    float: none;
+    width: 100%;
+    padding: 20px;
+    }    
+  }

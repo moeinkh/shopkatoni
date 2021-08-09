@@ -1,0 +1,69 @@
+{% extends 'home/index.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    ثبت نام
+{% endblock %}
+
+
+{% block content %}
+    <div class="container-fluid registration">
+        <form method="post" class="col-12 p-2">
+            {% csrf_token %}
+            <div class="row p-2">
+              <div class="col">
+                  <h1>ایجاد حساب کاربری</h1>
+                    <p>لطفا با استفاده از فرم زیر ثبت نام کنید:</p>
+                    {% csrf_token %}
+                    <div class="input row p-2">
+                        <div class="col-md-4 inline-group">
+                            {{ form.first_name | as_crispy_field }}
+                        </div>
+                        <div class="col-md-4 inline-group">
+                            {{ form.last_name | as_crispy_field }}
+                        </div>
+                        <div class="col-md-4 inline-group">
+                            {{ form.username | as_crispy_field }}
+                        </div>
+                    </div>
+                <div class="input row p-2">
+                </div>
+{#                <div class="input row p-2">#}
+{#                    <div class="col-md-3 inline-group">#}
+{#                        {{ form.city | as_crispy_field }}#}
+{#                    </div>#}
+{#                    <div class="col-md-3 inline-group">#}
+{#                        {{ form.address | as_crispy_field }}#}
+{#                    </div>#}
+{#                    <div class="col-md-3 inline-group">#}
+{#                        {{ form.phone_number | as_crispy_field }}#}
+{#                    </div>#}
+{#                    <div class="col-md-3 inline-group">#}
+{#                        {{ form.postal_code | as_crispy_field }}#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="input row p-2">#}
+{#                </div>#}
+                <div class="input row p-2">
+                      <div class="col-md-4 inline-group">
+                          {{ form.email | as_crispy_field }}
+                      </div>
+                      <div class="col-md-4 inline-group">
+                          {{ form.password1 | as_crispy_field }}
+                      </div>
+                      <div class="col-md-4 inline-group">
+                          {{ form.password2 | as_crispy_field }}
+                      </div>
+                </div>
+                    <p class="bg-danger">{{ form.errors }}</p>
+                    {% for message in messages %}
+                        <p style="color: red">{{ message }}</p>
+                    {% endfor %}
+              </div>
+            </div>
+            <button type="submit" class="btn btn-info m-2">ثبت نام</button>
+          </form>
+    </div>
+{% endblock %}
+
+
