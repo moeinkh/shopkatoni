@@ -1,26 +1,20 @@
 from django.contrib import admin
 
 # Register your models here.
-from order.models import ShopCart, OrderProduct, Order
-
-
-class ShopCartAdmin(admin.ModelAdmin):
-    list_display = ['user', 'product', 'quantity', 'price', 'amount']
-    list_filter = ['user']
-    readonly_fields = ('price', 'amount')
+from order.models import OrderProduct, Order
 
 
 class OrderProductLine(admin.TabularInline):
     model = OrderProduct
-    readonly_fields = ('user', 'product', 'price', 'quantity', 'amount')
+    readonly_fields = ('product', 'variant', 'price', 'quantity', 'total_price')
     can_delete = False
     extra = 0
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'phone', 'city', 'postal_code', 'total', 'status', "jcreated"]
-    list_filter = ['status', 'created']
-    readonly_fields = ('first_name', 'last_name', 'user', 'postal_code', 'code', 'address', 'city', 'phone', 'total')
+    list_display = ['first_name', 'last_name', 'phone', 'city', 'postal_code', 'status', 'jcreated']
+    list_filter = ['status', 'created', 'paid']
+    readonly_fields = ('first_name', 'last_name', 'user', 'postal_code', 'code', 'address', 'city', 'phone', 'paid')
     can_delete = False
     inlines = [OrderProductLine]
     actions = ['send_status', 'cancel_status']
@@ -39,11 +33,6 @@ class OrderAdmin(admin.ModelAdmin):
     cancel_status.short_description = 'کنسل شد'
 
 
-class OrderProductAdmin(admin.ModelAdmin):
-    list_display = ['user', 'product', 'price', 'quantity', 'amount']
-    list_filter = ['user', 'product']
 
 
-admin.site.register(ShopCart, ShopCartAdmin)
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderProduct, OrderProductAdmin)

@@ -1,37 +1,15 @@
 from datetime import datetime
+from decimal import Decimal
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+from coupon.models import Coupon
 from user.models import User
 from django.db import models
 from extensions.utils import jalali_converter
 
 # Create your models here.
 from product.models import Product, Variants, Discount
-
-
-class ShopCart(models.Model):
-    class Meta:
-        verbose_name = 'سبد خرید'
-        verbose_name_plural = 'سبد خرید'
-
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, verbose_name='محصول')
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='کاربر')
-    variant = models.ForeignKey(Variants, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='مشخصات')
-    discounts = models.ForeignKey(Discount, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='تخفیف')
-    quantity = models.IntegerField('تعداد')
-
-    def __str__(self):
-        return self.product.name
-
-    @property
-    def price(self):
-        return self.product.price
-
-    @property
-    def amount(self):
-        if self.product.discount:
-            return (self.quantity * self.product.dis_price)
-        else:
-            return (self.quantity * self.product.price)
 
 
 class Order(models.Model):
@@ -47,13 +25,17 @@ class Order(models.Model):
     address = models.CharField('آدرس', max_length=250)
     city = models.CharField('شهر', max_length=75)
     postal_code = models.CharField('کد پستی', max_length=11)
-    total = models.IntegerField('کل')
+    paid = models.BooleanField('پرداخت شد؟', default=False)
     STATUS_CHOICES = (
         ('در حال بررسی', 'در حال بررسی'),
         ('ارسال شد', 'ارسال شد'),
         ('کنسل شد', 'کنسل شد'),
     )
     status = models.CharField('وضعیت', choices=STATUS_CHOICES, max_length=50, default='در حال بررسی')
+
+    coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, related_name='orders', null=True, blank=True, verbose_name='کد تخفیف')
+    discount = models.IntegerField('تخفیف', default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+
     created = models.DateTimeField('ایجاد', auto_now_add=True)
     updated = models.DateTimeField('به روز رسانی', auto_now=True)
 
@@ -64,24 +46,30 @@ class Order(models.Model):
         return jalali_converter(self.created)
     jcreated.short_description = 'تاریخ سفارش'
 
+    def get_total_cost(self):
+        total_cost = sum(item.get_cost() for item in self.items.all())
+        return total_cost - total_cost * (self.discount / Decimal(100))
+
+    get_total_cost.short_description = 'مبلغ کل'
+
 
 class OrderProduct(models.Model):
     class Meta:
         verbose_name = 'سفارش محصول'
         verbose_name_plural = 'سفارش محصول'
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name='سفارش')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
-    variant = models.ForeignKey(Variants, on_delete=models.SET_NULL, blank=True, null=True)  # relation with varinat
-    discounts = models.ForeignKey(Discount, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='تخفیف')
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name='سفارش')
+    variant = models.ForeignKey(Variants, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='مشخصه')  # relation with variant
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='محصول')
     quantity = models.IntegerField('تعداد')
     price = models.IntegerField('قیمت')
-    amount = models.IntegerField('قیمت کل')
+    total_price = models.PositiveIntegerField('قیمت کامل')
 
     created = models.DateTimeField('ایجاد', auto_now_add=True)
     updated = models.DateTimeField('به روز رسانی', auto_now=True)
 
     def __str__(self):
-        return self.product.name
+        return self.variant.product.name
 
+    def get_cost(self):
+        return self.quantity * self.price

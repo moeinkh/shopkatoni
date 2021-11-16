@@ -1,0 +1,57 @@
+{% extends 'home/index.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    ثبت نام
+{% endblock %}
+
+
+{% block content %}
+    <div class="container-fluid registration">
+        <form method="post" class="col-12 p-2">
+            {% csrf_token %}
+            <div class="row p-2">
+              <div class="col">
+                  <h1>ایجاد حساب کاربری</h1>
+                    <p>لطفا با استفاده از فرم زیر ثبت نام کنید:</p>
+                    {% csrf_token %}
+                    <div class="input row p-2">
+                        <div class="col-md-6 inline-group">
+                            {{ form.username | as_crispy_field }}
+                        </div>
+                        <div class="col-md-6 inline-group">
+                            {{ form.email | as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="input row p-2">
+                        <div class="col-md-6 inline-group">
+                            {{ form.password1 | as_crispy_field }}
+                        </div>
+                        <div class="col-md-6 inline-group">
+                            {{ form.password2 | as_crispy_field }}
+                        </div>
+                    </div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-info m-2">ثبت نام</button>
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                    (<strong>{{ field.label|escape }}</strong>)
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+          </form>
+    </div>
+{% endblock %}
+
+

@@ -55,3 +55,4 @@ tzlocal==2.1
 urllib3==1.26.2
 websocket-client==0.57.0
 zeep==4.0.0
+django-allauth

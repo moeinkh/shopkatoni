@@ -164,10 +164,11 @@ class Variants(models.Model):
         verbose_name = 'مشخصات'
         verbose_name_plural = 'مشخصات'
     title = models.CharField('عنوان', max_length=100, blank=True, null=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants', verbose_name='محصول')
     color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True, null=True, verbose_name='رنگ')
     size = models.ForeignKey(Size, on_delete=models.CASCADE, blank=True, null=True, verbose_name='سایز')
     image_id = models.IntegerField('کد عکس', blank=True, null=True, default=0)
+    price = models.IntegerField('قیمت', default=0)
     number = models.PositiveIntegerField('تعداد', default=1)
 
     def __str__(self):

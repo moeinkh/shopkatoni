@@ -195,8 +195,8 @@
                                 {% endif %}
                             </p>
                             {% if product.variant != 'None' %}
-                                <form action="{% url 'order:addtoshop' id=product.id %}" method="post" id="addchart-form">
-                                    <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
+                                <form action="{% url 'cart:cart_add' variant.id %}" method="post" id="addchart-form">
+                                    <input type="hidden" name="override" id="variantid" value="{{ variant.id }}">
                                     {% csrf_token %}
                                     <div id="SelectedProduct" class="select_pro">
                                         <p><strong>وضعیت:</strong>{% if variant.number > 0 %}  <span class="badge badge-success">موجود</span>  {% else %} <span class="badge badge-danger">ناموجود</span> {% endif %}</p>
@@ -214,17 +214,13 @@
                                         </ul>
                                     </div>
                                     <br>
-                                {% if user.is_authenticated %}
-                                        <label for="number">تعداد:</label>
-                                        <input name="quantity" value="1" min="1" max="{{ variant.number }}" type="number" id="number" min="0">
+                                    <label for="quantity">تعداد:</label>
+                                    <input name="quantity" value="1" min="1" max="{{ variant.number }}" type="number" id="quantity" min="0">
                                     {% if variant.number > 0 %}
                                         <button type="submit" class="btn btn_custom2 shadow-sm"><i class="material-icons">add_shopping_cart</i>افزودن به سبد خرید</button>
                                     {% else %}
                                         <button type="submit" class="btn btn_custom2 bg-danger border-0 shadow-sm disabled"><i class="material-icons">add_shopping_cart</i>ناموجود</button>
                                     {% endif %}
-                                {% else %}
-                                    <a href="{% url 'registration:login' %}" class="btn btn_custom2 shadow-sm"><i class="fa fa-sign-in"></i>ورود و ادامه ی خرید</a>
-                                {% endif %}
 
                                 </form>
                             {% endif %}

@@ -255,7 +255,9 @@
                                         <a href="{% url 'home:brand' id=br.id %}">
                                             <div class="card panel-custom">
                                                 <div class="card-body panel-body-custom">
-                                                    <img src="{{ br.image.url }}">
+                                                    {% if br.image %}
+                                                        <img src="{{ br.image.url }}">
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </a>

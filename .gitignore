@@ -6,3 +6,8 @@ mysite/
 pyvenv.cfg
 
 .mysite
+
+# پوشه ی عکس ها
+media/
+
+Lib/

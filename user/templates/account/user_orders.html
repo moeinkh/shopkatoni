@@ -1,0 +1,57 @@
+{% extends 'home/index.html' %}
+
+{% block title %}
+    سفارشات من
+{% endblock %}
+
+
+{% block content %}
+    <div class="p-2">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <!--start suppliers-->
+    <div class="container mt-4">
+        <div class="table_suppliers mt-4 shadow-sm">
+            <table class="table bg-white table-bordered table-responsive_custom">
+                <thead>
+                <tr class="text-white">
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>مبلغ خرید</th>
+                    <th>وضعیت سفارش</th>
+                    <th>تاریخ سفارش</th>
+                    <th>جزئیات</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in order %}
+                <tr>
+                    <td><span class="span1">{{ item.first_name }}</span></td>
+                    <td><span class="span1">{{ item.last_name }}</span></td>
+                    <td>
+                        <strong class="span1">{{ item.get_total_cost }} تومان</strong>
+                    </td>
+                    <td><strong class="span1
+                        {% if item.status == 'در حال بررسی' %}
+                            text-warning
+                        {% elif item.status == 'ارسال شد' %}
+                            text-success
+                        {% elif item.status == 'کنسل شد' %}
+                            text-danger
+                        {% endif %}">{{ item.status }}</strong></td>
+                    <td><strong class="span1">{{ item.jcreated }}</strong></td>
+                    <td><a href="{% url 'account:orderdetails' id=item.id %}" class="span2">جزئیات</a></td>
+
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'home/index.html' %}
+
+
+{% block title %}
+    جزئیات سفارش محصول
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-10 p-2">
+        <table class="table table-hover">
+            <tr>
+                <th scope="col">نام</th>
+                <td scope="col">{{ order.first_name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">نام نانوادگی</th>
+                <td scope="col">{{ order.last_name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">تلفن</th>
+                <td scope="col">{{ order.phone }}</td>
+            </tr>
+            <tr>
+                <th scope="col">آدرس</th>
+                <td scope="col">{{ order.address }}</td>
+            </tr>
+            <tr>
+                <th scope="col">شهر</th>
+                <td scope="col">{{ order.city }}</td>
+            </tr>
+            <tr>
+                <th scope="col">وضعیت</th>
+                <td scope="col" class="
+                    {% if order.status == 'ارسال شد' %}
+                        text-success
+                    {% elif order.status == 'در حال بررسی' %}
+                        text-warning
+                    {% elif order.status == 'کنسل شد' %}
+                        text-danger
+                    {% endif %}
+                ">{{ order.status }}</td>
+            </tr>
+            <tr>
+                <th scope="col">کد خرید</th>
+                <td scope="col">{{ order.code }}</td>
+            </tr>
+            <tr>
+                <th scope="col">کد تخفیف</th>
+                <td scope="col">
+                    {% if order.coupon %}
+                        {{ order.coupon.code }} ({{ order.discount }}%)
+                    {% else %}
+                        ندارد
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th scope="col">تاریخ</th>
+                <td scope="col">{{ order.jcreated }}</td>
+            </tr>
+        </table>
+    <table class="table table-responsive-md table-hover">
+            <thead>
+                <tr class="bg-info">
+                    <th scope="col">محصول</th>
+                    <th scope="col"></th>
+                    <th scope="col">قیمت</th>
+                    <th scope="col">تعداد</th>
+                    <th scope="col">کل</th>
+                </tr>
+            </thead>
+            <tbody class="bg-light">
+            {% for buy in orderitems %}
+                <tr>
+                    <td>
+                        {% if buy.variant.image_id > 0 %}
+                            <img style="width: 50px; height: 50px" src="{{ buy.variant.product.image.url }}" alt="{{ buy.product.name }}">
+                        {% else %}
+                            <img style="width: 50px; height: 50px" src="{{ buy.variant.product.image.url }}" alt="{{ buy.product.name }}">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'home:details' id=buy.variant.product.id %}">{{ buy.variant.product.name }} {{ order.variant.size }} {{ buy.variant.color }}</a>
+                        <ul>
+                            <li><span>سایز: {{ buy.variant.size }}</span></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <strong>{{ buy.price }} تومان</strong>
+                    </td>
+                    <td><strong>{{ buy.quantity }}</strong></td>
+                    <td><strong>
+                            {{ buy.total_price }}    تومان
+                    </strong></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

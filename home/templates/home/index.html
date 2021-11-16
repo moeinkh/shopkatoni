@@ -58,15 +58,15 @@
                         </a>
                     <div class="dropdown-menu shadow rounnded-0 border-0 dropdown-menu_custom text-center" aria-labelledby="dropdownMenuButton">
                         <div class="text-left">
-                            <a href='{% url 'registration:profile' %}'
+                            <a href='{% url 'account:profile' %}'
                                class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">person</i>پروفایل</a>
-                            <a href='{% url 'registration:orders' %}'
+                            <a href='{% url 'account:orders' %}'
                             class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">assignment_turned_in</i>سفارشات من</a>
                             {% if user.is_superuser %}
-                            <a href='{% url 'registration:adminpnl' %}'
+                            <a href='{% url 'account:adminpnl' %}'
                             class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">dashboard</i>پنل مدیریت</a>
                             {% endif %}
-                            <a href='{% url 'registration:logout' %}'
+                            <a href='{% url 'account_logout' %}'
                             class="dropdown-item border-0 dropdown-item_custom" type="button"><i class="material-icons profile_link pr-2">logout</i>خروج</a>
                         </div>
                     </div>
@@ -77,22 +77,26 @@
                     </a>
                     <div class="dropdown-menu shadow rounnded-0 border-0 dropdown-menu_custom text-center" aria-labelledby="dropdownMenuButton">
                         <div class="btn login_box">
-                            <a href="{% url 'registration:login' %}" class="dropdown-item dropdown-item_custom btn btn-info">ورود به شاپ کتونی</a>
+                            <a href="{% url 'account_login' %}" class="dropdown-item dropdown-item_custom btn btn-info">ورود به شاپ کتونی</a>
                         </div>
                         <ul class="list-inline register">
                             <li class="list-inline-item">کاربر جدید هستید؟</li>
-                            <li class="list-inline-item"><a href="{% url 'registration:signup' %}">ثبت نام</a></li>
+                            <li class="list-inline-item"><a href="{% url 'account_signup' %}">ثبت نام</a></li>
                         </ul>
                     </div>
                     {% endif %}
                 </div>
             </div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-6">
-                <a href="{% url 'order:shopcart' %}" class="btn btn-sm btn-outline-info"><i class="material-icons shopping_cart">shopping_cart</i> سبد خرید
+                <a href="{% url 'cart:shopcart' %}" class="btn btn-sm btn-outline-info"><i class="material-icons shopping_cart">shopping_cart</i> سبد خرید
                     <span class="badge badge-danger">
-                        {% load myapptags %}
-                        {% shopcart_count user.id as count %}
-                        {{ count }}
+                        {% with total_items=cart|length %}
+                                    {% if total_items > 0 %}
+                                        {{ total_items }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                {% endwith %}
                     </span></a>
             </div>
         </div>
@@ -142,6 +146,15 @@
         </div>
     </nav>
 
+    <div class="p-2">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
         <div class="clear"></div>
     {% block slider %}
 
@@ -263,7 +276,7 @@
                         <a target="_blank" href="https://www.instagram.com/shop_katoni_1/"><img src="{% static 'home/img/instagrams.svg' %}" class="px-1" alt="اینستاگرام شاپ کتونی">اینستاگرام شاپ کتونی</a>
                     </div>
                     <div class="social_telegram text-center">
-                        <a href="#"><img src="{% static 'home/img/logo_telegram_airplane_air_plane_paper_airplane_icon_143169.svg' %}" class="px-1" alt="اینستاگرام شاپ کتونی"> تلگرام شاپ کتونی</a>
+                        <a href="#"><img src="{% static 'home/img/logo_telegram_airplane_air_plane_paper_airplane_icon_143169.svg' %}" class="px-1" alt="تلگرام شاپ کتونی"> تلگرام شاپ کتونی</a>
                     </div>
                 </div>
             </div>

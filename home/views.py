@@ -4,7 +4,6 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 
-from order.models import ShopCart
 from product.models import Category, Product, Comment, Images, Variants, Brand, IpAddress, Color, Slider
 from user.models import User
 from .models import Setting, Article
@@ -109,11 +108,6 @@ def katoni(request):
     search_brand = request.GET.get('search_brand')
     search = request.GET.get('search')
     if search_brand:
-        # katonis = Product.objects.filter(Q(name__icontains=search_bar)
-        #                                  | Q(brand__name__icontains=search_bar)
-        #                                  | Q(orderproduct__variant__size__name=search_bar)
-        #                                  | Q(orderproduct__variant__color__name=search_bar)
-        #                                  | Q(status=True)).distinct().order_by('-id')
         katonis = Product.objects.filter(Q(brand__name__in=request.GET.getlist('search_brand'))
                                            | Q(status=True)
                                            | Q(name__icontains=search)).distinct().order_by('-id')

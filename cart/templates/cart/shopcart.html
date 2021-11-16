@@ -1,0 +1,127 @@
+{% extends 'home/index.html' %}
+
+{% block title %}
+    سبد خرید
+{% endblock %}
+
+{% block content %}
+    <!--start suppliers-->
+    <div class="container mt-4">
+        <div class="table_suppliers mt-4 shadow-sm">
+            <table class="table bg-white table-bordered table-responsive_custom">
+                <thead>
+                <tr class="text-white">
+                    <th>نام محصول</th>
+                    <th>رنگ</th>
+                    <th>سایز</th>
+                    <th>قیمت واحد</th>
+                    <th>تعداد</th>
+                    <th>تخفیف</th>
+                    <th>قیمت کل</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cart %}
+                    {% with variant=item.variant %}
+                    <tr>
+                        <td class="table_link">
+                            <img style="width: 50px; height: 50px" src="{{ variant.product.image.url }}" alt="{{ variant.product.name }}">
+                            <a href="{% url 'home:details' id=variant.id %}"><span class="span2">{{ variant.product.name }}</span></a>
+                        </td>
+
+                        <td>
+                            <strong class="span1">{{ variant.color.name }}</strong>
+                        </td>
+
+                        <td>
+                            <strong class="span1">{{ variant.size }}</strong>
+                        </td>
+
+                        <td>
+                        {% if variant.product.discount %}
+                            <strong class="badge badge-success">{{ variant.product.dis_price }}  تومان</strong>
+                        {% else %}
+                            <strong class="badge badge-success">{{ variant.product.price }}تومان</strong>
+                        {% endif %}
+                        </td>
+
+                        <td>
+                            <form action="{% url 'cart:cart_add' variant.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="pro-qty mb-1">
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ variant.number }}">
+                                    <input type="hidden" name="override" value="{{ item.quantity }}">
+                                </div>
+                                <button type="submit" class="primary-btn btn">
+                                    به روز کردن سبد
+                                </button>
+                            </form>
+                        </td>
+
+                        <td>
+                            {% if variant.product.discount.title %}
+                                <strong class="badge badge-success">{{ variant.product.discount.title }}</strong>
+                            {% else %}
+                                <strong class="span1">ندارد</strong>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong class="span1">
+                                 {{ item.total_price }}    تومان
+                            </strong>
+                        </td>
+                        <td>
+                            <form action="{% url 'cart:cart_remove' variant.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" onclick="return confirm('حذف شود؟')">&#10005;</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endwith %}
+                {% endfor %}
+                </tbody>
+                <tfoot class="text-light">
+                    <tr>
+                        <th>هزینه ی کل محصولات </th>
+                        <th colspan="7" class="bg-light text-info">{{ cart.get_total_price }} تومان</th>
+                    </tr>
+                    <tr>
+                        <th>ارسال</th>
+                        <th colspan="7" class="bg-light text-info">{{ post }} تومان</th>
+                    </tr>
+
+                    <tr>
+                        <th>هزینه ی کل پرداختی</th>
+                        <th colspan="7" class="bg-light text-info">
+                            {% if cart.coupon %}
+                                {% with code=cart.coupon.code discount=cart.coupon.discount %}
+                                     کد "{{ code }}"({{ discount }}% تخفیف)
+                                {% endwith %}
+                            {% endif %}
+                                <span>{{ cart.get_total_price_after_discount|floatformat:0 }} تومان</span>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+
+                <div class="col-lg-6 mb-5">
+                    <div>
+                        <div class="m-2">
+                            <h5>کد تخفیف</h5>
+                            <form action="{% url 'coupons:coupon_apply' %}" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="code" placeholder="کد تخفیف را وارد نمایید">
+                                <button type="submit" class="btn btn-primary btn-sm">ثبت کد تخفیف</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        {% if cart %}
+            <a href="{% url 'order:orderproduct' %}" class="btn btn_custom2 mb-2 shadow-sm"><i class="material-icons">shopping_cart</i>تکمیل خرید</a>
+        {% endif %}
+        </div>
+    </div>
+
+
+{% endblock %}
