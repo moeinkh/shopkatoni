@@ -375,6 +375,13 @@ a {
     border-bottom: 0 !important;
 }
 
+@media (max-width: 660px) {
+    .card-custom {
+        border: 1px solid #d60012;
+        border-bottom: 0 !important;
+    }
+}
+
 
 /* .................... start ads  .................... */
 .ads img {

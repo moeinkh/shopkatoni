@@ -9,7 +9,7 @@ from .decorators import unauthenticated_user, allowed_users
 # Create your views here.
 from django.urls import reverse
 
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Max
 from order.models import Order, OrderProduct
 from product.models import Category, Product
 from user.forms import UserEditForm
@@ -70,7 +70,16 @@ def user_orderdetails(request, id):
 
 @allowed_users
 def adminpnl(request):
-    sale = OrderProduct.objects.values('order__status', 'product__name').annotate(Sum('quantity'), Sum('total_price')).order_by('-quantity__sum')
+    sale = OrderProduct.objects.filter(order__status='ارسال شد').values(
+        'product__name',
+        ).annotate(
+            Sum('quantity'), 
+            Max('product__purchase_price'),
+            Max('product__price'),
+            Sum('total_price'),
+            each_income = Max('product__price') - Max('product__purchase_price'),
+            income = Sum('quantity') * (Max('product__price') - Max('product__purchase_price'))
+            ).order_by('-quantity__sum')    
 
     user_activity_objects = OnlineUserActivity.get_user_activities()
     number_of_active_users = user_activity_objects.count()
@@ -80,7 +89,7 @@ def adminpnl(request):
         'users_count': User.objects.all().count(),
         'sale': sale,
         'number_of_active_users': number_of_active_users,
-        'pro_count': Product.objects.all()
+        'pro_count': Product.objects.all(),
     }
     return render(request, 'account/admin_panel.html', context)
 

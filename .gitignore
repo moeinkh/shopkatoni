@@ -10,4 +10,6 @@ pyvenv.cfg
 # پوشه ی عکس ها
 media/
 
+static/
+
 Lib/

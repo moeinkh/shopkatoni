@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -20,7 +20,7 @@ def home(request):
         'product': Product.objects.all(),
         'brand': Brand.objects.all(),
         'news': Product.objects.all().order_by('-id')[:5],
-        'discount': Product.objects.filter(takhfif=True),
+        'discount': Product.objects.filter(discount_price=True),
         'articles': Article.objects.all(),
         'sliders': Slider.objects.all().order_by('-id')[:4]
     }
@@ -28,12 +28,14 @@ def home(request):
 
 
 def about(request):
-    setting = Setting.objects.get(pk=1)
+    setting = get_object_or_404(Setting, pk=1)
     context = {
         'setting': setting
     }
-    return render(request, 'home/about.html', context)
-
+    try: 
+        return render(request, 'home/about.html', context)
+    except:
+        return redirect('home:home')
 
 def articles(request):
     context = {
@@ -233,9 +235,9 @@ def discounts(request):
                                            | Q(orderproduct__variant__size__name=search_bar)
                                            | Q(orderproduct__variant__color__name=search_bar)
                                            | Q(status=True)
-                                           & Q(takhfif=True)).distinct().order_by('-id')
+                                           & Q(discount_price=True)).distinct().order_by('-id')
     else:
-        discounts = Product.objects.filter(takhfif=True).order_by('-id')
+        discounts = Product.objects.filter(discount_price=True).order_by('-id')
 
     product_filter = ProductFilter(request.GET, queryset=discounts)
 

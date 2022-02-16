@@ -3,6 +3,7 @@ from .models import Coupon
 from .forms import CouponApplyForm
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from django.contrib import messages
 
 # Create your views here.
 @require_POST
@@ -17,6 +18,8 @@ def coupon_apply(request):
                                         valid_to__gte=now,
                                         active=True)
             request.session['coupon_id'] = coupon.id
+            messages.success(request, 'تبریک!! کد تخفیف با موفقیت اعمال شد.')
         except Coupon.DoesNotExist:
             request.session['coupon_id'] = None
+            messages.error(request, 'متاسفم!! چنین کد تخفیفی وجود ندارد.')
     return redirect('cart:shopcart')

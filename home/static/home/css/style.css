@@ -374,6 +374,10 @@ a {
     border-radius: 100%;
 }
 
+@media (max-width: 660px) {
+    
+}
+
 /* .................... inside start slider plugin .................... */
 .panel-cutom2 {
     margin-bottom: 0 !important;

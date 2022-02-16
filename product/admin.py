@@ -30,7 +30,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id', 'brand', 'category', 'gender', 'making', 'status', 'price', 'dis_price', 'discount', 'image_tag']
+    list_display = ['name', 'id', 'brand', 'category', 'gender', 'making', 'status', 'purchase_price', 'price', 'dis_price', 'discount', 'image_tag']
     list_filter = ['category', 'making', 'gender', 'status']
     readonly_fields = ('image_tag',)
     inlines = [ProductImageInline, ProductVariantsInline]
@@ -42,15 +42,15 @@ class ProductAdmin(admin.ModelAdmin):
 
         for v in queryset:
             if v.discount is not None:
-                v.takhfif = True
+                v.discount_price = True
                 dis = v.discount.discount
                 v.dis_price = ceil(v.price - dis)
-                v.save(update_fields=['dis_price', 'takhfif'])
+                v.save(update_fields=['dis_price', 'discount_price'])
     dis.short_description = 'اعمال تخفیف'
 
 
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name']
+    list_display = ['name']
     list_filter = ['created']
 
 

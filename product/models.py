@@ -69,7 +69,8 @@ class Product(models.Model):
     name = models.CharField('اسم', max_length=50)
     description = models.TextField('توضیحات')
     price = models.IntegerField('قیمت', default=0)
-    takhfif = models.BooleanField('تخفیف', default=False)
+    purchase_price = models.IntegerField('قیمت خرید', default=0)
+    discount_price = models.BooleanField('تخفیف', default=False)
 
     image = models.ImageField('عکس', upload_to='katoni_images/', null=True, blank=True)
 
@@ -104,7 +105,9 @@ class Product(models.Model):
         ('Size-Color', 'Size-Color'),
     )
     variant = models.CharField('مشخصات', max_length=10, choices=VARIANTS, default='Size-Color')
+    
     hits = models.ManyToManyField(IpAddress, blank=True, related_name='hits', verbose_name='بازدید ها')
+    
     created = models.DateTimeField('ایجاد', auto_now_add=True)
     updated = models.DateTimeField('به روز رسانی', auto_now=True)
 

@@ -93,7 +93,7 @@
   <!-- ..........................................Main Sidebar Container.......................................... -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{% url 'home:home' %}" class="brand-link">
       <img src="{% static 'home/adminLTE/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text">شاپ کتونی</span>
@@ -310,19 +310,25 @@
                 <th>#</th>
                 <th>نام محصول</th>
                 <th>تعداد فروش</th>
+                <th>قیمت خرید</th>
+                <th>قیمت فروش</th>
                 <th>کل فروش</th>
+                <th>سود تکی</th>
+                <th>کل سود</th>
               </tr>
             </thead>
             <tbody>
             {% for order in sale %}
-                {% if order.order__status == 'ارسال شد' %}
-                    <tr>
-                      <td>{{ forloop.counter }}</td>
-                      <td>{{ order.product__name }}</td>
-                      <td>{{ order.quantity__sum }} عدد</td>
-                      <td>{{ order.total_price__sum }} تومان</td>
-                    </tr>
-                {% endif %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.product__name }}</td>
+                <td>{{ order.quantity__sum }} عدد</td>
+                <td>{{ order.product__purchase_price__max }} عدد</td>
+                <td>{{ order.product__price__max }} عدد</td>
+                <td>{{ order.total_price__sum }} تومان</td>
+                <td>{{ order.each_income }} تومان</td>
+                <td>{{ order.income }} تومان</td>
+              </tr>
             {% endfor %}
             </tbody>
           </table>

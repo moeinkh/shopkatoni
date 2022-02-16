@@ -60,7 +60,7 @@ class OrderProduct(models.Model):
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name='سفارش')
     variant = models.ForeignKey(Variants, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='مشخصه')  # relation with variant
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='محصول')
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, related_name='product_orderitem', null=True, verbose_name='محصول')
     quantity = models.IntegerField('تعداد')
     price = models.IntegerField('قیمت')
     total_price = models.PositiveIntegerField('قیمت کامل')

@@ -143,11 +143,17 @@ def order_create(request):
             request.session['coupon_id'] = None
             # set order in session
             request.session['order_id'] = order.id
-            # تنظیمات ارسال فاکتور خرید با ایمیل
-            subject = 'ثبت سفارش'
-            message = f'با سلام و خسته نباشید {request.user.username}'
-            send_mail(subject, message, 'coolgertn@gmail.com', [request.user.email], fail_silently=False)
-            return redirect(reverse('home:home'))
+            try:
+                # تنظیمات ارسال فاکتور خرید با ایمیل
+                subject = 'ثبت سفارش'
+                message = f'با سلام و خسته نباشید {request.user.username}'
+                send_mail(subject, message, 'coolgertn@gmail.com', [request.user.email], fail_silently=False)
+                messages.success(request, 'خرید با موفقیت ثبت شد.')
+                return redirect(reverse('home:home'))
+            except SMTPAuthenticationError:
+                messages.success(request, 'خرید با موفقیت ثبت شد.')
+                return redirect(reverse('home:home'))
+
     else:
         form = OrderForm()
     return render(request, 'order/orderproduct.html', {
