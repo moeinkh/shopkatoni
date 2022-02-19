@@ -13,5 +13,3 @@ db.sqlite3
 .idea
 
 include/
-
-static/
