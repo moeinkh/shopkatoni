@@ -48,7 +48,18 @@
             <div class="col-lg-2 col-md-3 col-sm-3 col-6 pr-2 box-logo">
                 <span class="logo"></span>
             </div>
-            <div class="col-lg-6"></div>
+            <div class="col-lg-6 col-md-4">
+                <form action="">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control rounded-right input_search" placeholder="نام کالا یا برند مورد نظر خود را جستجو نمایید...">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text rounded-left custom-input-group-text">
+                                <a href=""><i class="material-icons">search</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="col-lg-2 col-md-3 col-sm-3 col-6 dropdown_custom text-right">
                 <div class="dropdown">
                     {% if user.is_authenticated %}
@@ -310,13 +321,13 @@
         </div>
     </div>
     <footer class="container-fluid py-1"> 
-        <div class="row pr-5 pt-5">
+        <!-- <div class="row pr-5 pt-5">
             <div class="col-lg-6 col-12 footer_katoni">
                 <p>فروشگاه اینترنتی شاپ کتونی، خرید مطمئن</p>
                 <span>شاپ کتونی به عنوان یکی از قدیمی‌ترین فروشگاه های اینترنتی با بیش از یک دهه تجربه، با پایبندی به سه اصل کلیدی، پرداخت در محل، 7 روز ضمانت بازگشت کالا و تضمین اصل‌بودن کالا، موفق شده تا همگام با فروشگاه‌های معتبر جهان، به بزرگ‌ترین فروشگاه اینترنتی ایران تبدیل شود. به محض ورود به دیجی‌کالا با یک سایت پر از کالا رو به رو می‌شوید! هر آنچه که نیاز دارید و به ذهن شما خطور می‌کند در اینجا پیدا خواهید کرد.</span>
             </div>
-        </div>
-        <div class="border_bottom1"></div>
+        </div> -->
+        <!-- <div class="border_bottom1"></div> -->
         <div class="container text-center copyright pt-3">
             <p>استفاده از مطالب فروشگاه اینترنتی شاپ کتونی فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است. کلیه حقوق این سایت متعلق به فروشگاه شاپ کتونی می‌باشد.</p>
         </div>

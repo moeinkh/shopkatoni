@@ -1,15 +1,17 @@
-.idea/
+Lib/
 
-# VirtualEnv
 mysite/
+
+media/
 
 pyvenv.cfg
 
 .mysite
 
-# پوشه ی عکس ها
-media/
+db.sqlite3
+
+.idea
+
+include/
 
 static/
-
-Lib/

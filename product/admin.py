@@ -8,6 +8,7 @@ from product.models import Category, Product, Size, Images, Comment, Color, Vari
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'parent']
     list_filter = ['title']
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin_thumbnails.thumbnail('image')
@@ -34,6 +35,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['category', 'making', 'gender', 'status']
     readonly_fields = ('image_tag',)
     inlines = [ProductImageInline, ProductVariantsInline]
+    prepopulated_fields = {'slug': ('name',)}
 
     actions = ['dis']
 
@@ -52,6 +54,7 @@ class ProductAdmin(admin.ModelAdmin):
 class BrandAdmin(admin.ModelAdmin):
     list_display = ['name']
     list_filter = ['created']
+    prepopulated_fields = {'slug': ('name',)}
 
 
 class CommentAdmin(admin.ModelAdmin):

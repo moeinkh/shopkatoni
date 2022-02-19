@@ -23,13 +23,6 @@
 {% block content %}
         <!--start product -->
     <div class="container-fluid box_product">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}" role="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
         <div class="row">
 
             <div class="col-lg-4 bg-white">
@@ -89,7 +82,7 @@
                                 <li class="list-inline-item">
                                     <span>برند</span>
                                     :
-                                    <span><a href="{% url 'home:brand' id=product.brand.id %}">{{ product.brand }}</a></span>
+                                    <span><a href="{{ product.brand.get_absolute_url }}">{{ product.brand }}</a></span>
                                 </li>
                             </ul>
                         </div>

@@ -84,7 +84,7 @@
                             <div class="owl-carousel owl-theme">
                                 {% for dis in discount %}
                                     <div class="item">
-                                        <a href="{% url 'home:details' id=dis.id %}">
+                                        <a href="{{ dis.get_absolute_url }}">
                                             <div class="card panel-custom">
                                                 <div class="card-body panel-body-custom">
                                                     <img src="{{ dis.image.url }}">
@@ -124,7 +124,7 @@
 
                                 {% for pro in product %}
                                     <div class="item">
-                                        <a href="{% url 'home:details' id=pro.id %}">
+                                        <a href="{{ pro.get_absolute_url }}">
                                             <div class="card panel-custom">
                                                 <div class="card-body panel-body-custom">
                                                     <img style="height: 150px !important;" src="{{ pro.image.url }}">
@@ -159,7 +159,7 @@
                                     <div class="card-header card-header-custom text-center">پیشنهاد های لحظه ای</div>
                                 </div>
                                 <div class="item">
-                                    <a href="{% url 'home:details' id=new.id %}">
+                                    <a href="{{ new.get_absolute_url }}">
                                         <div class="card panel-cutom2 shadow-sm">
                                             <div class="card-body text-center panel-body-custom">
                                                 <img src="{{ new.image.url }}" style="width: 250px; height: 300px;" class="img-fluid" alt="">
@@ -197,7 +197,7 @@
                             <div class="owl-carousel owl-theme">
                                 {% for new in news %}
                                     <div class="item">
-                                        <a href="{% url 'home:details' id=new.id %}">
+                                        <a href="{{ new.get_absolute_url }}">
                                             <div class="card panel-custom">
                                                 <div class="card-body panel-body-custom">
                                                     <img src="{{ new.image.url }}">
@@ -252,7 +252,7 @@
 
                                 {% for br in brand %}
                                     <div class="item1">
-                                        <a href="{% url 'home:brand' id=br.id %}">
+                                        <a href="{{ br.get_absolute_url }}">
                                             <div class="card panel-custom">
                                                 <div class="card-body panel-body-custom">
                                                     {% if br.image %}

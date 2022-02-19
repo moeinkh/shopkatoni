@@ -51,9 +51,9 @@ def details_articles(request, id):
     return render(request, 'home/details_articles.html', context)
 
 
-def details(request, id):
+def details(request, id, slug):
     query = request.GET.get('q')
-    product = Product.objects.get(pk=id)
+    product = get_object_or_404(Product, id=id, slug=slug)
     category = Category.objects.all()
 
     for ip_address in IpAddress.objects.all():
@@ -105,16 +105,28 @@ def ajaxcolor(request):
     return JsonResponse(data)
 
 
-def katoni(request):
-    category = Category.objects.all()
+def katoni(request, brand_slug=None, category_slug=None):
+    category = None
+    categories = Category.objects.all()
+    brand = None
+    brands = Brand.objects.all()
+    katonis = Product.objects.all().order_by('-id')
+
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        katonis = katonis.filter(category=category)
+    elif brand_slug:
+        brand = get_object_or_404(Brand, slug=brand_slug)
+        katonis = katonis.filter(brand=brand)
+
+
+
     search_brand = request.GET.get('search_brand')
     search = request.GET.get('search')
     if search_brand:
         katonis = Product.objects.filter(Q(brand__name__in=request.GET.getlist('search_brand'))
                                            | Q(status=True)
                                            | Q(name__icontains=search)).distinct().order_by('-id')
-    else:
-        katonis = Product.objects.all().order_by('-id')
 
     product_filter = ProductFilter(request.GET, queryset=katonis)
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
@@ -203,27 +215,6 @@ def feminine(request):
         'pro_count': Product.objects.filter(gender=2).count(),
     }
     return render(request, 'home/feminine.html', context)
-
-
-def brand(request, id):
-    category = Category.objects.all()
-    search_bar = request.GET.get('search_bar')
-    if search_bar:
-        n_brand = Product.objects.filter(Q(name__icontains=search_bar)
-                                         | Q(status=True)
-                                         & Q(brand=id)).distinct().order_by('-id')
-    else:
-        n_brand = Product.objects.filter(brand=id).order_by('-id')
-    pagination = Paginator(n_brand, 20)
-    page_number = request.GET.get('page')
-    pages = pagination.get_page(page_number)
-    context = {
-        'category': category,
-        'pages': pages,
-        'pagination': pagination,
-        'search_bar': search_bar,
-    }
-    return render(request, 'home/brand.html', context)
 
 
 def discounts(request):

@@ -1,6 +1,7 @@
 from extensions.utils import jalali_converter
 from user.models import User
 from django.db import models
+from django.urls import reverse
 
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
@@ -16,11 +17,15 @@ class Category(models.Model):
 
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE, verbose_name='زیردسته')
     title = models.CharField('عنوان', max_length=50)
+    slug = models.SlugField('اسلاگ', max_length=50)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('home:katoni_category', args=[self.slug])
 
 
 class Brand(models.Model):
@@ -28,12 +33,16 @@ class Brand(models.Model):
         verbose_name = 'برند'
         verbose_name_plural = 'برند'
     name = models.CharField('اسم', max_length=50)
+    slug = models.SlugField('اسلاگ', max_length=50)
     image = models.ImageField('عکس', upload_to='katoni_images/', null=True, blank=True)
     created = models.DateTimeField('ایجاد', auto_now_add=True)
     updated = models.DateTimeField('به روز رسانی', auto_now=True)
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('home:katoni_brand', args=[self.slug])
 
 
 class IpAddress(models.Model):
@@ -67,6 +76,7 @@ class Product(models.Model):
     discount = models.ForeignKey(Discount, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='تخفیف')
     dis_price = models.PositiveIntegerField('قیمت با تخفیف', blank=True, null=True)
     name = models.CharField('اسم', max_length=50)
+    slug = models.SlugField('اسلاگ', max_length=50)
     description = models.TextField('توضیحات')
     price = models.IntegerField('قیمت', default=0)
     purchase_price = models.IntegerField('قیمت خرید', default=0)
@@ -118,6 +128,9 @@ class Product(models.Model):
         return format_html('<img src="{}" height="50" width="75" style="border-radius: 5px" />'.format(self.image.url))
 
     image_tag.short_description = 'عکس'
+
+    def get_absolute_url(self):
+        return reverse('home:details', args=[str(self.id), self.slug])
 
 
 class Color(models.Model):
