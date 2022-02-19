@@ -1,0 +1,48 @@
+[33mcommit 0a93061cd5c77aa5457dc787501fca44b7145622[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Merge: 02136ec8 0158ab04
+Author: moein <moeinkhorami99@gmail.com>
+Date:   Sat Feb 19 20:52:48 2022 +0330
+
+    add statics
+
+[33mcommit 02136ec89fc18053334215449f0a26fa0836b192[m
+Author: moein <moeinkhorami99@gmail.com>
+Date:   Sat Feb 19 20:16:37 2022 +0330
+
+    bug fixed & urls fixed
+
+[33mcommit 0158ab04d987bc7a8d063e9e3f1a20d090cefc74[m
+Author: moeinkh <52105205+moeinkh@users.noreply.github.com>
+Date:   Wed Feb 16 20:11:59 2022 +0330
+
+    Delete user/static/user directory
+
+[33mcommit 6737ec4b67fdd97a79d2dd4e72b8369ef472f1c2[m
+Author: moeinkh <52105205+moeinkh@users.noreply.github.com>
+Date:   Wed Feb 16 20:09:55 2022 +0330
+
+    Delete static directory
+
+[33mcommit 77a9bd56408cbbfccb5a0c5c66fcf7ea9df1d8a9[m
+Author: moeinkh <52105205+moeinkh@users.noreply.github.com>
+Date:   Wed Feb 16 20:09:19 2022 +0330
+
+    Delete home/static/home directory
+
+[33mcommit 3c5fd09821a6851b8803fc075c91162350f52dad[m
+Author: moein <moeinkhorami99@gmail.com>
+Date:   Wed Feb 16 20:05:56 2022 +0330
+
+    bug fixed and config admin panel for sale product
+
+[33mcommit 1bc12ecf5c05d3da982f6e225d439302a2c000eb[m
+Author: moeinkhorami <moeinkhorami99@gmail.com>
+Date:   Tue Nov 16 15:04:00 2021 +0330
+
+    update project
+
+[33mcommit 3d9312bbabcf7351ff65f0ce5237af3d13b46d3b[m
+Author: moeinkhorami <moeinkhorami99@gmail.com>
+Date:   Tue Aug 10 00:13:50 2021 +0430
+
+    Add Project
