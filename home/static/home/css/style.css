@@ -1051,6 +1051,56 @@ input[type="checkbox"].bigswitch.ios-switch:checked + div > div {
     color: #464646;
 }
 
+@media (max-width: 700px) {
+    .full_product-box {
+        position: relative;
+    }
+
+    .product-box a .text_product {
+        float: left;
+        padding-left: 30px;
+        text-align: center;
+    }
+    
+    .product-box a .text_product .title {
+        position: absolute;
+        font-size: 15px;
+        right: 120px;
+    }
+    
+    .product-box a .text_product .price {
+        position: absolute;
+        font-size: 12px;
+        padding: 0 10px;
+        bottom: 1px;
+        left: 5px;
+    }    
+    
+    .product-box a img {
+        float: right;
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .box_rate {
+        position: absolute;
+        font-size: 10px;
+        display: inline;
+        background: #f9f9f9;
+        color: #9a9a9a;
+        margin-bottom: 0;
+        bottom: 0;
+    }
+    
+    .box_rate i {
+        font-size: 15px;
+        vertical-align: -6px;
+        padding-left: 3px;
+        margin-bottom: 0;
+    }
+    
+}
+
 
 /* ....................................... PRODUCT PAGE ...................................... */
 /*start product*/

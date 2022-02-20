@@ -1,182 +1,15 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>پنل مدیریت | {{ user.get_full_name }}</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/plugins/fontawesome-free/css/all.min.css' %}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/plugins/jqvmap/jqvmap.min.css' %}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/dist/css/adminlte.min.css' %}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/plugins/daterangepicker/daterangepicker.css' %}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/plugins/summernote/summernote-bs4.css' %}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <!-- Bootstrap 4 RTL -->
-  <link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css">
-  <!-- Custom style for RTL -->
-  <link rel="stylesheet" href="{% static 'home/adminLTE/dist/css/custom.css' %}">
-</head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="{% url 'home:home' %}" class="nav-link">صفحه اصلی</a>
-      </li>
-    </ul>
-
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav mr-auto-navbav">
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">{{ count }}</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">{% if count == 0 %} سفارش ندارین {% else %} سفارش {{ count }} {% endif %}</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-              {% if count != 0 %}
-                  <i class="fas fa-file mr-2"></i> {{ forloop.counter }}  سفارش جدید
-              {% endif %}
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">دیدن همه ی سفارشات</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
+{% extends "account/index_admin_panel.html" %}
 
 
+{% block title %}
+پنل مدیریت | {{ user.get_full_name }}
+{% endblock title %}
 
-  <!-- ..........................................Main Sidebar Container.......................................... -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="{% url 'home:home' %}" class="brand-link">
-      <img src="{% static 'home/adminLTE/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text">شاپ کتونی</span>
-    </a>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{% static 'home/adminLTE/dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">{{ user.get_full_name }}</a>
-        </div>
-      </div>
+{% block content %}
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                مدیریت
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'account:adminpnl' %}" class="nav-link active">
-                  <i class="fa fa-list nav-icon"></i>
-                  <p>پنل مدیریت</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/order/order/" target="_blank" class="nav-link">
-                  <i class="fa fa-shopping-basket nav-icon"></i>
-                  <p>سفارشات</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/user/user/" target="_blank" class="nav-link">
-                  <i class="fa fa-user-friends nav-icon"></i>
-                  <p>کاربران</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fa fa-user-circle"></i>
-              <p>
-                پروفایل
-                <span class="right badge badge-danger">جدید</span>
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">پنل مدیریت سایت شاپ کتونی</h1>
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-  <!-- ..........................................Main Sidebar Container.......................................... -->
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
+<!-- Main content -->
+<section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div class="row">
@@ -191,7 +24,7 @@
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="/admin/order/order/" target="_blank" class="small-box-footer">دیدن همه ی سفارشات <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{% url 'account:admin_orders' %}" class="small-box-footer">دیدن همه ی سفارشات <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -206,7 +39,7 @@
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">دیدن همه ی اجناس <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{% url 'account:admin_products' %}" class="small-box-footer">دیدن همه ی اجناس <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -221,7 +54,7 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="/admin/user/user/" target="_blank" class="small-box-footer">دیدن همه ی کاربران <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{% url 'account:admin_users' %}" class="small-box-footer">دیدن همه ی کاربران <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -245,152 +78,98 @@
         </div>
 
       </div>
-    </section>
-    <!-- /.content -->
-
-{# -------------------ORDERS------------------ #}
-    <div class="col-12">
-      <div class="card">
-        <!-- /.card-header -->
-        <div class="card-body table-responsive p-0">
-          <table class="table table-hover" style="font-size: 13px;">
-            <thead>
-              <tr>
-                <th>نام</th>
-                <th>نام خانوادگی</th>
-                <th>تاریخ</th>
-                <th>مبلغ</th>
-                <th>وضعیت</th>
-                <th>کد پستی</th>
-                <th>شهر</th>
-                <th>آدرس</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% if orders %}
-            {% for order in orders %}
-              <tr>
-                <td>{{ order.first_name }}</td>
-                <td>{{ order.last_name }}</td>
-                <td>{{ order.jcreated }}</td>
-                <td>{{ order.total }} تومان</td>
-                <td class="badge
-              {% if order.status == 'ارسال شد' %}
-                  badge-success
-              {% elif order.status == 'در حال بررسی' %}
-                  badge-warning
-              {% elif order.status == 'کنسل شد' %}
-                  badge-danger
-              {% endif %}
-                  ">{{ order.status}}</td>
-                <td><span class="tag tag-warning">{{ order.postal_code }}</span></td>
-                <td>{{ order.city}}</td>
-                <td>{{ order.address}}</td>
-              </tr>
-            {% endfor %}
-            {% else %}
-                <td colspan="8"><p>سفارشی ندارین :)</p></td>
-            {% endif %}
-            </tbody>
-          </table>
-        </div>
-        <!-- /.card-body -->
-      </div>
-      <!-- /.card -->
-    </div>
+</section>
+<!-- /.content -->
 
 
-  <div class="col-12">
-      <div class="card">
-        <!-- /.card-header -->
-        <div class="card-body table-responsive p-0">
-          <table class="table table-hover" style="font-size: 15px;">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>نام محصول</th>
-                <th>تعداد فروش</th>
-                <th>قیمت خرید</th>
-                <th>قیمت فروش</th>
-                <th>کل فروش</th>
-                <th>سود تکی</th>
-                <th>کل سود</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for order in sale %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ order.product__name }}</td>
-                <td>{{ order.quantity__sum }} عدد</td>
-                <td>{{ order.product__purchase_price__max }} عدد</td>
-                <td>{{ order.product__price__max }} عدد</td>
-                <td>{{ order.total_price__sum }} تومان</td>
-                <td>{{ order.each_income }} تومان</td>
-                <td>{{ order.income }} تومان</td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <!-- /.card-body -->
-      </div>
-      <!-- /.card -->
+<div class="col-12">
+  <div class="card">
+    <!-- /.card-header -->
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover" style="font-size: 13px;">
+        <thead>
+          <tr>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>تاریخ</th>
+            <th>مبلغ</th>
+            <th>وضعیت</th>
+            <th>کد پستی</th>
+            <th>شهر</th>
+            <th>آدرس</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if orders %}
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.first_name }}</td>
+            <td>{{ order.last_name }}</td>
+            <td>{{ order.jcreated }}</td>
+            <td>{{ order.total }} تومان</td>
+            <td class="badge
+          {% if order.status == 'ارسال شد' %}
+              badge-success
+          {% elif order.status == 'در حال بررسی' %}
+              badge-warning
+          {% elif order.status == 'کنسل شد' %}
+              badge-danger
+          {% endif %}
+              ">{{ order.status}}</td>
+            <td><span class="tag tag-warning">{{ order.postal_code }}</span></td>
+            <td>{{ order.city}}</td>
+            <td>{{ order.address}}</td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <td colspan="8">
+            <p>سفارشی ندارین :)</p>
+          </td>
+          {% endif %}
+        </tbody>
+      </table>
     </div>
-    </div>
+    <!-- /.card-body -->
   </div>
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>راه ارتباطی: 09182361853</strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Shop_Katoni</b>
-    </div>
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+  <!-- /.card -->
 </div>
-<!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="{% static 'home/adminLTE/plugins/jquery/jquery.min.js' %}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{% static 'home/adminLTE/plugins/jquery-ui/jquery-ui.min.js'%}"></script>
-<!-- Resolve ' %}conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 rtl -->
-<script src="https://cdn.rtlcss.com/bootstrap/v4.2.1/js/bootstrap.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{% static 'home/adminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- ChartJS -->
-<script src="{% static 'home/adminLTE/plugins/chart.js/Chart.min.js' %}"></script>
-<!-- Sparkline -->
-<script src="{% static 'home/adminLTE/plugins/sparklines/sparkline.js' %}"></script>
-<!-- JQVMap -->
-<script src="{% static 'home/adminLTE/plugins/jqvmap/jquery.vmap.min.js' %}"></script>
-<script src="{% static 'home/adminLTE/plugins/jqvmap/maps/jquery.vmap.world.js' %}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{% static 'home/adminLTE/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
-<!-- daterangepicker -->
-<script src="{% static 'home/adminLTE/plugins/moment/moment.min.js' %}"></script>
-<script src="{% static 'home/adminLTE/plugins/daterangepicker/daterangepicker.js' %}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{% static 'home/adminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
-<!-- Summernote -->
-<script src="{% static 'home/adminLTE/plugins/summernote/summernote-bs4.min.js' %}"></script>
-<!-- overlayScrollbars -->
-<script src="{% static 'home/adminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static 'home/adminLTE/dist/js/adminlte.js' %}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{% static 'home/adminLTE/dist/js/pages/dashboard.js' %}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{% static 'home/adminLTE/dist/js/demo.js' %}"></script>
-</body>
-</html>
+
+<div class="col-12">
+  <div class="card">
+    <!-- /.card-header -->
+    <div class="card-body table-responsive p-0">
+      <table class="table table-hover" style="font-size: 13px;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>نام محصول</th>
+            <th>تعداد فروش</th>
+            <th>قیمت خرید</th>
+            <th>قیمت فروش</th>
+            <th>کل فروش</th>
+            <th>سود تکی</th>
+            <th>کل سود</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in sale %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ order.product__name }}</td>
+            <td>{{ order.quantity__sum }} عدد</td>
+            <td>{{ order.product__purchase_price__max }} عدد</td>
+            <td>{{ order.product__price__max }} عدد</td>
+            <td>{{ order.total_price__sum }} تومان</td>
+            <td>{{ order.each_income }} تومان</td>
+            <td>{{ order.income }} تومان</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- /.card-body -->
+  </div>
+</div>  
+
+{% endblock content %}

@@ -93,3 +93,26 @@ def adminpnl(request):
     }
     return render(request, 'account/admin_panel.html', context)
 
+@allowed_users
+def admin_orders(request):
+    orders = Order.objects.all()
+
+    return render(request, 'account/admin_orders.html', {
+        'orders': orders
+    })
+
+@allowed_users
+def admin_products(request):
+    products = Product.objects.all()
+
+    return render(request, 'account/admin_products.html', {
+        'products': products
+    })
+
+@allowed_users
+def admin_users(request):
+    users = User.objects.all()
+
+    return render(request, 'account/admin_users.html', {
+        'users': users
+    })

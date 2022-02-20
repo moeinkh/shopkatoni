@@ -1,0 +1,67 @@
+{% extends "account/index_admin_panel.html" %}
+
+
+{% block title %}
+مدیریت اجناس | {{ user.get_full_name }}
+{% endblock title %}
+
+{% block content %}
+
+<div class="col-12">
+    <div class="card">
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover" style="font-size: 13px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم</th>
+              <th>برند</th>
+              <th>دسته بندی</th>
+              <th>جنسیت</th>
+              <th>ساخت</th>
+              <th>وضعیت</th>
+              <th>قیمت خرید</th>
+              <th>قیمت فروش</th>
+              <th>تخفیف</th>
+              <th>قیمت با تخفیف</th>
+              <th>تصویر</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.brand }}</td>
+                <td>{{ product.category }}</td>
+                <td>{{ product.get_gender_display }}</td>
+                <td>{{ product.get_making_display }}</td>
+                {% if product.status %}
+                    <td class="badge-success">موجود</td>
+                {% else %}
+                    <td class="badge-danger">ناموجود</td>
+                {% endif %}
+                <td>{{ product.purchase_price }} تومان</td>
+                <td>{{ product.price }} تومان</td>
+                {% if product.discount_price %}
+                    <td class="badge-success">{{ product.discount_price }} تومان</td>
+                {% else %}
+                    <td class="badge-danger">ندارد</td>
+                {% endif %}
+                {% if product.dis_price %}
+                    <td class="badge-success">{{ product.dis_price }} تومان</td>
+                {% else %}
+                    <td class="badge-danger">ندارد</td>
+                {% endif %}
+                <td class="m-0">{{ product.image_tag }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>  
+  
+{% endblock content %}

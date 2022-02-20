@@ -1,0 +1,57 @@
+{% extends "account/index_admin_panel.html" %}
+
+
+{% block title %}
+مدیریت سفارشات | {{ user.get_full_name }}
+{% endblock title %}
+
+{% block content %}
+
+<div class="col-12">
+    <div class="card">
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover" style="font-size: 13px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>کاربر</th>
+              <th>سفارش به نام</th>
+              <th>کد خرید</th>
+              <th>تلفن</th>
+              <th>شهر</th>
+              <th>کد پستی</th>
+              <th>وضعیت</th>
+              <th>وضعیت پرداخت</th>
+              <th>تاریخ سفارش</th>
+              <th>مبلغ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ order.user.username }}</td>
+              <td>{{ order.first_name }} {{ order.last_name }}</td>
+              <td>{{ order.code }}</td>
+              <td>{{ order.phone }}</td>
+              <td>{{ order.city }}</td>
+              <td>{{ order.postal_code }}</td>
+              <td>{{ order.status }}</td>
+              {% if order.paid %}
+                <td class="badge-success">پرداخت شد</td>
+              {% else %}
+                <td class="badge-danger">پرداخت نشده است</td>
+              {% endif %}
+              <td>{{ order.jcreated }}</td>
+              <td>{{ order.get_total_cost }} تومان</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>  
+  
+{% endblock content %}
