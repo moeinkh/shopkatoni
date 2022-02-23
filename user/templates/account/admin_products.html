@@ -6,6 +6,25 @@
 {% endblock title %}
 
 {% block content %}
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-sm-6">
+      <h1 class="m-0 text-dark">پنل مدیریت اجناس</h1>
+  </div><!-- /.row -->
+
+  <!-- SEARCH FORM -->
+  <form method="get" class="form-inline ml-3">
+    <div class="input-group input-group-sm">
+      <input class="form-control form-control-navbar" name="search" type="search" placeholder="جستجو نام محصول یا نام برند" aria-label="Search">
+      <div class="input-group-append">
+        <button class="btn btn-navbar" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div><!-- /.container-fluid -->
+</div>
 
 <div class="col-12">
     <div class="card">
@@ -32,7 +51,7 @@
             {% for product in products %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ product.name }}</td>
+                <td><a href="{% url 'account:admin_products_details' id=product.id slug=product.slug %}">{{ product.name }}</a></td>
                 <td>{{ product.brand }}</td>
                 <td>{{ product.category }}</td>
                 <td>{{ product.get_gender_display }}</td>

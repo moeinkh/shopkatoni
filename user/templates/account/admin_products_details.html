@@ -1,0 +1,109 @@
+{% extends "account/index_admin_panel.html" %}
+
+
+{% block title %}
+{{ product.name }} | {{ user.get_full_name }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-sm-6">
+      <h1 class="m-0 text-dark">جزئیات محصول {{ product.name }}</h1>
+  </div><!-- /.row -->
+</div><!-- /.container-fluid -->
+</div>
+
+<div class="col-12">
+    <div class="card">
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover">
+            <tr>
+                <th scope="col"></th>
+                <td scope="col"><img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 250px; height: 250px;"></td>
+            </tr>
+            <tr>
+                <th scope="col">نام</th>
+                <td scope="col">{{ product.name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">برند</th>
+                <td scope="col">{{ product.brand }}</td>
+            </tr>
+            <tr>
+                <th scope="col">قیمت خرید</th>
+                <td scope="col">{{ product.purchase_price }} تومان </td>
+            </tr>
+            <tr>
+                <th scope="col">قیمت فروش</th>
+                <td scope="col">{{ product.price }} تومان </td>
+            </tr>
+            <tr>
+                <th scope="col">جنسیت</th>
+                <td scope="col">{{ product.get_gender_display }}</td>
+            </tr>
+            <tr>
+                <th scope="col">ساخت</th>
+                <td scope="col">{{ product.get_making_display }}</td>
+            </tr>
+            <tr>
+                <th scope="col">تخفیف</th>
+                <td scope="col">
+                    {% if product.discount %}
+                        {{ product.discount }} ({{ product.discount.title }}%)
+                    {% else %}
+                        ندارد
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th scope="col">قیمت با تخفیف</th>
+                <td scope="col">
+                    {% if product.dis_price %}
+                        {{ product.dis_price }} ({{ product.dis_price }}%)
+                    {% else %}
+                        ندارد
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>  
+
+  <div class="col-12">
+    <div class="card">
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover" style="font-size: 13px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم</th>
+              <th>رنگ</th>
+              <th>سایز</th>
+              <th>قیمت</th>
+              <th>تعداد</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product_variant in product.variants.all %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ product_variant.title }}</td>
+                <td>{{ product_variant.color.name }}</td>
+                <td>{{ product_variant.size.name }}</td>
+                <td>{{ product_variant.price }} تومان</td>
+                <td>{{ product_variant.number }} عدد</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+  
+{% endblock content %}

@@ -12,5 +12,6 @@ urlpatterns = [
     path('panel-admin/', views.adminpnl, name='adminpnl'),
     path('panel-admin/admin-orders', views.admin_orders, name='admin_orders'),
     path('panel-admin/admin-products', views.admin_products, name='admin_products'),
+    path('panel-admin/admin-products/<int:id>/<str:slug>', views.admin_products_details, name='admin_products_details'),
     path('panel-admin/admin-users', views.admin_users, name='admin_users'),
 ]

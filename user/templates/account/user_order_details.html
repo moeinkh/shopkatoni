@@ -81,7 +81,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{% url 'home:details' id=buy.variant.product.id %}">{{ buy.variant.product.name }} {{ order.variant.size }} {{ buy.variant.color }}</a>
+                        <a href="{{ buy.variant.product.get_absolute_url }}">{{ buy.variant.product.name }} {{ order.variant.size }} {{ buy.variant.color }}</a>
                         <ul>
                             <li><span>سایز: {{ buy.variant.size }}</span></li>
                         </ul>

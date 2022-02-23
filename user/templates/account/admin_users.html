@@ -6,6 +6,25 @@
 {% endblock title %}
 
 {% block content %}
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-sm-6">
+      <h1 class="m-0 text-dark">پنل مدیریت کاربران</h1>
+  </div><!-- /.row -->
+
+  <!-- SEARCH FORM -->
+  <form method="get" class="form-inline ml-3">
+    <div class="input-group input-group-sm">
+      <input class="form-control form-control-navbar" name="search" type="search" placeholder="جستجو نام کاربری یا نام یا شماره تلفن" aria-label="Search">
+      <div class="input-group-append">
+        <button class="btn btn-navbar" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div><!-- /.container-fluid -->
+</div>
 
 <div class="col-12">
     <div class="card">

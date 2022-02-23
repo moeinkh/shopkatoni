@@ -104,7 +104,7 @@
                     <tr>
                         <td class="table_link">
                             <img style="width: 50px; height: 50px" src="{{ variant.product.image.url }}" alt="{{ variant.product.name }}">
-                            <a href="{% url 'home:details' id=variant.product.id %}"><span class="span2">{{ variant.product.name }}</span></a>
+                            <a href="{{ variant.product.get_absolute_url }}"><span class="span2">{{ variant.product.name }}</span></a>
                         </td>
 
                         <td>

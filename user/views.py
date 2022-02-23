@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 
 from .decorators import unauthenticated_user, allowed_users
 
@@ -96,6 +96,11 @@ def adminpnl(request):
 @allowed_users
 def admin_orders(request):
     orders = Order.objects.all()
+    search = request.GET.get('search')
+    if search:
+        orders = Order.objects.filter(
+            Q(user__username__icontains=search) |
+            Q(code__exact=search))
 
     return render(request, 'account/admin_orders.html', {
         'orders': orders
@@ -104,14 +109,35 @@ def admin_orders(request):
 @allowed_users
 def admin_products(request):
     products = Product.objects.all()
+    search = request.GET.get('search')
+    if search:
+        products = Product.objects.filter(
+            Q(name__icontains=search) |
+            Q(brand__name__icontains=search) 
+            )
 
     return render(request, 'account/admin_products.html', {
         'products': products
     })
 
 @allowed_users
+def admin_products_details(request, id, slug):
+    product = get_object_or_404(Product, id=id, slug=slug)
+
+    return render(request, 'account/admin_products_details.html', {
+        'product': product
+    })
+
+@allowed_users
 def admin_users(request):
     users = User.objects.all()
+    search = request.GET.get('search')
+    if search:
+        users = User.objects.filter(
+            Q(username__icontains=search) |
+            Q(first_name__icontains=search) |
+            Q(phone_number__icontains=search)
+            )
 
     return render(request, 'account/admin_users.html', {
         'users': users
