@@ -1,8 +1,6 @@
 {% extends "star_ratings/widget_base.html" %}
 {% block rating_detail %}
-    <br>
-    <small>افراد رای دهنده: {{ rating.count }}    {{ rating.average }}</small>
-
+    <small>({{ rating.count }})</small>
     <br>
     {% if not user.is_authenticated %}
         <small>برای امتیاز دهی به محصول باید در سایت ثبت نام کنید.</small>
