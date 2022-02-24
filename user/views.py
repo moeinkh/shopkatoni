@@ -107,6 +107,14 @@ def admin_orders(request):
     })
 
 @allowed_users
+def admin_orders_details(request, id):
+    order = get_object_or_404(Order, id=id)
+
+    return render(request, 'account/admin_orders_details.html', {
+        'order': order
+    })
+
+@allowed_users
 def admin_products(request):
     products = Product.objects.all()
     search = request.GET.get('search')

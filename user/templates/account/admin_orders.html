@@ -50,7 +50,7 @@
             {% for order in orders %}
             <tr>
               <td>{{ forloop.counter }}</td>
-              <td>{{ order.user.username }}</td>
+              <td><a href="{% url 'account:admin_orders_details' id=order.id %}">{{ order.user.username }}</a></td>
               <td>{{ order.first_name }} {{ order.last_name }}</td>
               <td>{{ order.code }}</td>
               <td>{{ order.phone }}</td>

@@ -1,0 +1,129 @@
+{% extends "account/index_admin_panel.html" %}
+
+
+{% block title %}
+{{ product.name }} | {{ user.get_full_name }}
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row mb-2">
+    <div class="col-sm-6">
+      <h1 class="m-0 text-dark">جزئیات سفارش کاربر {{ order.user.username }}</h1>
+  </div><!-- /.row -->
+</div><!-- /.container-fluid -->
+</div>
+
+<div class="col-12">
+    <div class="card">
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        <table class="table table-hover">
+            <tr>
+                <th scope="col">نام کاربری</th>
+                <td scope="col">{{ order.user.username }}</td>
+            </tr>
+            <tr>
+                <th scope="col">نام و نام نانوادگی</th>
+                <td scope="col">{{ order.first_name }} {{ order.last_name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">تلفن</th>
+                <td scope="col">{{ order.phone }}</td>
+            </tr>
+            <tr>
+                <th scope="col">آدرس</th>
+                <td scope="col">{{ order.address }}</td>
+            </tr>
+            <tr>
+                <th scope="col">شهر</th>
+                <td scope="col">{{ order.city }}</td>
+            </tr>
+            <tr>
+                <th scope="col">کد پستی</th>
+                <td scope="col">{{ order.postal_code }}</td>
+            </tr>
+            <tr>
+                <th scope="col">وضعیت</th>
+                <td scope="col" class="
+                    {% if order.status == 'ارسال شد' %}
+                        text-success
+                    {% elif order.status == 'در حال بررسی' %}
+                        text-warning
+                    {% elif order.status == 'کنسل شد' %}
+                        text-danger
+                    {% endif %}
+                ">{{ order.status }}</td>
+            </tr>
+            <tr>
+                <th scope="col">کد خرید</th>
+                <td scope="col">{{ order.code }}</td>
+            </tr>
+            <tr>
+                <th scope="col">کد تخفیف</th>
+                <td scope="col">
+                    {% if order.coupon %}
+                        {{ order.coupon.code }} ({{ order.discount }}%)
+                    {% else %}
+                        ندارد
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th scope="col">تاریخ سفارش</th>
+                <td scope="col">{{ order.jcreated }}</td>
+            </tr>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>  
+
+  <div class="col-12">
+    <div class="card">
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0">
+        
+        <table class="table table-responsive-md table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">محصول</th>
+                    <th scope="col"></th>
+                    <th scope="col">قیمت</th>
+                    <th scope="col">تعداد</th>
+                    <th scope="col">کل</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order_item in order.items.all %}
+                <tr>
+                    <td>
+                        {% if order_item.variant.image_id > 0 %}
+                            <img style="width: 50px; height: 50px" src="{{ order_item.product.image.url }}" alt="{{ order_item.product.name }}">
+                        {% else %}
+                            <img style="width: 50px; height: 50px" src="{{ order_item.product.image.url }}" alt="{{ order_item.product.name }}">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'account:admin_products_details' id=order_item.product.id slug=order_item.product.slug %}">{{ order_item.variant.product.name }} {{ order_item.variant.size }} {{ order_item.variant.color }}</a>
+                        <ul>
+                            <li><span>سایز: {{ order_item.variant.size }}</span></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <strong>{{ order_item.price }} تومان</strong>
+                    </td>
+                    <td><strong>{{ order_item.quantity }}</strong></td>
+                    <td><strong>
+                            {{ order_item.total_price }}    تومان
+                    </strong></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+  
+{% endblock content %}
