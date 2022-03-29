@@ -6,7 +6,8 @@ from django.urls import reverse
 
 from product.models import Category, Product, Comment, Images, Variants, Brand, IpAddress, Color, Slider
 from user.models import User
-from .models import Setting, Article
+from .models import Setting, Article, Contact
+from .forms import ContactForm
 from django.core.paginator import Paginator, EmptyPage
 
 # search_form
@@ -28,14 +29,27 @@ def home(request):
 
 
 def about(request):
-    setting = get_object_or_404(Setting, pk=1)
-    context = {
-        'setting': setting
-    }
     try: 
+        setting = get_object_or_404(Setting, pk=1)
+        context = {
+            'setting': setting
+        }
         return render(request, 'home/about.html', context)
     except:
         return redirect('home:home')
+
+def contact_us(request):
+    if request.method == 'POST':
+        contact_form = ContactForm(request.POST)
+        if contact_form.is_valid():
+            contact_form.save()
+            return redirect('home:contact')
+    else:
+        contact_form = ContactForm()
+    return render(request, 'home/contact.html', {
+        'contact_form': contact_form
+    })
+
 
 def articles(request):
     context = {

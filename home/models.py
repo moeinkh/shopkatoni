@@ -38,3 +38,17 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+class Contact(models.Model):
+    class Meta:
+        verbose_name = 'پیام'
+        verbose_name_plural = 'پیام ها'
+    
+    first_name = models.CharField('نام', max_length=128)
+    last_name = models.CharField('نام خانوادگی', max_length=128)
+    email = models.EmailField('ایمیل')
+    message = models.TextField('پیام')
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
