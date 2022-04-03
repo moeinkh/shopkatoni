@@ -49,6 +49,9 @@ class Contact(models.Model):
     email = models.EmailField('ایمیل')
     message = models.TextField('پیام')
 
+    created = models.DateTimeField('انتشار', auto_now_add=True)
+    updated = models.DateTimeField('به روز رسانی', auto_now=True)
+
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 

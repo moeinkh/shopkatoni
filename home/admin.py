@@ -14,6 +14,6 @@ class SettingAdmin(admin.ModelAdmin):
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'email']
+    list_display = ['first_name', 'last_name', 'email', 'created']
 
 admin.site.register(Article)
