@@ -88,26 +88,26 @@
                         </div>
                         <script>
                             $(document).on('change', '#post-form',function(e){
-                            e.preventDefault();
-                            $.ajax({
-                                type:'POST',
-                                url:'{% url "home:ajaxcolor" %}',
-                                data:{
-                                    productid:$('#productid').val(),
-                                    size:$('#size').val(),
-                                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
-                                    action: 'post'
-                                },
-                                data_type : 'html',
-                                success: function (data) {
-                                    console.log("success");
-                                    $('#appendHere').html(data.rendered_table);
-                                },
-                                error: function (data) {
-                                    alert("Got an error dude " + data);
-                                }
-                                    });
-                                        });
+                                e.preventDefault();
+                                $.ajax({
+                                    type:'POST',
+                                    url:'{% url "home:ajaxcolor" %}',
+                                    data:{
+                                        productid:$('#productid').val(),
+                                        size:$('#size').val(),
+                                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                        action: 'post'
+                                    },
+                                    data_type : 'html',
+                                    success: function (data) {
+                                        console.log("success");
+                                        $('#appendHere').html(data.rendered_table);
+                                    },
+                                    error: function (data) {
+                                        alert("Got an error dude " + data);
+                                    }
+                                });
+                            });
                         </script>
                         {% if product.variant == 'Size-Color' %}
                         <div class="box_size mt-1 text-center text-md-left">
@@ -128,7 +128,7 @@
                         <div class="box_color mt-1 text-center text-md-left">
                                 <ul class="list-inline">
                                     <li class="list-inline-item title">انتخاب رنگ :</li>
-                                    <form id="appendHere" method="post" action="?q=selectvariant" id="post-color">
+                                    <form id="appendHere" action="?selectvariant" method="post" id="post-color">
                                         <input type="hidden" name="size" id="size" value="{{ size_id }}">
                                         {% csrf_token %}
                                         {% for color in colors %}
@@ -292,7 +292,7 @@
 
 
 <!--start suppliers-->
-<div class="container mt-4">
+<!-- <div class="container mt-4">
     <div class="table_suppliers mt-4 shadow-sm">
         <table class="table bg-white table-bordered table-responsive_custom">
             <thead>
@@ -333,7 +333,7 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> -->
 
 {% block comment %}
     <!--start comment-->
@@ -553,38 +553,6 @@
     </div>
     <!--end slider-->
     <!--end suppliers-->
-
-
-
-
-
-
-
-
-    <script>
-        $(document).ready()
-        {
-            var owl = $('.owl-carousel');
-            owl.owlCarousel({
-                items: 4,
-                rtl: true,
-                margin: 25,
-                nav: true,
-                loop: true,
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    600: {
-                        items: 2
-                    },
-                    1000: {
-                        items: 4
-                    }
-                }
-            });
-        }
-    </script>
 
 
 </body>

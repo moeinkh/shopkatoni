@@ -94,9 +94,11 @@ class Product(models.Model):
 
     man = 1
     woman = 2
+    both = 3
     GENDER_CHOICES = (
         (man, 'مردانه'),
-        (woman, 'زنانه')
+        (woman, 'زنانه'),
+        (both, 'ست'),
     )
     gender = models.IntegerField('جنسیت', choices=GENDER_CHOICES)
 

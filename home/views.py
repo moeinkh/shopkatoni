@@ -68,7 +68,6 @@ def details_articles(request, id):
 def details(request, id, slug):
     query = request.GET.get('q')
     product = get_object_or_404(Product, id=id, slug=slug)
-    category = Category.objects.all()
 
     for ip_address in IpAddress.objects.all():
         if ip_address not in product.hits.all():
@@ -76,18 +75,17 @@ def details(request, id, slug):
 
     context = {
         'product': product,
-        'category': category,
         'images': Images.objects.filter(product_id=id),
         'comments': Comment.objects.filter(product_id=id, active=True).order_by('-id'),
     }
-
+    
     if product.variant != 'None':
         if request.method == 'POST':
             variant_id = request.POST.get('variantid')
             variant = Variants.objects.get(id=variant_id)
             colors = Variants.objects.filter(product_id=id, size_id=variant.size_id)
             sizes = Variants.objects.filter(product_id=id).values('size_id', 'size__name').distinct()
-            query += variant.title + ' size:' + str(variant.size) + ' color:' + str(variant.color)
+            # query += variant.title + ' size:' + str(variant.size) + ' color:' + variant.color
 
         else:
             variants = Variants.objects.filter(product_id=id)
@@ -229,6 +227,39 @@ def feminine(request):
         'pro_count': Product.objects.filter(gender=2).count(),
     }
     return render(request, 'home/feminine.html', context)
+
+
+def both(request):
+    category = Category.objects.all()
+    search_bar = request.GET.get('search_bar')
+    if search_bar:
+        both = Product.objects.filter(Q(name__icontains=search_bar)
+                                          | Q(brand__name__icontains=search_bar)
+                                          | Q(orderproduct__variant__size__name=search_bar)
+                                          | Q(orderproduct__variant__color__name=search_bar)
+                                          | Q(status=True)
+                                          & Q(gender=2)).distinct().order_by('-id')
+    else:
+        both= Product.objects.filter(gender=3).order_by('-id')
+    product_filter = ProductFilter(request.GET, queryset=both)
+    variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
+
+    both = product_filter.qs
+    pagination = Paginator(both, 20)
+    page_number = request.GET.get('page')
+    pages = pagination.get_page(page_number)
+    context = {
+        'category': category,
+        'pages': pages,
+        'pagination': pagination,
+        'product_filter': product_filter,
+        'variant_filter': variant_filter,
+        'search_bar': search_bar,
+        'brands': Brand.objects.all(),
+        'colors': Color.objects.all(),
+        'pro_count': Product.objects.filter(gender=3).count(),
+    }
+    return render(request, 'home/both.html', context)
 
 
 def discounts(request):

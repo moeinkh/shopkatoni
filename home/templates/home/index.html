@@ -49,12 +49,12 @@
                 <span class="logo"></span>
             </div>
             <div class="col-lg-6 col-md-4">
-                <form action="">
+                <form action="{% url 'home:katoni' %}">
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control rounded-right input_search" placeholder="نام کالا یا برند مورد نظر خود را جستجو نمایید...">
+                        <input type="text" name="search" class="form-control rounded-right input_search" placeholder="نام کالا یا برند مورد نظر خود را جستجو نمایید...">
                         <div class="input-group-prepend">
                             <div class="input-group-text rounded-left custom-input-group-text">
-                                <a href=""><i class="material-icons">search</i></a>
+                                <a type="submit" href=""><i class="material-icons">search</i></a>
                             </div>
                         </div>
                     </div>
@@ -136,6 +136,7 @@
                                             <li><a href="{% url 'home:katoni' %}" class="nav-item text-dark"> همه </a></li>
                                             <li><a href="{% url 'home:for_men' %}" class="nav-item text-dark"> مردانه </a></li>
                                             <li><a href="{% url 'home:feminine' %}" class="nav-item text-dark"> زنانه </a></li>
+                                            <li><a href="{% url 'home:both' %}" class="nav-item text-dark"> ست </a></li>
                                         </ul> 
                                     </div>
                                      
