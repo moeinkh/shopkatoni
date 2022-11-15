@@ -1,7 +1,7 @@
 {% extends 'home/index.html' %}
 {% load static %}
 {% load ratings %}
-
+{% load humanize %}
 
 {% block content %}
 
@@ -147,21 +147,48 @@
                             <div class="container-fluid">
                                 <div class="row">
                                     {% for katoni in pages %}
-                                        <div class="col-md-4 full_product-box bg-white">
-                                            <div class="product-box bg-white border_bottom">
-                                                <a href="{{ katoni.get_absolute_url }}">
-                                                    <img style="height: 250px; width: 100%;" src="{{ katoni.image.url }}" class="img-fluid">
+                                        {% if katoni.status == 1 %}
+                                            <div class="col-md-4 full_product-box bg-white">
+                                                <div class="product-box bg-white border_bottom">
+                                                    <a href="{{ katoni.get_absolute_url }}">
+                                                        <img style="height: 250px; width: 100%;" src="{{ katoni.image.url }}" class="img-fluid">
 
-                                                    <div class="text_product pt-2">
-                                                        <p class="title">{{ katoni.name }}</p>
-                                                        <p class="price">{{ katoni.price }} تومان</p>
-                                                    </div>
-                                                </a>
+                                                        <div class="text_product pt-2">
+                                                            <p class="title">{{ katoni.name }}</p>
+                                                            {% if katoni.discount %}
+                                                                <p class="price"><del class="badge badge-danger">{{ katoni.price|intcomma:False }} تومان</del>
+                                                                {{ katoni.dis_price|intcomma:False }} تومان</p>
+                                                            {% else %}
+                                                                <p class="price">{{ katoni.price|intcomma:False }}  تومان</p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="box_rate">
+                                                    <span><i class="material-icons">stars</i></span>
+                                                </div>
                                             </div>
-                                            <div class="box_rate">
-                                                <span><i class="material-icons">stars</i></span>
-                                            </div>
-                                        </div>
+                                        {% else %}  
+                                            <div class="col-md-4 full_product-box bg-white disable">
+                                                <div class="product-box bg-white border_bottom">
+                                                    <a href="{{ katoni.get_absolute_url }}">
+                                                        <img style="height: 250px; width: 100%;" src="{{ katoni.image.url }}" class="img-fluid">
+
+                                                        <div class="text_product pt-2">
+                                                            <p class="title">{{ katoni.name }}</p>
+                                                            {% if katoni.discount %}
+                                                                <p class="price bg-danger">ناموجود</p>
+                                                            {% else %}
+                                                                <p class="price bg-danger">ناموجود</p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="box_rate">
+                                                    <span><i class="material-icons">stars</i></span>
+                                                </div>
+                                            </div>  
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
 

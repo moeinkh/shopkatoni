@@ -184,6 +184,15 @@
 {% endblock %}
 
 {% block item_slider %}
+
+
+<div class="container-fluid ads mt-3">
+    <div class="row">
+        <div class="col serv text-center">
+            <a href="{% url 'home:both' %}"><img style="height: 450px;" src="{% static 'home/img/banner-set.png' %}" class="w-100 d-block rounded" alt="2066"></a>
+        </div>
+    </div>
+</div>
 <!-- start slider katoni -->
     <div class="container-fluid mt-3">
         <div class="row">
@@ -227,10 +236,10 @@
 <div class="container-fluid ads mt-3">
     <div class="row">
         <div class="col-6 serv text-center">
-            <a href="#"><img src="{% static 'home/img/2066.jpg' %}" class="w-100 d-block rounded" alt="2066"></a>
+            <a href="{% url 'home:feminine' %}"><img style="height: 450px;" src="{% static 'home/img/banner-woman.png' %}" class="w-100 d-block rounded" alt="2066"></a>
         </div>
         <div class="col-6 serv text-center">
-            <a href="#"><img src="{% static 'home/img/2070.jpg' %}" class="w-100 d-block rounded" alt="2066"></a>
+            <a href="{% url 'home:for_men' %}"><img style="height: 450px;" src="{% static 'home/img/banner-man.png' %}" class="w-100 d-block rounded" alt="2066"></a>
         </div>
     </div>
 </div>

@@ -65,7 +65,11 @@
                     {% if user.is_authenticated %}
                         <a class="dropdown-toggle" id="dropdownMenuBottun" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                         style="line-height: 40px !important;">
-                            {{ user.first_name }} {{ user.last_name }}
+                            {% if user.first_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}    
+                                {{ user.username }}
+                            {% endif %}
                         </a>
                     <div class="dropdown-menu shadow rounnded-0 border-0 dropdown-menu_custom text-center" aria-labelledby="dropdownMenuButton">
                         <div class="text-left">

@@ -255,7 +255,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
                     <div id="SelectedProduct">
-                        <p><strong>وضعیت:</strong>{% if product.amount > 0 %} موجود {% else %} ناموجود {% endif %}</p>
+                        <p><strong>وضعیت:</strong>{% if product.status %} موجود {% else %} ناموجود {% endif %}</p>
                         <h3>{{ product.price }}تومان</h3>
                     </div>
 

@@ -199,7 +199,7 @@
                                     <input type="hidden" name="override" id="variantid" value="{{ variant.id }}">
                                     {% csrf_token %}
                                     <div id="SelectedProduct" class="select_pro">
-                                        <p><strong>وضعیت:</strong>{% if variant.number > 0 %}  <span class="badge badge-success">موجود</span>  {% else %} <span class="badge badge-danger">ناموجود</span> {% endif %}</p>
+                                        <p><strong>وضعیت:</strong>{% if product.status == 2 %} <span class="badge badge-danger">ناموجود</span> {% elif variant.number > 0 %}<span class="badge badge-success">موجود</span> {% elif variant.number == 0 %}<span class="badge badge-danger">سایز مورد نظر ناموجود می باشد</span> {% else %} <span class="badge badge-danger">ناموجود</span> {% endif %}</p>
                                         <p><strong> محصول مورد نظر:</strong></p>
                                         <ul>
                                             <li> رنگ: <span style="color: {{ variant.color.code }};">{{ variant.color }}</span></li>
@@ -216,7 +216,9 @@
                                     <br>
                                     <label for="quantity">تعداد:</label>
                                     <input name="quantity" value="1" min="1" max="{{ variant.number }}" type="number" id="quantity" min="0">
-                                    {% if variant.number > 0 %}
+                                    {% if product.status == 2 %}
+                                    <button type="submit" class="btn btn_custom2 bg-danger border-0 shadow-sm disabled"><i class="material-icons">add_shopping_cart</i>ناموجود</button>
+                                    {% elif variant.number > 0 %}    
                                         <button type="submit" class="btn btn_custom2 shadow-sm"><i class="material-icons">add_shopping_cart</i>افزودن به سبد خرید</button>
                                     {% else %}
                                         <button type="submit" class="btn btn_custom2 bg-danger border-0 shadow-sm disabled"><i class="material-icons">add_shopping_cart</i>ناموجود</button>

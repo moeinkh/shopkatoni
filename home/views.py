@@ -122,7 +122,7 @@ def katoni(request, brand_slug=None, category_slug=None):
     categories = Category.objects.all()
     brand = None
     brands = Brand.objects.all()
-    katonis = Product.objects.all().order_by('-id')
+    katonis = Product.objects.all().order_by('-id').order_by('status')
 
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
@@ -138,7 +138,7 @@ def katoni(request, brand_slug=None, category_slug=None):
     if search_brand:
         katonis = Product.objects.filter(Q(brand__name__in=request.GET.getlist('search_brand'))
                                            | Q(status=True)
-                                           | Q(name__icontains=search)).distinct().order_by('-id')
+                                           | Q(name__icontains=search)).distinct().order_by('-id').order_by('status')
 
     product_filter = ProductFilter(request.GET, queryset=katonis)
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
@@ -171,9 +171,9 @@ def for_men(request):
                                          | Q(orderproduct__variant__size__name=search_bar)
                                          | Q(orderproduct__variant__color__name=search_bar)
                                          | Q(status=True)
-                                         & Q(gender=1)).distinct().order_by('-id')
+                                         & Q(gender=1)).distinct().order_by('-id').order_by('status')
     else:
-        for_men = Product.objects.filter(gender=1).order_by('-id')
+        for_men = Product.objects.filter(gender=1).order_by('-id').order_by('status')
     product_filter = ProductFilter(request.GET, queryset=for_men)
 
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
@@ -205,9 +205,9 @@ def feminine(request):
                                           | Q(orderproduct__variant__size__name=search_bar)
                                           | Q(orderproduct__variant__color__name=search_bar)
                                           | Q(status=True)
-                                          & Q(gender=2)).distinct().order_by('-id')
+                                          & Q(gender=2)).distinct().order_by('-id').order_by('status')
     else:
-        feminine = Product.objects.filter(gender=2).order_by('-id')
+        feminine = Product.objects.filter(gender=2).order_by('-id').order_by('status')
     product_filter = ProductFilter(request.GET, queryset=feminine)
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
 
@@ -238,9 +238,9 @@ def both(request):
                                           | Q(orderproduct__variant__size__name=search_bar)
                                           | Q(orderproduct__variant__color__name=search_bar)
                                           | Q(status=True)
-                                          & Q(gender=2)).distinct().order_by('-id')
+                                          & Q(gender=2)).distinct().order_by('-id').order_by('status')
     else:
-        both= Product.objects.filter(gender=3).order_by('-id')
+        both= Product.objects.filter(gender=3).order_by('-id').order_by('status')
     product_filter = ProductFilter(request.GET, queryset=both)
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
 
@@ -271,9 +271,9 @@ def discounts(request):
                                            | Q(orderproduct__variant__size__name=search_bar)
                                            | Q(orderproduct__variant__color__name=search_bar)
                                            | Q(status=True)
-                                           & Q(discount_price=True)).distinct().order_by('-id')
+                                           & Q(discount_price=True)).distinct().order_by('-id').order_by('status')
     else:
-        discounts = Product.objects.filter(discount_price=True).order_by('-id')
+        discounts = Product.objects.filter(discount_price=True).order_by('-id').order_by('status')
 
     product_filter = ProductFilter(request.GET, queryset=discounts)
 
