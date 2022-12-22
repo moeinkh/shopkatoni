@@ -123,24 +123,44 @@
                             <div class="owl-carousel owl-theme">
 
                                 {% for pro in product %}
-                                    <div class="item">
-                                        <a href="{{ pro.get_absolute_url }}">
-                                            <div class="card panel-custom">
-                                                <div class="card-body panel-body-custom">
-                                                    <img style="height: 150px !important;" src="{{ pro.image.url }}">
+                                    {% if pro.status == 1 %}
+                                        <div class="item">
+                                            <a href="{{ pro.get_absolute_url }}">
+                                                <div class="card panel-custom">
+                                                    <div class="card-body panel-body-custom">
+                                                        <img style="height: 150px !important;" src="{{ pro.image.url }}">
+                                                    </div>
+                                                    <div class="card-footer panel-footer-custom">
+                                                        <h4>{{ pro.name }}</h4>
+                                                        {% if pro.discount %}
+                                                            <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
+                                                            {{ pro.dis_price }} تومان</p>
+                                                        {% else %}
+                                                            <p>{{ pro.price }}  تومان</p>
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
-                                                <div class="card-footer panel-footer-custom">
-                                                    <h4>{{ pro.name }}</h4>
-                                                    {% if pro.discount %}
-                                                        <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
-                                                        {{ pro.dis_price }} تومان</p>
-                                                    {% else %}
-                                                        <p>{{ pro.price }}  تومان</p>
-                                                    {% endif %}
+                                            </a>
+                                        </div>
+                                    {% else %}   
+                                        <div class="item">
+                                            <a href="{{ pro.get_absolute_url }}">
+                                                <div class="card panel-custom">
+                                                    <div class="card-body panel-body-custom">
+                                                        <img style="height: 150px !important;" src="{{ pro.image.url }}">
+                                                    </div>
+                                                    <div class="card-footer panel-footer-custom">
+                                                        <h4>{{ pro.name }}</h4>
+                                                        {% if pro.discount %}
+                                                            <p class="price bg-danger">ناموجود</p>
+                                                        {% else %}
+                                                            <p class="price bg-danger">ناموجود</p>
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </div>
+                                            </a>
+                                        </div> 
+                                    {% endif %}
                                 {% endfor %}
 
                             </div>
@@ -152,27 +172,45 @@
                 <div id="carousel1" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
 
-                        {% for new in news %}
-
-                            <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
-                                <div class="card card-custom shadow-sm">
-                                    <div class="card-header card-header-custom text-center">پیشنهاد های لحظه ای</div>
-                                </div>
+                        {% for pro in news %}
+                            {% if pro.status == 1 %}
                                 <div class="item">
-                                    <a href="{{ new.get_absolute_url }}">
-                                        <div class="card panel-cutom2 shadow-sm">
-                                            <div class="card-body text-center panel-body-custom">
-                                                <img src="{{ new.image.url }}" style="width: 250px; height: 300px;" class="img-fluid" alt="">
+                                    <a href="{{ pro.get_absolute_url }}">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img style="height: 150px !important;" src="{{ pro.image.url }}">
                                             </div>
-                                            <div class="card-footer text-center panel-footer-custom">
-                                                <h4 class="p-2">{{ new.name }}</h4>
-                                                <p>{{ new.price }} تومان</p>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>{{ pro.name }}</h4>
+                                                {% if pro.discount %}
+                                                    <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
+                                                    {{ pro.dis_price }} تومان</p>
+                                                {% else %}
+                                                    <p>{{ pro.price }}  تومان</p>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </a>
                                 </div>
-                            </div>
-
+                            {% else %}   
+                                <div class="item">
+                                    <a href="{{ pro.get_absolute_url }}">
+                                        <div class="card panel-custom">
+                                            <div class="card-body panel-body-custom">
+                                                <img style="height: 150px !important;" src="{{ pro.image.url }}">
+                                            </div>
+                                            <div class="card-footer panel-footer-custom">
+                                                <h4>{{ pro.name }}</h4>
+                                                {% if pro.discount %}
+                                                    <p class="price bg-danger">ناموجود</p>
+                                                {% else %}
+                                                    <p class="price bg-danger">ناموجود</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div> 
+                            {% endif %}
                         {% endfor %}
 
                     </div>
@@ -204,25 +242,45 @@
                         </div>
                         <div class="card-body">
                             <div class="owl-carousel owl-theme">
-                                {% for new in news %}
-                                    <div class="item">
-                                        <a href="{{ new.get_absolute_url }}">
-                                            <div class="card panel-custom">
-                                                <div class="card-body panel-body-custom">
-                                                    <img src="{{ new.image.url }}">
+                                {% for pro in news %}
+                                    {% if pro.status == 1 %}
+                                        <div class="item">
+                                            <a href="{{ pro.get_absolute_url }}">
+                                                <div class="card panel-custom">
+                                                    <div class="card-body panel-body-custom">
+                                                        <img style="height: 150px !important;" src="{{ pro.image.url }}">
+                                                    </div>
+                                                    <div class="card-footer panel-footer-custom">
+                                                        <h4>{{ pro.name }}</h4>
+                                                        {% if pro.discount %}
+                                                            <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
+                                                            {{ pro.dis_price }} تومان</p>
+                                                        {% else %}
+                                                            <p>{{ pro.price }}  تومان</p>
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
-                                                <div class="card-footer panel-footer-custom">
-                                                    <h4>{{ new.name }}</h4>
-                                                    {% if new.discount %}
-                                                        <p><del class="badge badge-danger">{{ new.price }} تومان</del>
-                                                        {{ new.dis_price }} تومان</p>
-                                                    {% else %}
-                                                        <p>{{ new.price }}  تومان</p>
-                                                    {% endif %}
+                                            </a>
+                                        </div>
+                                    {% else %}   
+                                        <div class="item">
+                                            <a href="{{ pro.get_absolute_url }}">
+                                                <div class="card panel-custom">
+                                                    <div class="card-body panel-body-custom">
+                                                        <img style="height: 150px !important;" src="{{ pro.image.url }}">
+                                                    </div>
+                                                    <div class="card-footer panel-footer-custom">
+                                                        <h4>{{ pro.name }}</h4>
+                                                        {% if pro.discount %}
+                                                            <p class="price bg-danger">ناموجود</p>
+                                                        {% else %}
+                                                            <p class="price bg-danger">ناموجود</p>
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </div>
+                                            </a>
+                                        </div> 
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>

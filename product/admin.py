@@ -34,6 +34,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'id', 'brand', 'category', 'gender', 'making', 'status', 'purchase_price', 'price', 'dis_price', 'discount', 'image_tag']
     list_filter = ['category', 'making', 'gender', 'status']
     readonly_fields = ('image_tag',)
+    list_editable = ('status', )
     inlines = [ProductImageInline, ProductVariantsInline]
     prepopulated_fields = {'slug': ('name',)}
 
