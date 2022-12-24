@@ -95,7 +95,7 @@ def adminpnl(request):
 
 @allowed_users
 def admin_orders(request):
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-created')
     search = request.GET.get('search')
     if search:
         orders = Order.objects.filter(
@@ -116,7 +116,7 @@ def admin_orders_details(request, id):
 
 @allowed_users
 def admin_products(request):
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-created')
     search = request.GET.get('search')
     if search:
         products = Product.objects.filter(

@@ -17,7 +17,7 @@ class Category(models.Model):
 
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE, verbose_name='زیردسته')
     title = models.CharField('عنوان', max_length=50)
-    slug = models.SlugField('اسلاگ', max_length=50)
+    slug = models.SlugField('اسلاگ', max_length=50, allow_unicode=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -33,7 +33,7 @@ class Brand(models.Model):
         verbose_name = 'برند'
         verbose_name_plural = 'برند'
     name = models.CharField('اسم', max_length=50)
-    slug = models.SlugField('اسلاگ', max_length=50)
+    slug = models.SlugField('اسلاگ', max_length=50, allow_unicode=True)
     image = models.ImageField('عکس', upload_to='katoni_images/', null=True, blank=True)
     created = models.DateTimeField('ایجاد', auto_now_add=True)
     updated = models.DateTimeField('به روز رسانی', auto_now=True)
@@ -76,7 +76,7 @@ class Product(models.Model):
     discount = models.ForeignKey(Discount, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='تخفیف')
     dis_price = models.PositiveIntegerField('قیمت با تخفیف', blank=True, null=True)
     name = models.CharField('اسم', max_length=50)
-    slug = models.SlugField('اسلاگ', max_length=50)
+    slug = models.SlugField('اسلاگ', max_length=500, allow_unicode=True)
     description = models.TextField('توضیحات')
     price = models.IntegerField('قیمت', default=0)
     purchase_price = models.IntegerField('قیمت خرید', default=0)

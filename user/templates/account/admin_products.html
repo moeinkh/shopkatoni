@@ -30,7 +30,7 @@
     <div class="card">
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0">
-        <table class="table table-hover" style="font-size: 13px;">
+        <table class="table table-hover text-center" style="font-size: 13px;">
           <thead>
             <tr>
               <th>#</th>
@@ -56,22 +56,22 @@
                 <td>{{ product.category }}</td>
                 <td>{{ product.get_gender_display }}</td>
                 <td>{{ product.get_making_display }}</td>
-                {% if product.status %}
-                    <td class="badge-success">موجود</td>
+                {% if product.status == 1 %}
+                  <td><i class="badge-success fa fa-check rounded"></i></td>
                 {% else %}
-                    <td class="badge-danger">ناموجود</td>
+                  <td><i class="badge-danger fa fa-minus rounded"></i></td>
                 {% endif %}
                 <td>{{ product.purchase_price }} تومان</td>
                 <td>{{ product.price }} تومان</td>
                 {% if product.discount_price %}
                     <td class="badge-success">{{ product.discount_price }} تومان</td>
                 {% else %}
-                    <td class="badge-danger">ندارد</td>
+                    <td><i class="badge-danger fa fa-minus rounded"></i></td>
                 {% endif %}
-                {% if product.dis_price %}
+                {% if product.dis_price == '' %}
                     <td class="badge-success">{{ product.dis_price }} تومان</td>
                 {% else %}
-                    <td class="badge-danger">ندارد</td>
+                    <td><i class="badge-danger fa fa-minus rounded"></i></td>
                 {% endif %}
                 <td class="m-0">{{ product.image_tag }}</td>
             </tr>

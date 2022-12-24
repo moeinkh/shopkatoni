@@ -30,7 +30,7 @@
     <div class="card">
       <!-- /.card-header -->
       <div class="card-body table-responsive p-0">
-        <table class="table table-hover" style="font-size: 13px;">
+        <table class="table table-hover text-center" style="font-size: 13px;">
           <thead>
             <tr>
               <th>#</th>
@@ -43,6 +43,8 @@
               <th>وضعیت</th>
               <th>وضعیت پرداخت</th>
               <th>تاریخ سفارش</th>
+              <th></th>
+              <th></th>
               <th>مبلغ</th>
             </tr>
           </thead>
@@ -57,12 +59,12 @@
               <td>{{ order.city }}</td>
               <td>{{ order.postal_code }}</td>
               <td>{{ order.status }}</td>
-              {% if order.paid %}
-                <td class="badge-success">پرداخت شد</td>
+              {% if order.paid == 1 %}
+                <td><i class="badge-success fa fa-check rounded"></i></td>
               {% else %}
-                <td class="badge-danger">پرداخت نشده است</td>
+                <td><i class="badge-danger fa fa-minus rounded"></i></td>
               {% endif %}
-              <td>{{ order.jcreated }}</td>
+              <td colspan="3" class="text-small">{{ order.jcreated }}</td>
               <td>{{ order.get_total_cost }} تومان</td>
             </tr>
             {% endfor %}
