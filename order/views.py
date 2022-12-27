@@ -14,7 +14,7 @@ from django.utils.crypto import get_random_string
 
 from cart.cart import Cart
 from order.forms import OrderForm
-from order.models import OrderProduct
+from order.models import OrderProduct, Order
 from product.models import Category, Product, Variants
 
 
@@ -143,15 +143,29 @@ def order_create(request):
             request.session['coupon_id'] = None
             # set order in session
             request.session['order_id'] = order.id
-            try:
+            try:    
+                context = {
+                    'order': Order.objects.get(code=code)
+                }
+                # تنظیمات ارسال فاکتور خرید با ایمیل
+                message_cos = render_to_string('order/mail_order.html', context)
+                msg = EmailMessage(
+                    'فاکتور خرید',
+                    message_cos,
+                    'shopkatoni@shopkatoni.ir',
+                    [request.user.email],
+                )
+                msg.content_subtype = 'html'
+                msg.send()
                 # تنظیمات ارسال فاکتور خرید با ایمیل
                 subject = 'ثبت سفارش'
-                message = f'با سلام و خسته نباشید {request.user.username}'
-                send_mail(subject, message, 'coolgertn@gmail.com', [request.user.email], fail_silently=False)
+                message_admin = f'''با سلام و خسته نباشید {request.user.username}
+                یک سفارش با موفقیت ثبت شد.'''
+                send_mail(subject, message_admin, 'shopkatoni@shopkatoni.ir', ['moeinkhorami99@gmail.com'], fail_silently=False)
                 messages.success(request, 'خرید با موفقیت ثبت شد.')
                 return redirect(reverse('home:home'))
             except SMTPAuthenticationError:
-                messages.success(request, 'خرید با موفقیت ثبت شد.')
+                messages.error(request, 'خرید با موفقیت ثبت شد.')
                 return redirect(reverse('home:home'))
 
     else:
