@@ -289,6 +289,49 @@
         </div>
     </div>
     <!--end product_feature-->
+
+        <!--end box-tabs-->
+    <!--start slider-->
+    <div class="container-fluid mt-3 mb-5">
+        <div class="col-12">
+            <section class="slider box_shadow">
+                <div class="row">
+                    <div class="card panel-title-custom">
+                        <div class="card-header  card-header-custom">
+                            <p>محصولات مرتبط
+                            </p>
+                        </div>
+
+                        <div class="card-body py-1" style="padding: 50px">
+                            <div class="owl-carousel owl-theme">
+                                {% for dis in product_related %}
+                                    <div class="item">
+                                        <a href="{{ dis.get_absolute_url }}">
+                                            <div class="card panel-custom">
+                                                <div class="card-body panel-body-custom">
+                                                    <img src="{{ dis.image.url }}">
+                                                </div>
+                                                <div class="card-footer panel-footer-custom">
+                                                    <h4>{{ dis.name }}</h4>
+                                                    <p><del class="badge badge-danger">{{ dis.price }} تومان</del>
+                                                    {{ dis.dis_price }} تومان</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+    <!--end slider-->
+    <!--end suppliers-->
 {% endblock %}
 
 

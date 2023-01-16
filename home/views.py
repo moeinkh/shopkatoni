@@ -75,6 +75,7 @@ def details(request, id, slug):
 
     context = {
         'product': product,
+        'product_related': Product.objects.filter(brand__name=product.brand.name, gender=product.gender).exclude(id=id)[:4],
         'images': Images.objects.filter(product_id=id),
         'comments': Comment.objects.filter(product_id=id, active=True).order_by('-id'),
     }
