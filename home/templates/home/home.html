@@ -112,7 +112,7 @@
 <!-- start slider plugin -->
     <div class="container-fluid mt-3 ">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md">
                 <section class="slider box_shadow">
                     <div class="card panel-title-custom">
                         <div class="card-header card-header-custom">
@@ -132,12 +132,8 @@
                                                     </div>
                                                     <div class="card-footer panel-footer-custom">
                                                         <h4>{{ pro.name }}</h4>
-                                                        {% if pro.discount %}
-                                                            <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
-                                                            {{ pro.dis_price }} تومان</p>
-                                                        {% else %}
+                                                        
                                                             <p>{{ pro.price }}  تومان</p>
-                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </a>
@@ -167,54 +163,6 @@
                         </div>
                     </div>
                 </section>
-            </div>
-            <div class="col-md-3 mt-2 mt-md-0">
-                <div id="carousel1" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-
-                        {% for pro in news %}
-                            {% if pro.status == 1 %}
-                                <div class="item">
-                                    <a href="{{ pro.get_absolute_url }}">
-                                        <div class="card panel-custom">
-                                            <div class="card-body panel-body-custom">
-                                                <img style="height: 150px !important;" src="{{ pro.image.url }}">
-                                            </div>
-                                            <div class="card-footer panel-footer-custom">
-                                                <h4>{{ pro.name }}</h4>
-                                                {% if pro.discount %}
-                                                    <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
-                                                    {{ pro.dis_price }} تومان</p>
-                                                {% else %}
-                                                    <p>{{ pro.price }}  تومان</p>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% else %}   
-                                <div class="item">
-                                    <a href="{{ pro.get_absolute_url }}">
-                                        <div class="card panel-custom">
-                                            <div class="card-body panel-body-custom">
-                                                <img style="height: 150px !important;" src="{{ pro.image.url }}">
-                                            </div>
-                                            <div class="card-footer panel-footer-custom">
-                                                <h4>{{ pro.name }}</h4>
-                                                {% if pro.discount %}
-                                                    <p class="price bg-danger">ناموجود</p>
-                                                {% else %}
-                                                    <p class="price bg-danger">ناموجود</p>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div> 
-                            {% endif %}
-                        {% endfor %}
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -252,12 +200,7 @@
                                                     </div>
                                                     <div class="card-footer panel-footer-custom">
                                                         <h4>{{ pro.name }}</h4>
-                                                        {% if pro.discount %}
-                                                            <p><del class="badge badge-danger">{{ pro.price }} تومان</del>
-                                                            {{ pro.dis_price }} تومان</p>
-                                                        {% else %}
-                                                            <p>{{ pro.price }}  تومان</p>
-                                                        {% endif %}
+                                                        <p>{{ pro.price }}  تومان</p>
                                                     </div>
                                                 </div>
                                             </a>
@@ -271,11 +214,7 @@
                                                     </div>
                                                     <div class="card-footer panel-footer-custom">
                                                         <h4>{{ pro.name }}</h4>
-                                                        {% if pro.discount %}
-                                                            <p class="price bg-danger">ناموجود</p>
-                                                        {% else %}
-                                                            <p class="price bg-danger">ناموجود</p>
-                                                        {% endif %}
+                                                        <p class="price bg-danger">ناموجود</p>
                                                     </div>
                                                 </div>
                                             </a>

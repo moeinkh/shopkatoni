@@ -75,7 +75,7 @@ def details(request, id, slug):
 
     context = {
         'product': product,
-        'product_related': Product.objects.filter(brand__name=product.brand.name, gender=product.gender).exclude(id=id)[:4],
+        'product_related': Product.objects.filter(brand__name=product.brand.name).exclude(id=id)[:4],
         'images': Images.objects.filter(product_id=id),
         'comments': Comment.objects.filter(product_id=id, active=True).order_by('-id'),
     }
@@ -172,9 +172,9 @@ def for_men(request):
                                          | Q(orderproduct__variant__size__name=search_bar)
                                          | Q(orderproduct__variant__color__name=search_bar)
                                          | Q(status=True)
-                                         & Q(gender=1)).distinct().order_by('-id').order_by('status')
+                                         & Q(man=True)).distinct().order_by('-id').order_by('status')
     else:
-        for_men = Product.objects.filter(gender=1).order_by('-id').order_by('status')
+        for_men = Product.objects.filter(man=True).order_by('-id').order_by('status')
     product_filter = ProductFilter(request.GET, queryset=for_men)
 
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
@@ -192,7 +192,7 @@ def for_men(request):
         'search_bar': search_bar,
         'brands': Brand.objects.all(),
         'colors': Color.objects.all(),
-        'pro_count': Product.objects.filter(gender=1).count(),
+        'pro_count': Product.objects.filter(man=True).count(),
     }
     return render(request, 'home/for_men.html', context)
 
@@ -206,9 +206,9 @@ def feminine(request):
                                           | Q(orderproduct__variant__size__name=search_bar)
                                           | Q(orderproduct__variant__color__name=search_bar)
                                           | Q(status=True)
-                                          & Q(gender=2)).distinct().order_by('-id').order_by('status')
+                                          & Q(women=True)).distinct().order_by('-id').order_by('status')
     else:
-        feminine = Product.objects.filter(gender=2).order_by('-id').order_by('status')
+        feminine = Product.objects.filter(women=True).order_by('-id').order_by('status')
     product_filter = ProductFilter(request.GET, queryset=feminine)
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
 
@@ -225,7 +225,7 @@ def feminine(request):
         'search_bar': search_bar,
         'brands': Brand.objects.all(),
         'colors': Color.objects.all(),
-        'pro_count': Product.objects.filter(gender=2).count(),
+        'pro_count': Product.objects.filter(women=True).count(),
     }
     return render(request, 'home/feminine.html', context)
 
@@ -239,9 +239,10 @@ def both(request):
                                           | Q(orderproduct__variant__size__name=search_bar)
                                           | Q(orderproduct__variant__color__name=search_bar)
                                           | Q(status=True)
-                                          & Q(gender=2)).distinct().order_by('-id').order_by('status')
+                                          & Q(women=True)
+                                          & Q(man=True)).distinct().order_by('-id').order_by('status')
     else:
-        both= Product.objects.filter(gender=3).order_by('-id').order_by('status')
+        both= Product.objects.filter(women=True, man=True).order_by('-id').order_by('status')
     product_filter = ProductFilter(request.GET, queryset=both)
     variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
 
@@ -258,7 +259,7 @@ def both(request):
         'search_bar': search_bar,
         'brands': Brand.objects.all(),
         'colors': Color.objects.all(),
-        'pro_count': Product.objects.filter(gender=3).count(),
+        'pro_count': Product.objects.filter(women=True, man=True).count(),
     }
     return render(request, 'home/both.html', context)
 

@@ -5,6 +5,8 @@ from django.urls import reverse
 
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
+from django.utils.translation import gettext as _
+from django.utils import timezone
 
 # Create your models here.
 from django.utils.html import format_html
@@ -55,17 +57,6 @@ class IpAddress(models.Model):
         return self.ip_address
 
 
-class Discount(models.Model):
-    class Meta:
-        verbose_name = 'تخفیف'
-        verbose_name_plural = 'تخفیفات'
-    title = models.CharField('عنوان', max_length=200)
-    discount = models.IntegerField('تخفیف')
-
-    def __str__(self):
-        return self.title
-
-
 class Product(models.Model):
     class Meta:
         verbose_name = 'محصول'
@@ -73,7 +64,7 @@ class Product(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته بندی')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, max_length=50, verbose_name='برند')
-    discount = models.ForeignKey(Discount, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='تخفیف')
+    # discount = models.ForeignKey(Discount, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='تخفیف')
     dis_price = models.PositiveIntegerField('قیمت با تخفیف', blank=True, null=True)
     name = models.CharField('اسم', max_length=50)
     slug = models.SlugField('اسلاگ', max_length=500, allow_unicode=True)
@@ -92,15 +83,8 @@ class Product(models.Model):
     )
     status = models.IntegerField('وضعیت', choices=STATUS_CHOICES)
 
-    man = 1
-    woman = 2
-    both = 3
-    GENDER_CHOICES = (
-        (man, 'مردانه'),
-        (woman, 'زنانه'),
-        (both, 'ست'),
-    )
-    gender = models.IntegerField('جنسیت', choices=GENDER_CHOICES)
+    man = models.BooleanField(_('Man'), default=False)
+    women = models.BooleanField(_('Women'), default=False)
 
     iranian = 1
     foreign = 2
@@ -133,6 +117,36 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('home:details', args=[str(self.id), self.slug])
+
+
+class Discount(models.Model):
+    class Meta:
+        verbose_name = 'تخفیف'
+        verbose_name_plural = 'تخفیفات'
+    title = models.CharField('عنوان', max_length=200)
+    product = models.ManyToManyField(Product, related_name='discount', verbose_name=_('Product'))
+    discount = models.IntegerField('تخفیف')
+    valid_from = models.DateTimeField(_('From'))
+    valid_to = models.DateTimeField(_('To'))
+    active = models.BooleanField(_('Active?'), default=True)
+
+    def jvalid_from(self):
+        return jalali_converter(self.valid_from)
+    jvalid_from.short_description = 'از تاریخ'
+
+    def jvalid_to(self):
+        return jalali_converter(self.valid_to)
+    jvalid_to.short_description = 'تا تاریخ'
+
+    def save(self, *args, **kwargs):
+        if timezone.now() < self.valid_from or timezone.now() > self.valid_to:
+            self.active = False
+        else:
+            self.active = True    
+        super(Discount, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
 
 class Color(models.Model):

@@ -31,8 +31,8 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id', 'brand', 'category', 'gender', 'making', 'status', 'purchase_price', 'price', 'dis_price', 'discount', 'image_tag']
-    list_filter = ['name', 'category', 'making', 'gender', 'status']
+    list_display = ['name', 'id', 'brand', 'category', 'making', 'status', 'purchase_price', 'price', 'dis_price', 'image_tag']
+    list_filter = ['name', 'category', 'making', 'status']
     readonly_fields = ('image_tag',)
     search_fields = ('name', )
     list_editable = ('status', )
@@ -78,7 +78,8 @@ class VariantsAdmin(admin.ModelAdmin):
 
 
 class DiscountAdmin(admin.ModelAdmin):
-    list_display = ['discount', 'title']
+    list_display = ['title', 'discount', 'jvalid_from', 'jvalid_to', 'active']
+    filter_horizontal  = ('product', )
 
 
 admin.site.register(Category, CategoryAdmin)
