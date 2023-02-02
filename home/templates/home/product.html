@@ -188,8 +188,8 @@
                         <div class="border_bottom mt-3"></div>
                         <div class="box_price mt-2 text-center text-md-left pb-1 order-last">
                             <p class="price1">
-                                {% if product.discount %}
-                                    <del class="badge badge-danger">{{ product.price }} تومان</del> <strong class="badge badge-success">{{ product.dis_price }}  تومان</strong>
+                                {% if product.discount_status %}
+                                    <del class="badge badge-danger">{{ product.price }} تومان</del> <strong class="badge badge-success">{{ product.discount_price }}  تومان</strong>
                                 {% else %}
                                     <strong class="badge badge-success">{{ product.price }} تومان</strong>
                                 {% endif %}
@@ -205,8 +205,8 @@
                                             <li> رنگ: <span style="color: {{ variant.color.code }};">{{ variant.color }}</span></li>
                                             <li>سایز: {{ variant.size }}</li>
                                             <li>قیمت:
-                                                {% if product.discount %}
-                                                    <del class="badge badge-danger">{{ product.price }}  تومان</del> <strong class="badge badge-success">{{ product.dis_price }}  تومان</strong>
+                                                {% if product.discount_status %}
+                                                    <del class="badge badge-danger">{{ product.price }}  تومان</del> <strong class="badge badge-success">{{ product.discount_price }}  تومان</strong>
                                                 {% else %}
                                                     <strong class="badge badge-success">{{ product.price }} تومان  </strong>
                                                 {% endif %}

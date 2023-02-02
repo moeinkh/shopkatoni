@@ -31,7 +31,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id', 'brand', 'category', 'making', 'status', 'purchase_price', 'price', 'dis_price', 'image_tag']
+    list_display = ['name', 'id', 'brand', 'category', 'making', 'status', 'purchase_price', 'price', 'discount_price', 'image_tag']
     list_filter = ['name', 'category', 'making', 'status']
     readonly_fields = ('image_tag',)
     search_fields = ('name', )

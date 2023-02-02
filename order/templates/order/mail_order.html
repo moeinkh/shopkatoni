@@ -54,7 +54,11 @@
                     {{ pro.variant.size }}
                 </td>
                 <td style="text-align: right">
-                    {{ pro.variant.price }}
+                    {% if pro.variant.discount_status %}
+                        <del class="badge badge-danger">{{ pro.variant.price }}تومان</del><br><strong class="badge badge-success">{{ pro.variant.discount_price }}  تومان</strong>
+                    {% else %}
+                        <strong class="badge badge-success">{{ pro.variant.price }}تومان</strong>
+                    {% endif %}
                 </td>
                 <td style="text-align: right">
                     {{ pro.quantity }}
@@ -63,10 +67,10 @@
                     {{ pro.total_price }}
                 </td>
                 <td style="text-align: right">
-                    {% if item.product.discount.title %}
-                        {{ item.product.discount.title }}
+                    {% if pro.variant.discount_status %}
+                        <strong class="badge badge-success">دارد</strong>
                     {% else %}
-                        ندارد
+                        <strong class="span1 badge badge-danger">ندارد</strong>
                     {% endif %}
                 </td>
             </tr>   

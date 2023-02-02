@@ -12,15 +12,23 @@ def discount_apply():
             discount.active = True
             discount.save()
             for product in discount.product.all():
-                product.dis_price = (product.price - discount.discount)
-                product.discount_price = True
+                product.discount_price = (product.price - discount.discount)
+                product.discount_status = True
+                for variant in product.variants.all():
+                    variant.discount_price = (product.price - discount.discount)
+                    variant.discount_status = True
+                    variant.save()
                 product.save()
         else:    
             discount.active = False
             discount.save()
             for product in discount.product.all():
-                product.dis_price = None
-                product.discount_price = False
+                product.discount_price = None
+                product.discount_status = False
+                for variant in product.variants.all():
+                    variant.discount_price = None
+                    variant.discount_status = False
+                    variant.save()
                 product.save()    
 
 

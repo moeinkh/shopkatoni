@@ -6,6 +6,8 @@ media/
 
 pyvenv.cfg
 
+__pycache__/
+
 .mysite
 
 db.sqlite3

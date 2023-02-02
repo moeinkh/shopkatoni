@@ -21,7 +21,7 @@ def home(request):
         'product': Product.objects.all(),
         'brand': Brand.objects.all(),
         'news': Product.objects.all().order_by('-id')[:5],
-        'discount': Product.objects.filter(discount_price=True),
+        'discount': Product.objects.filter(discount_status=True),
         'articles': Article.objects.all(),
         'sliders': Slider.objects.all().order_by('-id')[:4]
     }
@@ -273,9 +273,9 @@ def discounts(request):
                                            | Q(orderproduct__variant__size__name=search_bar)
                                            | Q(orderproduct__variant__color__name=search_bar)
                                            | Q(status=True)
-                                           & Q(discount_price=True)).distinct().order_by('-id').order_by('status')
+                                           & Q(discount_status=True)).distinct().order_by('-id').order_by('status')
     else:
-        discounts = Product.objects.filter(discount_price=True).order_by('-id').order_by('status')
+        discounts = Product.objects.filter(discount_status=True).order_by('-id').order_by('status')
 
     product_filter = ProductFilter(request.GET, queryset=discounts)
 

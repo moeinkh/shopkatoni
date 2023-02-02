@@ -34,8 +34,13 @@ class Cart(object):
             cart[str(variant.id)]['variant'] = variant
 
         for item in cart.values():
-            item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+            variant = Variants.objects.get(title=item['variant'])
+            if variant.discount_status == True:
+                item['price'] = Decimal(variant.discount_price)
+                item['total_price'] = item['price'] * item['quantity']
+            else:
+                item['price'] = Decimal(item['price'])
+                item['total_price'] = item['price'] * item['quantity']
             yield item
 
     def __len__(self):

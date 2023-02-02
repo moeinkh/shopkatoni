@@ -92,7 +92,7 @@
                                                 <div class="card-footer panel-footer-custom">
                                                     <h4>{{ dis.name }}</h4>
                                                     <p><del class="badge badge-danger">{{ dis.price }} تومان</del>
-                                                    {{ dis.dis_price }} تومان</p>
+                                                    {{ dis.discount_price }} تومان</p>
                                                 </div>
                                             </div>
                                         </a>
@@ -132,8 +132,11 @@
                                                     </div>
                                                     <div class="card-footer panel-footer-custom">
                                                         <h4>{{ pro.name }}</h4>
-                                                        
+                                                        {% if pro.discount_status %}
+                                                            <p><del class="badge badge-danger">{{ pro.price }}  تومان</del> <span>{{ pro.discount_price }}  تومان</span></p>
+                                                        {% else %}
                                                             <p>{{ pro.price }}  تومان</p>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </a>
@@ -147,7 +150,7 @@
                                                     </div>
                                                     <div class="card-footer panel-footer-custom">
                                                         <h4>{{ pro.name }}</h4>
-                                                        {% if pro.discount %}
+                                                        {% if pro.discount_status %}
                                                             <p class="price bg-danger">ناموجود</p>
                                                         {% else %}
                                                             <p class="price bg-danger">ناموجود</p>
@@ -200,7 +203,11 @@
                                                     </div>
                                                     <div class="card-footer panel-footer-custom">
                                                         <h4>{{ pro.name }}</h4>
-                                                        <p>{{ pro.price }}  تومان</p>
+                                                        {% if pro.discount_status %}
+                                                            <p><del class="badge badge-danger">{{ pro.price }}  تومان</del> <span>{{ pro.discount_price }}  تومان</span></p>
+                                                        {% else %}
+                                                            <p>{{ pro.price }}  تومان</p>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </a>

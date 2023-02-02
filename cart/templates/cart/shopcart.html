@@ -39,10 +39,10 @@
                         </td>
 
                         <td>
-                        {% if variant.product.discount %}
-                            <strong class="badge badge-success">{{ variant.product.dis_price }}  تومان</strong>
+                        {% if variant.discount_status %}
+                        <del class="badge badge-danger">{{ variant.price }}تومان</del><br><strong class="badge badge-success">{{ variant.discount_price }}  تومان</strong>
                         {% else %}
-                            <strong class="badge badge-success">{{ variant.product.price }}تومان</strong>
+                            <strong class="badge badge-success">{{ variant.price }}تومان</strong>
                         {% endif %}
                         </td>
 
@@ -60,10 +60,10 @@
                         </td>
 
                         <td>
-                            {% if variant.product.discount.title %}
-                                <strong class="badge badge-success">{{ variant.product.discount.title }}</strong>
+                            {% if variant.discount_status %}
+                                <strong class="badge badge-success">دارد</strong>
                             {% else %}
-                                <strong class="span1">ندارد</strong>
+                                <strong class="span1 badge badge-danger">ندارد</strong>
                             {% endif %}
                         </td>
                         <td>

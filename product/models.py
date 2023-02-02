@@ -65,13 +65,13 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='دسته بندی')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, max_length=50, verbose_name='برند')
     # discount = models.ForeignKey(Discount, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='تخفیف')
-    dis_price = models.PositiveIntegerField('قیمت با تخفیف', blank=True, null=True)
+    discount_price = models.PositiveIntegerField('قیمت با تخفیف', blank=True, null=True)
     name = models.CharField('اسم', max_length=50)
     slug = models.SlugField('اسلاگ', max_length=500, allow_unicode=True)
     description = models.TextField('توضیحات')
     price = models.IntegerField('قیمت', default=0)
     purchase_price = models.IntegerField('قیمت خرید', default=0)
-    discount_price = models.BooleanField('تخفیف', default=False)
+    discount_status = models.BooleanField('تخفیف', default=False)
 
     image = models.ImageField('عکس', upload_to='katoni_images/', null=True, blank=True)
 
@@ -200,6 +200,8 @@ class Variants(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE, blank=True, null=True, verbose_name='رنگ')
     size = models.ForeignKey(Size, on_delete=models.CASCADE, blank=True, null=True, verbose_name='سایز')
     image_id = models.IntegerField('کد عکس', blank=True, null=True, default=0)
+    discount_status = models.BooleanField('تخفیف', default=False)
+    discount_price = models.PositiveIntegerField('قیمت با تخفیف', blank=True, null=True)
     price = models.IntegerField('قیمت', default=0)
     number = models.PositiveIntegerField('تعداد', default=1)
 
