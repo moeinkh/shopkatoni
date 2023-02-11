@@ -13,6 +13,7 @@ urlpatterns = [
     path('katoni/', views.katoni, name='katoni'),
     path('katoni/brand/<str:brand_slug>', views.katoni, name='katoni_brand'),
     path('katoni/category/<str:category_slug>', views.katoni, name='katoni_category'),
+    path('tags/<str:tag_slug>', views.product_tag, name='product_tag'),
     path('feminine/', views.feminine, name='feminine'),
     path('both/', views.both, name='both'),
     path('for_men/', views.for_men, name='for_men'),

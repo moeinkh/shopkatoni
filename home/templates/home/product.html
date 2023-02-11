@@ -85,6 +85,17 @@
                                     <span><a href="{{ product.brand.get_absolute_url }}">{{ product.brand }}</a></span>
                                 </li>
                             </ul>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <span>برچسب ها</span>
+                                    :
+                                    <span>
+                                        {% for tag in product.tags.all %}
+                                            <a href="{% url 'home:product_tag' tag_slug=tag.slug %}">{{ tag.name }}</a>
+                                        {% endfor %}
+                                    </span>
+                                </li>
+                            </ul>
                         </div>
                         <script>
                             $(document).on('change', '#post-form',function(e){

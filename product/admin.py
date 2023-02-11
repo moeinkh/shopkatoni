@@ -31,7 +31,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'id', 'brand', 'category', 'making', 'status', 'purchase_price', 'price', 'discount_price', 'image_tag']
+    list_display = ['name', 'id', 'brand', 'category', 'making', 'tag_list', 'status', 'purchase_price', 'price', 'discount_price', 'image_tag']
     list_filter = ['name', 'category', 'making', 'status']
     readonly_fields = ('image_tag',)
     search_fields = ('name', )
@@ -40,6 +40,11 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
     actions = ['dis']
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('tags')
+
+    def tag_list(self, obj):
+        return u", ".join(o.name for o in obj.tags.all())
 
     def dis(self, request, queryset):
         from math import ceil

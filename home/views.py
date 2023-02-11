@@ -297,3 +297,35 @@ def discounts(request):
     }
     return render(request, 'home/discounts.html',context)
 
+def product_tag(request, tag_slug):
+    category = Category.objects.all()
+    search_bar = request.GET.get('search_bar')
+    if search_bar:
+        product_tag = Product.objects.filter(Q(name__icontains=search_bar)
+                                          | Q(brand__name__icontains=search_bar)
+                                          | Q(orderproduct__variant__size__name=search_bar)
+                                          | Q(orderproduct__variant__color__name=search_bar)
+                                          | Q(status=True)
+                                          & Q(tags__slug=tag_slug)).distinct().order_by('-id').order_by('status')
+    else:
+        product_tag= Product.objects.filter(tags__slug__exact=tag_slug).order_by('-id').order_by('status')
+    product_filter = ProductFilter(request.GET, queryset=product_tag)
+    variant_filter = VariantFilter(request.GET, queryset=Variants.objects.all())
+
+    both = product_filter.qs
+    pagination = Paginator(both, 20)
+    page_number = request.GET.get('page')
+    pages = pagination.get_page(page_number)
+    context = {
+        'category': category,
+        'pages': pages,
+        'pagination': pagination,
+        'product_filter': product_filter,
+        'variant_filter': variant_filter,
+        'search_bar': search_bar,
+        'brands': Brand.objects.all(),
+        'colors': Color.objects.all(),
+        'pro_count': Product.objects.filter(tags__slug=tag_slug).count(),
+    }
+
+    return render(request, 'home/katoni_tag.html', context)

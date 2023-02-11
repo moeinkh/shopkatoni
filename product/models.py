@@ -7,6 +7,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
 from django.utils.translation import gettext as _
 from django.utils import timezone
+from taggit.managers import TaggableManager
 
 # Create your models here.
 from django.utils.html import format_html
@@ -104,6 +105,8 @@ class Product(models.Model):
     
     hits = models.ManyToManyField(IpAddress, blank=True, related_name='hits', verbose_name='بازدید ها')
     
+    tags = TaggableManager()
+
     created = models.DateTimeField('ایجاد', auto_now_add=True)
     updated = models.DateTimeField('به روز رسانی', auto_now=True)
 
